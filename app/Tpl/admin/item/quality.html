@@ -1,0 +1,112 @@
+<style>
+	.addpic {}
+	.addpic li { float:left; text-align:center; margin:0 0 10px 20px;}
+	.addpic a { display:block;}
+</style>
+<div class="dialog_content">
+	<form id="info_form" name="info_form" action="{:u('item/quality')}" method="post" enctype="multipart/form-data">
+    <ul class="addpic">
+	<volist name="img_list" id="val">      
+	<if condition="$val[type] eq 2">
+	<li class="album_{$val['id']}">
+	<a href="javascript:void(0)" onclick="del_img({$val['id']});"><img src="__STATIC__/css/admin/bgimg/tv-collapsable.gif" /></a>
+	<a><img src="{:attach($val['img'], 'assets')}" style="width:80px;height:60px; border:solid 1px #000; "/></a>
+	</li>
+	</if>
+	</volist>
+	</ul>
+	<div class="cb"></div>
+	<table width="100%" cellpadding="2" cellspacing="1" class="table_form" id="first_imgs_r_file">
+		<tbody class="uplode_file">
+		<tr><td colspan="2">上传注册证号</td></tr>
+		<tr>
+			<th width="130"><a href="javascript:void(0);" class="blue" onclick="add_file_r();"><img src="__STATIC__/css/admin/bgimg/tv-expandable.gif" /></a> 上传文件 :</th>
+			<td><input type="file" name="imgs_r[]"></td>
+		</tr>
+		</tbody>
+	</table>
+	<div class="cb"></div>
+	<ul class="addpic">
+	<volist name="img_list" id="val">      
+	<if condition="$val[type] eq 3">
+	<li class="album_{$val['id']}">
+	<a href="javascript:void(0)" onclick="del_img({$val['id']});"><img src="__STATIC__/css/admin/bgimg/tv-collapsable.gif" /></a>
+	<a><img src="{:attach($val['img'], 'assets')}" style="width:80px;height:60px; border:solid 1px #000; "/></a>
+	</li>
+	</if>
+	</volist>
+	</ul>
+	<table width="100%" cellpadding="2" cellspacing="1" class="table_form" id="first_imgs_c_file">
+		<tbody class="uplode_file">
+		<tr><td colspan="2">上传质检单</td></tr>
+		<tr>
+			<th width="130"><a href="javascript:void(0);" class="blue" onclick="add_file_c();"><img src="__STATIC__/css/admin/bgimg/tv-expandable.gif" /></a> 上传文件 :</th>
+			<td><input type="file" name="imgs_c[]"></td>
+		</tr>
+		</tbody>
+	</table>
+	<input type="hidden" name="menuid" value="{$menuid}" />
+	<input type="hidden" name="id" value="{$id}" />
+	<input type="hidden" name="title" value="{$info.title}" />
+
+    </form>
+</div>
+<script type="text/javascript">
+$('#info_form').ajaxForm({success:complate, dataType:'json'});
+function complate(result){
+	if(result.status == 1){
+		$.dialog.get('quality').close();
+		$.pinphp.tip({content:result.msg});
+		window.location.reload();
+	} else {
+		$.pinphp.tip({content:result.msg, icon:'alert'});
+	}
+}
+$(function(){
+	
+});
+function del_file_box(obj)
+{
+	$(obj).parent().parent().remove();
+}
+function del_img(id)
+{
+	var url = "{:U('item/delete_img')}";
+	var albumdata = {
+	  "album_id":id
+	}
+    $.get(url, albumdata, function(data){
+		if(data==1){
+		    $('.album_'+id).remove();
+		};
+    });
+}
+function add_file_r()
+{
+	var up_id = '#first_imgs_r_file';
+	var up_file = '#next_imgs_r_file';
+	$(up_file + " .uplode_file").clone().insertAfter($(up_id + " .uplode_file:last"));
+}
+function add_file_c()
+{
+	var up_id = '#first_imgs_c_file';
+	var up_file = '#next_imgs_c_file';
+	$(up_file + " .uplode_file").clone().insertAfter($(up_id + " .uplode_file:last"));
+}
+</script>
+<table id="next_imgs_r_file" style="display:none;">
+<tbody class="uplode_file">
+   <tr>
+      <th width="100"><a href="javascript:void(0);" onclick="del_file_box(this);" class="blue"><img src="__STATIC__/css/admin/bgimg/tv-collapsable.gif" /></a>上传文件 :</th>
+      <td><input type="file" name="imgs_r[]"></td>
+   </tr>
+</tbody>
+</table>
+<table id="next_imgs_c_file" style="display:none;">
+<tbody class="uplode_file">
+   <tr>
+      <th width="100"><a href="javascript:void(0);" onclick="del_file_box(this);" class="blue"><img src="__STATIC__/css/admin/bgimg/tv-collapsable.gif" /></a>上传文件 :</th>
+      <td><input type="file" name="imgs_c[]"></td>
+   </tr>
+</tbody>
+</table>

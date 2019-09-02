@@ -1,0 +1,122 @@
+<include file="public:header"/>
+
+<div class="container">
+    <if condition="$step==1">
+        <div class="row">
+            <div class="col-xs-12 tc mt20 mb20">
+                <img src="__ASSETS__/images/logo.png" class="pc-20"/>
+            </div>
+        </div>
+
+        <form action="{:U(MODULE_NAME.'/'.ACTION_NAME)}" method="post" class="J_form">
+            <div class="row form-list bgwhite">
+                <div class="col-xs-3 name">手机号码</div>
+                <div class="col-xs-5 input-text"><input type="text" maxlength="11" minlength="11" name="tele" placeholder="手机号码"></div>
+                <div class="col-xs-4 btn-box">
+                    <a class="btn btn-default fs-12 J_sms">获取验证码</a>
+                </div>
+            </div>
+            <div class="row form-list bgwhite">
+                <div class="col-xs-3 name">图片验证码</div>
+                <div class="col-xs-5 input-text">
+                    <input type="text" placeholder="请输入图片验证码" autocomplete="off" name="img_code" />
+                </div>
+                <div class="col-xs-4 btn-box">
+                    <img src="{:U('public/captcha')}" />
+                </div>
+            </div>
+            <div class="row form-list bgwhite">
+                <div class="col-xs-3 name">手机验证码</div>
+                <div class="col-xs-9 input-text"><input type="text" name="code" placeholder="请输入手机验证码"></div>
+            </div>
+			<if condition="$invite_uid">
+			<div class="row form-list bgwhite">
+                <div class="col-xs-3 name"></div>
+                <div class="col-xs-9 fs-12 grey input-text">推荐人：{$invite.uname}<input type="hidden" name="invite_uid" value="{$invite_uid}"></div>
+            </div>
+			</if>
+            <div class="row form-list">
+                <div class="col-xs-12 mt20">
+                    <input type="submit" class="submit-btn" value="下一步"/>
+                    <input type="hidden" name="step" value="2">
+                </div>
+            </div>
+        </form>
+        <elseif condition="$step==2"/>
+        <div class="row">
+            <div class="col-xs-12 tc mt20 mb20">
+                <img src="__ASSETS__/images/logo.png" class="pc-20"/>
+            </div>
+        </div>
+        <form method="post" action="{:U(MODULE_NAME.'/'.ACTION_NAME)}" id="J_form">
+            <div class="row form-list bgwhite">
+                <div class="col-xs-3 name">会员昵称</div>
+                <div class="col-xs-9 input-text"><input type="text" name="username" placeholder="例如：“微糖”"></div>
+                <div class="col-xs-3 name">登录密码</div>
+                <div class="col-xs-9 input-text"><input type="password" name="password" placeholder="请输入6~16位数密码"></div>
+                <div class="col-xs-3 name">确认密码</div>
+                <div class="col-xs-9 input-text"><input type="password" name="repassword" placeholder="再次确认密码"></div>
+            </div>
+			<if condition="$invite_uid">
+			<div class="row form-list bgwhite">
+                <div class="col-xs-3 name"></div>
+                <div class="col-xs-9 fs-12 grey input-text">推荐人：{$invite.uname}<input type="hidden" name="invite_uid" value="{$invite_uid}"></div>
+            </div>
+			</if>
+
+            <div class="row form-list">
+                <div class="col-xs-12 mt20">
+                    <input type="submit" class="submit-btn js-submit-btn" value="下一步">
+                    <input type="hidden" name="step" value="3">
+                </div>
+            </div>
+        </form>
+        <else/>
+        <div class="row tc mt50">
+            <div class="col-xs-12 mb10 fs-18">
+                <br><br>恭喜您注册成功！<br><!-- <br>需要用户设置后才能正常访问！ <br>--><br>
+            </div>
+            <div class="col-xs-12">
+                <a href="__ROOT__/user/auth_name" class="btn btn-primary green">点这里去实名认证！</a>
+            </div>
+			<div class="col-xs-12 mt10">
+                <a href="__ROOT__/user/auth_alipay" class="btn btn-primary green">点这里去账户认证！</a>
+            </div>
+			<div class="col-xs-12 mt10">
+                <a href="__ROOT__/user/profile" class="btn btn-primary green">点这里去设置资料！</a>
+            </div>
+        </div>
+    </if>
+</div>
+
+<include file="public:footer"/>
+<script type="text/javascript">
+req(["jquery"], function ($) {
+	$(document).ready(function() {
+		$('.js-submit-btn').on('click',function(){
+			if($('input[name="username"]').val() == ''){
+				tip('请输入会员昵称'); 
+				return false;
+			}
+			if($('input[name="password"]').val() == ''){
+				tip('请输入登录密码'); 
+				return false;
+			}
+			if($('input[name="repassword"]').val() == ''){
+				tip('请输入确认密码'); 
+				return false;
+			}
+			if($('input[name="password"]').val() != $('input[name="repassword"]').val()){
+				tip('登录密码与确认密码不同！'); 
+				return false;
+			}
+			if($('input[name="invite"]').val() == ''){
+				confirmTip('没有邀请人您是否继续注册',function(){
+					$('#J_form').submit();
+				});
+				return false;
+			}
+		});
+	});
+});
+</script>

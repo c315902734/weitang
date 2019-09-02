@@ -1,0 +1,66 @@
+<div class="dialog_content">
+    <form id="info_form" name="info_form" action="{:U('user_recharge/edit')}" method="post">
+    <table width="70%" class="table_form fl">
+        <tr>
+        	<th width="60">提现金额 :</th>
+            <td>￥{$info.price}&nbsp;&nbsp;(手续费:￥{$info.freeprice}&nbsp;/&nbsp;实付:￥{$info.realprice})</td>
+        </tr>
+        <tr>
+          <th>真实姓名 :</th>
+          <td>{$info.user.realname}</td>
+        </tr>
+		<tr>
+          <th>银行名称 :</th>
+          <td>{$info.user.bankname}</td>
+        </tr>
+		<tr>
+          <th>银行帐号 :</th>
+          <td>{$info.user.bankid}</td>
+        </tr>
+		<tr>
+          <th>用户手机 :</th>
+          <td>{$info.user.tele}</td>
+        </tr>
+        <tr>
+            <th>备注说明 :</th>
+            <td><textarea name="remark" id="remark" cols="30" rows="3">{$info.remark}</textarea></td>
+        </tr>
+        <tr>
+            <th>状态 :</th>
+            <td>
+                <label><input type="radio" name="status" class="radio_style" value="1" <if condition="$info.status eq 1">checked="checked"</if>> 已提现&nbsp;&nbsp;</label>
+                <label><input type="radio" name="status" class="radio_style" value="2" <if condition="$info.status eq 2">checked="checked"</if>> 不通过&nbsp;&nbsp;</label>
+                <label><input type="radio" name="status" class="radio_style" value="0" <if condition="$info.status eq 0">checked="checked"</if>> 未处理</label>
+            </td>
+        </tr>
+    </table>
+	<if condition="$info['user']['receive_erweima'] neq ''">
+	<table width="30%" class="table_form fl">
+		<tr>
+          <td>收款码 :</td>
+        </tr>
+        <tr>
+          <td><img src="{:attach($info['user']['receive_erweima'], 'assets')}" style="max-width:120px"></td>
+        </tr>
+    </table>
+	</if>
+	<input type="hidden" name="menuid" value="{$menuid}" />
+    <input name="id" type="hidden" value="{$info.id}">
+    </form>
+</div>
+<script src="__STATIC__/js/fileuploader.js"></script>
+<script>
+$(function(){
+    $.formValidator.initConfig({formid:"info_form",autotip:true});
+    $('#info_form').ajaxForm({success:complete,dataType:'json'});
+    function complete(result){
+        if(result.status == 1){
+            $.dialog.get(result.dialog).close();
+            $.pinphp.tip({content:result.msg});
+            window.location.reload();
+        } else {
+            $.pinphp.tip({content:result.msg, icon:'alert'});
+        }
+    }
+});
+</script>

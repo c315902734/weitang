@@ -1,0 +1,19 @@
+<volist name="list" id="val">
+    <div class="row pb10 pt10 b-b">
+        <div class="col-xs-12">
+            <div class="layout sub60 pr z1">
+                <div class="col-main">
+                    <div class="wrap brief">
+                        <div class="fl mt5">{$val.username}<if condition="$val['topclass'] eq 1"><font color="#ff0000">[管]</font></if><br><span class="fs-12">加入时间：{:date('Y-m-d H:i',strtotime($val[reg_time]))}</span></div>
+						<div class="fr mt5"><a href="{:U('user/lowerdetail',array('uid'=>$val[id],'type'=>1))}" class="btn green">充值明细</a><a href="{:U('user/lowerdetail',array('uid'=>$val[id],'type'=>2))}" class="btn green ml10">提现明细</a></div>
+                    </div>
+                </div>
+                <div class="col-sub">
+                    <div class="img">
+                        <img data-original="{:U('assets/avatar',['id'=>$val['id']])}" width="50" height="50"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</volist>

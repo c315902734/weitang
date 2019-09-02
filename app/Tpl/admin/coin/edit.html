@@ -1,0 +1,79 @@
+<include file="public:header" />
+<form id="info_form" action="{:u('coin/edit')}" method="post" enctype="multipart/form-data">
+<div class="pad_10">
+	<div class="col_tab">
+		<div class="content_list pad_10">
+			<table width="100%" cellspacing="0" class="table_form">
+	            <tr>
+					<th width="120">充值会员 :</th>
+					<td>
+						{$info.uname}
+	                </td>
+				</tr>
+				<tr>
+					<th>充值金额 :</th>
+					<td>{$info.money}</td>
+	 			</tr>
+	 			<tr>
+					<th>充值金币 :</th>
+					<td>
+						{$info.coin}
+					</td>
+	 			</tr>
+	 			<if condition="$info['pays_status'] eq 1">
+	            <tr>
+					<th>支付方式 :</th>
+					<td><if condition="$info['pays'] eq 1">微信支付<elseif condition="$info['pays'] eq 2" />支付宝支付</if></td>
+	 			</tr>
+	 			<tr>
+					<th>支付流水号 :</th>
+					<td>{$info.pays_sn}</td>
+	 			</tr>
+	 			<tr>
+					<th>支付时间 :</th>
+					<td>{$info.pays_time}</td>
+	 			</tr>
+	 			<tr>
+					<th>支付金额 :</th>
+					<td>{$info.pays_price}</td>
+	 			</tr>
+	 			<tr>
+					<th>支付状态 :</th>
+					<td><if condition="$info['pays_status'] eq 0">未支付<elseif condition="$info['pays_status'] eq 1" />已支付<elseif condition="$info['pays_status'] eq 2" />无效</if></td>
+	 			</tr>
+	 			</if>
+				<tr>
+					<th>有效状态 :</th>
+	 				<td>
+	                	<label><input type="radio" name="status" class="radio_style" value="1" <if condition="$info['status'] eq 1">checked="checked"</if>> {:L('yes')} </label>&nbsp;&nbsp;
+						<label><input type="radio" name="status" class="radio_style" value="0" <if condition="$info['status'] eq 0">checked="checked"</if>> {:L('no')}</label>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	</div>
+</div>
+<input type="hidden" name="menuid" value="{$menuid}" />
+<input type="hidden" name="id" value="{$info.id}" />
+</form>
+<include file="public:footer" />
+<script>
+function searchUserList(){
+	var username = $('#username').val();
+	if(username == ''){
+		return false;
+	}
+	var url = '{:u("item/search_user")}';
+	$.ajax({
+		url: url,
+		type:'POST',
+		data: {username:username},
+		success: function(uhtml){
+			$('#uid').show().html(uhtml);
+		}
+	});
+}
+</script>
+</body>
+</html>

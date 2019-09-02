@@ -1,0 +1,106 @@
+<include file="public:header" />
+<style type="text/css">
+	.table_list { border: none;}
+	.table_list tbody td{border-top:none;}
+	.table_list tbody td.order_info{border-bottom: 1px solid #d5dfe8;padding:0;margin-bottom:20px;}
+	.table_list tbody td.order_info .order_info_table{border-right:1px solid #d5dfe8;border-left:1px solid #d5dfe8;border-bottom:none;}
+
+	.table_list tbody td.order_info th{border-bottom: 1px solid #d5dfe8;}
+	.table_list tbody td.order_info .goods_list{padding:0;}
+	.table_list tbody td.order_info .goods_list td,.table_list tbody td.order_info .goods_list th{border-top: 1px solid #d5dfe8;}
+	.table_list tbody td.order_info .order_item {border-left: 1px solid #d5dfe8;}
+
+
+</style>
+<!--会员列表-->
+<div class="pad_10" >
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+            <tr>
+                <td>
+                <div class="explain_col">
+                    <input type="hidden" name="g" value="admin" />
+                    <input type="hidden" name="m" value="order" />
+                    <input type="hidden" name="a" value="count" />
+                    <input type="hidden" name="menuid" value="{$menuid}" />
+					&nbsp;&nbsp;下单时间 ：
+					<input name="sadd_time" type="text" class="J_date_picker date" size="15" value="{$search.sadd_time}" /> ~ 
+					<input name="eadd_time" type="text" class="J_date_picker date" size="15" value="{$search.eadd_time}" />
+					&nbsp;&nbsp;付款时间 ：
+					<input name="spays_time" type="text" class="J_date_picker date" size="15" value="{$search.spays_time}" /> ~ 
+					<input name="epays_time" type="text" class="J_date_picker date" size="15" value="{$search.epays_time}" />
+					<div style="height:8px;"></div>
+					&nbsp;&nbsp;发货时间 ：
+					<input name="sexpress_time" type="text" class="J_date_picker date" size="15" value="{$search.sexpress_time}" /> ~ 
+					<input name="eexpress_time" type="text" class="J_date_picker date" size="15" value="{$search.eexpress_time}" />
+					<!-- <div style="height:8px;"></div>
+					&nbsp;&nbsp;商品名称 ：
+					<input name="goods_name" type="text" class="input-text mr10" size="25" value="{$search.goods_name}" /> -->
+                    <input type="submit" name="search" class="btn mr10" value="搜索" />
+                    <input type="submit" name="search" class="btn" value="导出" />
+                </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+
+    <div class="J_tablelist table_list" data-acturi="{:U('order/ajax_edit')}">
+    <table width="100%" cellspacing="0">
+    	<tbody>
+            <volist name="list" id="val" >
+            <tr>
+				<td class="order_info">
+					<table width="100%" cellspacing="0" class="order_info_table goods_list">
+						<tr style="background:#EAEEF4;height:30px;">
+							<th colspan="6" align="left">
+								<input type="checkbox" class="J_checkitem" value="{$val.id}"> 
+								订单号: {$val.orderid}
+
+								<if condition="$val['uname']">&nbsp;&nbsp;用户: {$val.uname}
+								(<if condition="$val['type'] eq 'weixin'">微信<elseif condition="$val['type'] eq 'weibo'" />微博<else />东仁堂</if>)
+								</if>
+								<if condition="$val['addr_tele']">&nbsp;&nbsp;联系手机: {$val.addr_tele}</if>
+							</th>
+							<th colspan="4" align="left">
+								下单时间: {$val.add_time}
+								<if condition="$val['addr_name']">&nbsp;&nbsp;收件人: {$val.addr_name}</if>
+							</th>
+						</tr>
+						<tr>
+							{$val.goods_str_one}
+							<td width="20%" rowspan="{$val.goods_num}" class="order_item" align="center">商品总价：￥{$val.prices} 元 <if condition="$val['quan_id']"><br />{$val.quan.code}</if>
+							<if condition="$val['quan']['type'] eq 1">(现金券)<elseif condition="$val['quan']['type'] eq 2" />(满减)<elseif condition="$val['quan']['type'] eq 3" />(打折)</if><if condition="$val['express'] gt 0"><br>运费：{$val.express} 元<br></if>总金额：￥{$val.total} 元
+							</td>
+							<td width="10%" rowspan="{$val.goods_num}"  class="order_item" align="center">
+								{$val.status_str}<br>  
+								<if condition="$val['pays_name'] neq ''">【{$val.pays_name}】<br></if>
+								<if condition="$val['pays_status'] eq 1">{$val.pays_sn}<br>付款金额：{$val.pays_price}</if>
+								<if condition="$val['express_type']">{$val.express_type}<br></if>
+								<if condition="$val['score'] gt 0"> 积分数：{$val.score}<br></if>
+							</td>
+						</tr>
+						{$val.goods_str}
+					</table>
+				</td>
+            </tr>
+			 <tr>
+				<td>&nbsp;</td>
+			 </tr>
+            </volist>
+    	</tbody>
+    </table>
+    <div class="btn_wrap_fixed">
+        <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('order/delete')}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />
+        <div id="pages">{$page}</div>
+    </div>
+
+    </div>
+</div>
+<include file="public:footer" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script type="text/javascript" src="__STATIC__/js/calendar/calendar.js"></script>
+</body>
+</html>

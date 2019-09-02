@@ -1,0 +1,51 @@
+<div class="dialog_content">
+    <form id="info_form" name="info_form" action="{:U('order_refund/check')}" method="post">
+    <table width="100%" class="table_list J_tablelist" style="margin:5px 0 0;">
+        <tr style="background:#EAEEF4;height:30px;">
+            <th style="background:#EAEEF4;text-align:left;padding:5px 4px;">商品编码</th>
+            <th style="background:#EAEEF4;text-align:left;padding:5px 4px;">商品通用名</th>
+            <th style="background:#EAEEF4;text-align:left;padding:5px 4px;">规格</th>
+            <th style="background:#EAEEF4;text-align:left;padding:5px 4px;">批号</th>
+            <th style="background:#EAEEF4;text-align:left;padding:5px 4px;">有效期</th>
+            <th style="background:#EAEEF4;text-align:left;padding:5px 4px;">价格</th>
+            <th style="background:#EAEEF4;text-align:left;padding:5px 4px;">购买数量</th>
+            <th style="background:#EAEEF4;text-align:left;padding:5px 4px;">实退数量</th>
+            <th style="background:#EAEEF4;text-align:left;padding:5px 4px;">退货状态</th>
+            <th style="background:#EAEEF4;text-align:left;padding:5px 4px;">退货时间</th>
+            <th style="background:#EAEEF4;text-align:left;padding:5px 4px;">退货愿因</th>
+        </tr>
+        <volist name="order_sku" id="val" >
+        <tr>
+            <td>{$val.sn}</td>
+            <td>{$val.name}</td>
+            <td>{$val.spec}({$val.attr})</td>
+            <td align="left">{$val.lot}</td>
+            <td align="left">{$val.date}</td>
+            <td align="left">￥{$val.price} 元</td>
+            <td align="left">{$val.nums}</td>
+            <td align="left">{$val.nums}</td>
+            <td align="left"><if condition="$info['status'] eq 1">未处理<elseif condition="$info['status'] eq 2" />已处理</if></td>
+            <td align="left"><if condition="$info['admin_time'] neq '0000-00-00 00:00:00'">{$info.admin_time}</if></td>
+            <td align="left">{$info.remark}</td>
+        </tr>
+        </volist>
+    </table>
+    <input name="id" type="hidden" value="{$info.id}">
+    </form>
+</div>
+<script>
+$(function(){
+    $('#info_form').ajaxForm({success:complate,dataType:'json'});
+    function complate(result){
+        if(result.status == 1){
+            $.dialog.get(result.dialog).close();
+            $.pinphp.tip({content:result.msg});
+            window.location.reload();
+        } else {
+            $.pinphp.tip({content:result.msg, icon:'alert'});
+        }
+    }
+    
+
+});
+</script>

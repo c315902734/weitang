@@ -1,0 +1,57 @@
+<include file="public:header"/>
+
+<div class="container">
+        <div class="row">
+            <div class="col-xs-12 tc mt20 mb20">
+                <img src="__ASSETS__/images/logo.png" class="pc-20"/>
+            </div>
+        </div>
+		<if condition="$has_invite eq 1">
+			<div class="row bg-f3">
+				<div class="col-xs-12 tc">
+					您已绑定<span class="red">{$invite.username}</span>为推荐人,不能重复绑定.
+				</div>
+				<div class="col-xs-2"></div>
+				<div class="col-xs-8 tc mt20">
+					<a href="{:U('index/index')}" class="logout-btn">返回首页</a>
+				</div>
+			</div>
+		<elseif condition="$invite_uid eq $visitor[id]"/>
+			<div class="row bg-f3">
+				<div class="col-xs-12 tc">
+					您不可以绑定自己为推荐人哦!
+				</div>
+				<div class="col-xs-2"></div>
+				<div class="col-xs-8 tc mt20">
+					<a href="{:U('index/index')}" class="logout-btn">返回首页</a>
+				</div>
+			</div>
+		<else/>
+        <div class="row bg-f3">
+            <div class="col-xs-12">
+                <h2 class="tc fs-15 mb20 grey pr">
+                    <span class="bg-f3 pr z1">
+                        &nbsp;&nbsp;&nbsp;使用其他方式登录&nbsp;&nbsp;&nbsp;
+                    </span>
+                    <div class="bg-d2 pa t10 pc-100" style="height:1px;"></div>
+                </h2>
+            </div>
+            <div class="col-xs-12 tc">
+                <a href="{:U('weixin/login',array('ret_url'=>$ret_url))}"><img src="__ASSETS__/images/weixin_2.png" width="70" /><p class="pt5">微信登录</p></a>
+            </div>
+        </div>
+		<div class="row">
+			<div class="col-xs-12 red tc mt20">推荐人：{$invite.uname}<input type="hidden" name="invite_uid" value="{$invite_uid}"></div>
+		</div>
+		</if>
+
+</div>
+
+<include file="public:footer"/>
+<script type="text/javascript">
+req(["jquery"], function ($) {
+	$(document).ready(function() {
+		
+	});
+});
+</script>

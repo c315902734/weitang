@@ -1,0 +1,65 @@
+<!--添加会员-->
+<div class="dialog_content">
+	<form id="info_form" action="{:u('score_log/add')}" method="post">
+	<table width="100%" class="table_form">
+		<tr>
+        	<th>属性选择 :</th>
+            <td>
+            	<label><input type="radio" name="is_choose" value="1" checked="checked"> 增积分</label>&nbsp;&nbsp;
+				<label><input type="radio" name="is_choose" value="0" > 减积分</label>
+            </td>
+        </tr>
+		<tr>
+			<th>用户名 :</th>
+			<td>
+				<input type="text" id="username" name="username" class="input-text fl mr10" size="20" /><div class="upload_btn"><span onclick="searchUserList();">搜索</span></div><select name="uid" id="uid" class="fl ml10" ><option value="">{$info.uname}</option></select>
+			</td>
+		</tr>
+	    <tr>
+        	<th>操作类型 :</th>
+            <td>
+            	<select name="action">
+                 	<option value="handle">手动操作</option>
+            	</select>
+           	</td>
+        </tr>
+		<tr>
+			<th>积分 :</th>
+			<td><input type="text" name="score" id="score" class="input-text" value="0"></td>
+		</tr>
+		<tr>
+			<th>备注 :</th>
+			<td><textarea name="remark" id="remark" rows="4" cols="30"></textarea></td>
+		</tr>
+        
+	</table>
+	<input type="hidden" name="menuid" value="{$menuid}" />
+	</form>
+</div>
+<script type="text/javascript">
+$('#info_form').ajaxForm({success:complate, dataType:'json'});
+function complate(result){
+	if(result.status == 1){
+		$.dialog.get(result.dialog).close();
+		$.pinphp.tip({content:result.msg});
+		window.location.reload();
+	} else {
+		$.pinphp.tip({content:result.msg, icon:'alert'});
+	}
+}
+function searchUserList(){
+	var username = $('#username').val();
+	if(username == ''){
+		return false;
+	}
+	var url = '{:u("score_log/search_user")}';
+	$.ajax({
+		url: url,
+		type:'POST',
+		data: {username:username},
+		success: function(uhtml){
+			$('#uid').show().html(uhtml);
+		}
+	});
+}
+</script>

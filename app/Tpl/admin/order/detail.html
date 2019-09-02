@@ -1,0 +1,81 @@
+<include file="public:header" />
+
+<div class="pad_10" >
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+            <tr>
+                <td>
+                <div class="explain_col">
+                    <input type="hidden" name="g" value="admin" />
+                    <input type="hidden" name="m" value="order" />
+                    <input type="hidden" name="a" value="detail" />
+                    <input type="hidden" name="menuid" value="{$menuid}" />
+					&nbsp;&nbsp;商品名称 ：
+					<input name="name" type="text" class="input-text mr10" size="20" value="{$search.name}" />
+					&nbsp;&nbsp;生产厂家 ：
+					<input name="company" type="text" class="input-text mr10" size="20" value="{$search.company}" />
+					&nbsp;&nbsp;批号 ：
+					<input name="lot" type="text" class="input-text mr10" size="20" value="{$search.lot}" />
+					&nbsp;&nbsp;用户名 ：
+					<input name="uname" type="text" class="input-text mr10" size="20" value="{$search.uname}" />
+					<div style="height:8px;"></div>
+					&nbsp;&nbsp;下单时间 ：
+					<input name="stime" type="text" class="J_date_picker date" size="15" value="{$search.stime}" /> ~ 
+					<input name="etime" type="text" class="J_date_picker date" size="15" value="{$search.etime}" />
+					
+                    <input type="submit" name="search" class="btn mr10" value="搜索" />
+                    <a href="{:U('order/detail_down', array('name'=>$search['name'],'company'=>$search['company'],'lot'=>$search['lot'],'uname'=>$search['uname'],'stime'=>$search['stime'],'etime'=>$search['etime']))}" class="btn" style="display:inline;">导出</a>
+                </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+
+    <div class="J_tablelist table_list" data-acturi="{:U('order/ajax_edit')}">
+    <table width="100%" cellspacing="0">
+    	<thead>
+    	<tr>
+			<th align="left" width="150">订单编号</th>
+			<th align="left">商品名称</th>
+			<th align="left" width="120">批准文号</th>
+			<th align="left" width="150">生产厂家</th>
+			<th align="left" width="100">电子监管码</th>
+			<th align="left" width="100">批号</th>
+			<th align="left" width="120">有效期</th>
+			<th width="50">价格</th>
+			<th width="50">数量</th>
+			<th width="80">买家信息</th>
+			<th width="120">交易时间</th>
+			<th width="60">检验情况</th>
+		</tr>
+		</thead>
+		<volist name="order_sku" id="vo">
+			<tr>
+				<td>{$vo.orderid}</td>
+				<td width="150">{$vo.name}<br/><b>{$vo.spec}({$vo.attr})</b></td>
+				<td>{$vo.docs}</td>
+				<td>{$vo.company}</td>
+				<td>{$vo.codes}</td>
+				<td>{$vo.lot}</td>
+				<td>{$vo.date}</td>
+				<td align="center">￥{$vo.price}</td>
+				<td align="center">{$vo.nums}</td>
+				<td align="center">{$vo.uname}</td>
+				<td align="center">{$vo.add_time}</td>
+				<td align="center">{$vo.qual}</td>
+			</tr>
+		</volist>
+    </table>
+    <div class="btn_wrap_fixed">
+        <div id="pages">{$page}</div>
+    </div>
+
+    </div>
+</div>
+<include file="public:footer" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script type="text/javascript" src="__STATIC__/js/calendar/calendar.js"></script>
+</body>
+</html>

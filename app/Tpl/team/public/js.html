@@ -1,0 +1,30 @@
+{//该文件由grunt debug生成，不要手动修改!!%>}
+<if condition="APP_DEBUG">
+    <script type="text/javascript" src="__STATIC__/vendor/require.js"></script>
+    <script type="text/javascript" src="__STATIC__/vendor/underscore.js"></script>
+    <script type="text/javascript" src="__STATIC__/vendor/underscore.mixin.js"></script>
+    <script type="text/javascript" src="__STATIC__/debug/team/requireConfig.js"></script>
+    <script type="text/javascript">
+var app_entry=null;
+
+if(_.in_array(_global.m,["passport"])){
+    app_entry="debug/group_passport";
+}
+if(_.in_array(_global.m,["user"])){
+    app_entry="debug/group_user";
+}
+if(app_entry!=null){
+    req([app_entry], function (App) {
+        new App();
+    });
+}  
+    </script>
+<else/>
+
+<if condition="in_array(MODULE_NAME,array('passport'))">
+    <script type="text/javascript" src="__STATIC__/build/team/group_passport.js"></script>
+</if>
+<if condition="in_array(MODULE_NAME,array('user'))">
+    <script type="text/javascript" src="__STATIC__/build/team/group_user.js"></script>
+</if>
+</if>

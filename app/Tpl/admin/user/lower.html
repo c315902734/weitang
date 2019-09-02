@@ -1,0 +1,65 @@
+<include file="public:header" /><br>
+<!--会员列表-->
+<div class="pad_lr_10" >
+
+
+    <div class="J_tablelist table_list" data-acturi="{:U('user/ajax_edit')}">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th width=25><input type="checkbox" id="checkall_t" class="J_checkall"></th>
+                <th width=40><span data-tdtype="order_by" data-field="id">ID</span></th>
+                <th width="40">头像</th>
+				<th align="left"><span data-tdtype="order_by" data-field="username">会员帐号</span></th>
+                <th align="left" width="100">真实名称</th>
+                <th width="100" align="left"><span data-tdtype="order_by" data-field="tele">手机号码</span></th>
+                <th width="40"><span data-tdtype="order_by" data-field="sex">性别</span></th>
+				<th width="50"><span data-tdtype="order_by" data-field="orders">订单</span></th>
+                <th width="100" align="left"><span data-tdtype="order_by" data-field="reg_time">注册时间</span></th>
+                <th width="100" align="left"><span data-tdtype="order_by" data-field="last_time">最后登录</span></th>
+                <th width="60" align="center"><span data-tdtype="order_by" data-field="pirce">余额</span></th>
+                <th width="60" align="center">团队名称</th>
+                <th width="40"><span data-tdtype="order_by" data-field="status">{:L('status')}</span></th>
+                <th width="120">{:L('operations_manage')}</th>
+            </tr>
+        </thead>
+    	<tbody>
+            <volist name="list" id="val" >
+            <tr>
+                <td align="center"><input type="checkbox" class="J_checkitem" value="{$val.id}"></td>
+                <td align="center">{$val.id}</td>
+        		<td align="center"><img src="{:avatar($val['img'], 32)}" width="32" /></td>
+				<td align="left">{$val.username}</td>
+                <td align="left">{$val.realname}</td>
+				<td align="left">{$val.tele}</td>
+                <td align="center">
+                  <if condition="$val['sex'] eq '1'">男</if>
+                  <if condition="$val['sex'] eq '0'">女</if>
+                </td>
+                <td align="center">{$val.orders}</td>
+                <td>{$val.reg_time}</td>
+                <td>{$val.last_time}</td>
+                <td align="center">{$val.price}<br><a href="javascript:;" class="J_showdialog" data-uri="{:u('user/price', array('id'=>$val['id']))}" data-title="调整余额" data-id="price" data-width="300" data-height="100">修改</a></td>
+				<td align="center">{$val.topkey}</td>
+                <td align="center"><if condition="$val.status eq 0">停用<else/>启用</if></td>
+                <td align="center">
+                    <a href="{:U('order/index',array('uname'=>$val[username]))}">查看交易记录＞</a>
+					<!-- <br /><a href="javascript:;" class="J_showdialog" data-uri="{:U('user/relationship_edit',array('id'=>$val['id']))}" data-title="推荐人" data-id="edit" data-width="400" data-height="100">推荐人</a> -->
+                </td>
+            </tr>
+            </volist>
+    	</tbody>
+    </table>
+    <div class="btn_wrap_fixed">
+        <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('user/delete')}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />
+        <div id="pages">{$page}</div>
+    </div>
+
+    </div>
+</div>
+<include file="public:footer" />
+</body>
+</html>
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script type="text/javascript" src="__STATIC__/js/calendar/calendar.js"></script>

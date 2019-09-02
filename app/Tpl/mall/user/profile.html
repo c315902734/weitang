@@ -1,0 +1,118 @@
+<include file="public:header"/>
+<style type="text/css">
+.global-list .col-xs-3 {
+    padding-left: 25px;
+}
+</style>
+<div class='container-fluid mt40'>
+	<div class="row global-top">
+		<div class="col-xs-2">
+			<a class="return" href="{:U('user/index')}"></a>
+		</div>
+		<div class="col-xs-8">
+			<div class="text">我的账户</div>
+		</div>
+		<div class="col-xs-2">
+		</div>
+	</div>
+	<form action="{:U('user/profile')}" method="post">
+	<div class="row white-bg login-list">
+        <div class="global-list mt20">
+            <div class="col-xs-3 name">会员头像</div>
+            <div class="col-xs-9 b-b upload_avatar">
+				<img data-original="{:U('assets/avatar',['id'=>$info['id']])}" alt="" class="avatar">
+                <div class="upload_input">
+                    <input type="file" name="img" id="img" style="display: none;">
+                </div>
+				<input type="hidden" name="img" value="{$info.img}" id="J_img_hidden">
+            </div>
+        </div>
+        <div class="global-list">
+			<div class="col-xs-3 name">用户账号</div>
+			<div class="col-xs-9 b-b">{$info.tele}</div>
+		</div>
+		<div class="global-list">
+			<div class="col-xs-3 name">会员账号</div>
+			<div class="col-xs-9 b-b"><input type="text" name="username" class="f_input" placeholder="请输入会员账号" data-rule-required="true" value="{$info.username}" /></div>
+		</div>
+		<div class="global-list">
+			<div class="col-xs-3 name">性别</div>
+			<div class="col-xs-9 b-b">
+				<input name="sex" class="txt-radio" type="radio" value="1" <if condition="$info['sex'] eq 1">checked="checked"</if> />男 &nbsp;&nbsp;
+				<input name="sex" class="txt-radio" type="radio" value="0" <if condition="$info['sex'] eq 0">checked="checked"</if> />女
+			</div>
+		</div>
+		<div class="global-list">
+			<div class="col-xs-3 name">邮箱</div>
+			<div class="col-xs-9 b-b">
+				<input type="text"
+					   name="email"
+					   class="f_input"
+					   value="{$info.email}"
+					   id="email"
+					   placeholder="请输入邮箱"
+					   data-rule-required="true"
+					   style="height:30px;margin-top:10px;line-height:30px;"
+				/>
+			</div>
+		</div>
+		<div class="global-list">
+			<div class="col-xs-3 name">微信</div>
+			<div class="col-xs-9 b-b"><input type="text" name="weixin" class="f_input" placeholder="请输入微信" data-rule-required="true" value="{$info.weixin}" /></div>
+		</div>
+		<div class="global-list">
+			<div class="col-xs-3">生日</div>
+			<div class="col-xs-9 b-b">
+				<!--<input type="date" value="{$info.year}-{$info.month}-{$info.day}">-->
+				<select name="year" class="h30">
+					<for start="1960" end="date('Y')">
+						<option value="{$i}" <if condition="$i eq $info['year']">selected="selected"</if>>{$i}年</option>
+					</for>
+				</select>
+				<select name="month" class="h30">
+					<for start="1" end="13">
+						<option <if condition="$i lt 10">value="0{$i}"<else />value="{$i}"</if> <if condition="$i eq $info['month']">selected="selected"</if>>{$i}月</option>
+					</for>
+				</select>
+				<select name="day" class="h30">
+					<for start="1" end="32">
+						<option <if condition="$i lt 10">value="0{$i}"<else />value="{$i}"</if> <if condition="$i eq $info['day']">selected="selected"</if>>{$i}日</option>
+					</for>
+				</select>
+			</div>
+		</div>
+	</div>
+	<div class="row mt20">
+		<div class="global-submit-bot1">
+			<input type="submit" value="确定" class="js-submit-btn">
+			<input type="hidden" name="ret_url" value="{$ret_url}">
+		</div>
+	</div>
+	<!-- <div class="row">
+		<div class="global-submit-bot1 fs-12 red">您必须设置完整的用户信息后才能正常访问网站！</div>
+	</div> -->
+	</form>
+</div>
+<include file="public:footer"/>
+<script type="text/javascript">
+req(["jquery"], function ($) {
+	$(document).ready(function() {
+		$('.js-submit-btn').on('click',function(){
+			if($('input[name="email"]').val() == ''){
+				tip('请输入邮箱'); 
+				return false;
+			}
+			var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+			if(!myreg.test($('input[name="email"]').val()))
+			{
+				tip('请输入有效的邮箱'); 
+				return false;
+			}
+			if($('input[name="weixin"]').val() == ''){
+				tip('请输入微信'); 
+				return false;
+			}
+		});
+	});
+});
+</script>

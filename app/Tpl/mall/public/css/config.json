@@ -1,0 +1,11 @@
+{
+  "cssmin": {
+    "main.css": [
+      "bootstrap.min.css",
+      "swiper-3.3.1.min.css",
+      "../../../../../static/vendor/plugins/layer/skin/layer.css",
+      "base.css",
+      "style.css"
+    ]
+  }
+}

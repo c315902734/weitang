@@ -1,0 +1,23 @@
+<div class="col-sub">
+    <div class="box J_TBox">
+        <div class="global-sub">
+            <volist name="user_menu_list" id="menu">
+            <div class="title">{$menu.text}</div>
+		    <ul>
+            	<volist name="menu['submenu']" id="smenu">
+                <li>
+					<if condition="$user_menu_curr == 'order'  && $key == 'team_order'">
+                	<a href="{$smenu.url}" <if condition="$key eq 'team_order' && $_GET['profit'] eq 1 && !$_GET['id']">class="click"</if>>{$smenu.text}</a>
+					<elseif condition="$user_menu_curr == 'order' && $key == 'user_order'"/>
+                	<a href="{$smenu.url}" <if condition="$key eq 'user_order' && $_GET['profit'] eq 1 && $_GET['id'] gt 0">class="click"</if>>{$smenu.text}</a>
+					<else/>
+                	<a href="{$smenu.url}" <if condition="$user_menu_curr eq $key">class="click"</if>>{$smenu.text}</a>
+					</if>
+                </li>
+                </volist>
+            </ul>
+		    </volist>
+            
+        </div>
+    </div>
+</div>

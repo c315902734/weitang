@@ -1,0 +1,112 @@
+<include file="public:header"/>
+<div class="main clearfix">
+    <div class="personal clearfix border" style="margin-bottom:20px;">
+        <h1>
+        	<span class="fl">订单编号：{$info.orderid}</span>
+        	<if condition="$info['express_name'] neq ''"><span class="fr">物流信息：{$info.express_name}&nbsp;({$info.express_sn})</span></if>
+        </h1>
+        <div class="order_status">
+            <div class="o_title" id="order_status{$status}">
+                <ul class="clearfix">
+                    <li class="fl step-first">
+                        <div class="step-done">拍下商品</div>
+                        <div class="step_no"></div>
+                        <if condition="$info.status egt 0">
+                            <div class="step-time">{$info.add_time}</div>
+                        </if>
+                    </li>
+                    <li class="fl">
+                        <div class="step_name">商品抽奖</div>
+                        <div class="step_no"></div>
+                        <if condition="$info.lottery gt 0"><div class="step-time">{$info.lottery_date}</div></if>
+                    </li>
+                    <li class="fl">
+                        <div class="step_name">商品提货</div>
+                        <div class="step_no"></div>
+                        <if condition="$info.status egt 2"><div class="step-time">{$info.express_time}</div></if>
+                    </li>
+                    <li class="fl">
+                        <div class="step_name">确认收货</div>
+                        <div class="step_no"></div>
+                        <if condition="$info.status eq 5 || $info.status eq 6"><div class="step-time">{$info.confirm_time}</div></if>
+                    </li>
+                </ul>
+            </div>
+        </div>
+		<div class="order_addr">
+        	<div class="addr_name">订单状态</div>
+        	<div class="addr_content">
+        		升级状态：{$info.lottery_str}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;订单状态：{$info.status_str}
+        	</div>
+        </div>
+		<if condition="$status gt 2">
+        <div class="order_addr">
+        	<div class="addr_name">收货人信息</div>
+        	<div class="addr_content">
+        		{$info.addr_name} {$info.addr_tele}<br />
+        		{$info.addr_province} {$info.addr_city} {$info.addr_area} {$info.addr_address}
+        	</div>
+        </div>
+		</if>
+        <div class="order_item">
+        	<div class="order_iname">商品清单</div>
+        	<table cellspacing="0" cellpadding="0" width="90%" class="order_item_list">
+				<tr><th colspan="5" style="background:#FFFFE1;text-align:left;padding:5px 10px;">升级前</th></tr>
+				<tr class="top_name">
+					<td width="50"></td>
+					<td>商品</td>
+					<td width="100">价格</td>
+					<td width="60">数量</td>
+					<td width="100">小计</td>
+				</tr>
+				<tr class="underline">
+					<td>
+						<a href="{:attach($info[item]['img'])}" target="_blank"><img src="{:attach($info[item]['img'])}" width="40" height="40" class="border fl" /></a>
+					</td>
+					<td valign="top">
+						<div style="width:300px;">{$info.item.title}</div>
+					</td>
+					<td valign="top">￥{$info.item.price}元</td>
+					<td valign="top">{$info.item.nums}</td>
+					<td valign="top">￥{$info[item]['price']*$info[item]['nums']}元</td>
+				</tr>
+        	</table>
+
+			<table cellspacing="0" cellpadding="0" width="90%" class="order_item_list">
+				<tr><th colspan="5" style="background:#FFFFE1;text-align:left;padding:5px 10px;">升级后</th></tr>
+				<tr class="top_name">
+					<td width="50"></td>
+					<td>商品</td>
+					<td width="100">价格</td>
+					<td width="60">数量</td>
+					<td width="100">小计</td>
+				</tr>
+				<tr class="underline">
+					<td>
+						<a href="{:attach($info[item]['img_up'])}" target="_blank"><img src="{:attach($info[item]['img_up'])}" width="40" height="40" class="border fl" /></a>
+					</td>
+					<td valign="top">
+						<div style="width:300px;">{$info.item.title_up}</div>
+					</td>
+					<td valign="top">￥{$info.item.price_up}元</td>
+					<td valign="top">{$info.item.nums}</td>
+					<td valign="top">￥{$info[item]['price_up']*$info[item]['nums']}元</td>
+				</tr>
+        	</table>
+     
+        	<div class="order_total">实付总额：<span>￥{$info.total}</span>元
+            </div>
+			<notempty name="info.data">
+			<div class="order_addr">
+				<div class="addr_name">运单信息</div>
+				<div class="addr_content">
+					<volist name="info.data" id="val">
+						{$val.time}&nbsp;&nbsp;&nbsp;{$val.context}<br />
+					</volist>
+				</div>
+			</div>
+			</notempty>
+        </div>
+    </div>
+</div>
+<include file="public:footer"/>

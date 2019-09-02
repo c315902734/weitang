@@ -1,0 +1,31 @@
+<form id="info_form" name="info_form" action="{:U('user/price')}" method="post">
+	<table width="100%" class="table_form">  
+		<tr>
+			<th width="100">当前余额 :</th>
+			<td>
+				￥{$info.price}元
+			</td>
+		</tr> 
+		<tr>
+			<th>修改余额 :</th>
+			<td>
+				￥ <input name="price" type="text" value="" class="input-text" size="5" /> 元
+			</td>
+		</tr>
+	</table>
+	<input name="id" type="hidden" value="{$id}"  />
+</form>
+<script type="text/javascript">
+$(function(){
+	$('#info_form').ajaxForm({success:complate,dataType:'json'});
+    function complate(result){
+        if(result.status == 1){
+            $.dialog.get(result.dialog).close();
+            $.pinphp.tip({content:result.msg});
+            window.location.reload();
+        } else {
+            $.pinphp.tip({content:result.msg, icon:'alert'});
+        }
+    }
+});
+</script>

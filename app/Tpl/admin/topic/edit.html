@@ -1,0 +1,135 @@
+<!--添加品牌-->
+<include file="public:header" />
+<div class="dialog_content pad_lr_10">
+	<form id="info_form" action="{:u('topic/edit')}" method="post">
+	<div class="col_tab">
+		<div class="content_list">
+			<table width="100%" cellpadding="2" cellspacing="1" class="table_form" id="first_upload_file">
+				<tr>
+					<th width="120">所属分类 :</th>
+					<td>
+						<select class="J_cate_select mr10" data-pid="0" data-uri="{:U('topic_cate/ajax_getchild')}" data-selected="{$selected_ids}"></select>
+						<input type="hidden" name="cate_id" id="J_cate_id" value="{$info.cate_id}"/>
+					</td>
+				</tr>
+				<tr>
+					<th>专题名称 :</th>
+					<td>
+						<input type="text" name="title" class="input-text" size="97" value="{$info.title}"/>
+					</td>
+				</tr>
+				<tr>
+					<th>专题价格 :</th>
+					<td>
+						<input type="text" name="prices" class="input-text" size="40" value="{$info.prices}"/>
+					</td>
+				</tr>
+				<tr>
+					<th>促销广告 :</th>
+					<td>
+						<input type="text" name="adv" class="input-text" size="40" value="{$info.adv}"/>
+					</td>
+				</tr>
+				<tr>
+					<th>专题图片 :</th>
+					<td>
+						<input type="text" name="img" id="J_img" class="input-text fl mr10" value="{$info.img}" size="30">
+						<div id="J_upload_img" class="upload_btn"><span>{:L('upload')}</span></div>
+						<notempty name="info['img']"><span class="attachment_icon J_attachment_icon" file-type="image" file-rel="{:attach($info['img'], 'assets')}"><img src="{:attach($info['img'], 'assets')}" width="20" height="20" /></span></notempty>
+					</td>
+				</tr>
+				<tr>
+					<th>专题时间 :</th>
+					<td>
+						<input type="text" name="stime" id="J_time_start" value="{$info.stime}" class="date J_date_picker" size="12"> - 
+						<input type="text" name="etime" id="J_end_time" value="{$info.etime}" class="date J_date_picker" size="12">
+					</td>
+				</tr>
+				<tr>
+					<th>排序值 :</th>
+					<td>
+						<input type="text" id="ordid" name="ordid" class="input-text" size="10" value="{$info.ordid}"/>
+					</td>
+				</tr>
+				<tr>
+					<th>最大数量 :</th>
+					<td>
+						<input type="text" id="maxs" name="maxs" class="input-text" size="10" value="{$info.maxs}"/>
+					</td>
+				</tr>
+				<tr>
+		        	<th>推荐状态 :</th>
+		            <td>
+		            	<label><input type="radio" name="is_hots" value="1" <if condition="$info.is_hots eq 1">checked="checked"</if> > 推荐</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<label><input type="radio" name="is_hots" value="0" <if condition="$info.is_hots eq 0">checked="checked"</if>> 不推荐</label>
+		            </td>
+		        </tr>
+				<tr>
+		        	<th>有效状态 :</th>
+		            <td>
+		            	<label><input type="radio" name="status" value="1" <if condition="$info.status eq 1">checked="checked"</if> > 有效</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<label><input type="radio" name="status" value="0" <if condition="$info.status eq 0">checked="checked"</if>> 无效</label>
+		            </td>
+		        </tr>
+				<tr>
+					<th>专题描述 :</th>
+					<td>
+						<textarea name="info" id="info" style="width:700px;height:300px;" >{$info.info}</textarea>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div class="mt10"><input type="submit" value="{:L('submit')}" class="btn btn_submit"></div>
+	<input type="hidden" name="menuid"  value="{$menuid}"/>
+	<input type="hidden" name="id"  value="{$info.id}"/>
+	</form>
+</div>
+<include file="public:footer" />
+<script src="__STATIC__/js/kindeditor/kindeditor.js"></script>
+<script src="__STATIC__/js/fileuploader.js"></script>
+<script type="text/javascript">
+
+KindEditor.create('#info', {
+	uploadJson : '{:U("attachment/editer_upload")}',
+	fileManagerJson : '{:U("attachment/editer_manager")}',
+	allowFileManager : true
+});
+$(function(){
+	$('.J_cate_select').cate_select({field:'J_cate_id'});
+	
+	
+	//上传图片
+	var uploader = new qq.FileUploaderBasic({
+		allowedExtensions: ['jpg','gif','jpeg','png','bmp','pdg'],
+	    button: document.getElementById('J_upload_img'),
+	    multiple: false,
+	    action: "{:U('topic/ajax_upload_img')}",
+	    inputName: 'img',
+	    forceMultipart: true, //用$_FILES
+	    messages: {
+	    	typeError: lang.upload_type_error,
+	    	sizeError: lang.upload_size_error,
+	    	minSizeError: lang.upload_minsize_error,
+	    	emptyError: lang.upload_empty_error,
+	    	noFilesError: lang.upload_nofile_error,
+	    	onLeave: lang.upload_onLeave
+	    },
+	    showMessage: function(message){
+	    	$.pinphp.tip({content:message, icon:'error'});
+	    },
+	    onSubmit: function(id, fileName){
+	    	$('#J_upload_img').addClass('btn_disabled').find('span').text(lang.uploading);
+	    },
+	    onComplete: function(id, fileName, result){
+	    	$('#J_upload_img').removeClass('btn_disabled').find('span').text(lang.upload);
+	        if(result.status){
+	    		$('#J_img').val(result.data);
+	    	} else {
+	    		$.pinphp.tip({content:result.msg, icon:'error'});
+	    	}
+	    }
+	});
+});
+</script>
+

@@ -1,0 +1,28 @@
+<include file="public:header"/>
+<div class="container">
+    <form method="post">
+        <div class="row">
+            <div class="col-xs-12">
+                <p class="fs-16 pt10 pb10">购买心得</p>
+            </div>
+            <div class="col-xs-12">
+                <textarea class="textarea" name="info" placeholder="评价内容"></textarea>
+            </div>
+            <div class="col-xs-12">
+                <p class="fs-16 pt10 pb10">上传图片</p>
+            </div>
+            <div class="col-xs-12 upload-btn">
+                <input type="file" name="img" id="comment_img">
+            </div>
+        </div>
+        <div class="row form-list mt20">
+            <div class="col-xs-1"></div>
+            <div class="col-xs-10">
+                <input type="submit" value="提交" class="submit-btn"/>
+            </div>
+            <div class="col-xs-1"></div>
+        </div>
+        <input type="hidden" name="order_id" value="{$_GET['order_id']}"/>
+    </form>
+</div>
+<include file="public:footer"/>

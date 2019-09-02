@@ -1,0 +1,29 @@
+{//该文件由grunt debug生成，不要手动修改!!%>}
+<if condition="APP_DEBUG">
+    <script type="text/javascript" src="__STATIC__/vendor/require.js"></script>
+    <script type="text/javascript" src="__STATIC__/vendor/underscore.js"></script>
+    <script type="text/javascript" src="__STATIC__/vendor/underscore.mixin.js"></script>
+    <script type="text/javascript" src="__STATIC__/debug/admin/requireConfig.js"></script>
+    <script type="text/javascript">
+var app_entry=null;
+if(_.in_array(_global.m,['index'])){
+    app_entry="debug/group_frame";
+}
+if(_global.m!=['index']){
+    app_entry="debug/group_page";
+}
+
+if(app_entry!=null){
+    req([app_entry], function (App) {
+        new App();
+    });
+}  
+    </script>
+<else/>
+    <if condition="in_array(MODULE_NAME,array('index'))">
+        <script type="text/javascript" src="__STATIC__/build/admin/group_frame.js"></script>
+    </if>
+    <if condition="MODULE_NAME!='index'">
+        <script type="text/javascript" src="__STATIC__/build/admin/group_page.js"></script>
+    </if>
+</if>

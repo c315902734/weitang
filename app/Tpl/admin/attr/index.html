@@ -1,0 +1,92 @@
+<include file="public:header" />
+<!--会员列表-->
+<div class="pad_10">
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+            <tr>
+                <td>
+                <div class="explain_col">
+                    <input type="hidden" name="g" value="admin" />
+                    <input type="hidden" name="m" value="attr" />
+                    <input type="hidden" name="a" value="index" />
+                    <input type="hidden" name="menuid" value="{$menuid}" />
+            		商品分类：
+                    <select class="J_cate_select mr10" data-pid="0" data-uri="{:U('item_cate/ajax_getchild', array('type'=>0))}" data-selected="{$search.spid}"></select>
+                    <input type="hidden" name="cate_id" id="J_cate_id" value="{$search.cate_id}"/>
+                    属性类型：
+                    <select name="class_id">
+                        <option value="">请选择</option>
+                        <option value="1" <if condition="$search['class_id'] eq 1">selected="selected"</if> >商品信息</option>
+                        <option value="2" <if condition="$search['class_id'] eq 2">selected="selected"</if> >商品品质</option>
+                    </select>
+                    <input type="submit" name="search" class="btn" value="搜索" />
+                </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+
+    <div class="J_tablelist table_list" data-acturi="{:U('item_brand/ajax_edit')}">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th width=25><input type="checkbox" id="checkall_t" class="J_checkall"></th>
+                <th width="250" align="left">所属分类</th>
+                <th width="100" align="left">属性类型</th>
+                <th align="left">属性名称</th>
+               	<th width="120">值类型</th>
+                <th align="left">属性值</th>
+                <th width="60"><span data-tdtype="order_by" data-field="ordid">排序值</span></th>
+                <th width="40"><span data-tdtype="order_by" data-field="status">状态</span></th>
+                <th width="120">{:L('operations_manage')}</th>
+            </tr>
+        </thead>
+    	<tbody>
+            <volist name="list" id="val" >
+            <tr>
+                <td align="center" valign="top"><input type="checkbox" class="J_checkitem" value="{$val.id}"></td>
+                <td align="left" valign="top">{$val.cate_id}</td>
+                <td align="left" valign="top">
+                    <if condition="$val['class_id'] eq 1">商品信息
+                    <elseif condition="$val['class_id'] eq 2" />商品品质
+                    </if> 
+                </td>
+                <td align="left" valign="top">{$val.name}</td>
+                <td align="center" valign="top">{$type_list[$val['type']]}</td>
+                <td align="left" valign="top">{$val.attr_val}</td>
+                <td align="center" valign="top">
+                    <span data-tdtype="edit" data-field="ordid" data-id="{$val.id}" class="tdedit">{$val.ordid}</span>
+                </td>
+                <td align="center" valign="top">
+                    <img data-tdtype="toggle" data-id="{$val.id}" data-field="status" data-value="{$val.status}" src="__STATIC__/images/admin/toggle_<if condition="$val.status eq 0">disabled<else/>enabled</if>.gif" />
+                </td>
+                <td align="center" valign="top">
+                    <if condition="$val['type'] eq 1">
+                    <a href="javascript:;" class="J_showdialog" data-uri="{:U('attr/add_val', array('attr_id'=>$val['id']))}" data-title="添加属性值" data-id="add_val" data-width="500" data-height="200">添加值</a> | 
+                    </if>
+                    <a href="javascript:;" class="J_showdialog" data-uri="{:u('attr/edit', array('id'=>$val['id'], 'menuid'=>$menuid))}" data-title="编辑 - {$val['name']}" data-id="edit" data-width="500" data-height="200">编辑</a> | <a href="javascript:void(0);" class="J_confirmurl" data-uri="{:u('attr/delete', array('id'=>$val['id']))}" data-acttype="ajax" data-msg="{:sprintf(L('confirm_delete_one'),$val['name'])}">{:L('delete')}</a>
+                </td>
+            </tr>
+            </volist>
+    	</tbody>
+    </table>
+    <div class="btn_wrap_fixed">
+        <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('attr/delete',array('id'=>$r['id']))}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />
+        <div id="pages">{$page}</div>
+    </div>
+
+    </div>
+</div>
+<include file="public:footer" />
+</body>
+</html>
+<script>
+$(function(){
+    $('.J_cate_select').cate_select({field:'J_cate_id'});
+    $('.J_class_select').cate_select({field:'J_class_id'});
+});
+</script>
+

@@ -1,0 +1,119 @@
+<div class="dialog_content">
+
+    <form id="info_form" action="{:u(MODULE_NAME.'/'.ACTION_NAME)}" method="post">
+
+        <div class="common-form">
+
+            <table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+
+                <tr>
+
+                    <th width="100px">支付方式：</th>
+
+                    <td>
+
+						<select name="pays" id="pays">
+
+							<option value="">--请选择--</option>
+
+							<option value="1">货到付款</option>
+
+							<option value="2">网银在线</option>
+
+							<option value="3">支付宝</option>
+
+							<option value="4">微信支付</option>
+                            <option value="5">信用卡支付</option>
+						</select>
+
+					</td>
+
+                </tr>
+
+				<tr>
+
+                    <th width="100px">支付状态：</th>
+
+                    <td>
+
+						<input type="radio" name="pays_status" value="0">未支付&nbsp;&nbsp;
+
+						<input type="radio" name="pays_status" value="1">支付成功&nbsp;&nbsp;
+
+						<input type="radio" name="pays_status" value="2">支付失败
+
+					</td>
+
+                </tr>
+
+				<tr>
+
+                    <th width="100px">支付时间：</th>
+
+                    <td>
+
+						<input type="text" name="pays_time" id="pays_time" class="date J_date_picker" type="text" size="20" value="">
+
+					</td>
+
+                </tr>
+
+				<tr>
+
+                    <th width="100px">支付金额：</th>
+
+                    <td>
+
+						<input type="text" class="input-text" size="20" name="pays_price" id="pays_price" value=""> 元
+
+					</td>
+
+                </tr>
+
+				<tr>
+
+                    <th width="100px">支付流水号：</th>
+
+                    <td>
+
+						<input type="text" class="input-text" size="20" name="pays_sn" id="pays_sn" value="">
+
+					</td>
+
+                </tr>
+
+            </table>
+
+        </div>
+
+        <input type="hidden" name="id" value="{$Think.get.id}">
+
+    </form>
+
+</div>
+
+<script type="text/javascript">
+
+$(function(){
+
+    $('#info_form').ajaxForm({success:complate,dataType:'json'});
+
+    function complate(result){
+
+        if(result.status == 1){
+
+            $.pinphp.tip({content:result.msg});
+
+            window.location.reload();
+
+        } else {
+
+            $.pinphp.tip({content:result.msg, icon:'alert'});
+
+        }
+
+    }
+
+});
+
+</script>

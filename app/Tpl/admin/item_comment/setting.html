@@ -1,0 +1,30 @@
+<div class="dialog_content">
+	<form id="info_form" name="info_form" action="{:u('item_comment/setting')}" method="post">
+    <table width="100%" class="table_form">
+    	<tr>
+			<th>是否有效 :</th>
+			<td>
+				<label><input type="radio" name="status" value="1" /> 有效</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<label><input type="radio" name="status" value="0" /> 无效</label>
+			</td>
+		</tr>
+    </table>
+	<input type="hidden" name="menuid" value="{$menuid}" />
+	<input type="hidden" name="id" value="{$id}" />
+    </form>
+</div>
+<script type="text/javascript">
+$('#info_form').ajaxForm({success:complate, dataType:'json'});
+function complate(result){
+	if(result.status == 1){
+		$.dialog.get(result.dialog).close();
+		$.pinphp.tip({content:result.msg});
+		window.location.reload();
+	} else {
+		$.pinphp.tip({content:result.msg, icon:'alert'});
+	}
+}
+$(function(){
+	
+});
+</script>

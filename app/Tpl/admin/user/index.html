@@ -1,0 +1,105 @@
+<include file="public:header" /><br>
+<!--会员列表-->
+<div class="pad_lr_10" >
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+            <tr>
+                <td>
+                <div class="explain_col">
+                    <input type="hidden" name="g" value="admin" />
+                    <input type="hidden" name="m" value="user" />
+                    <input type="hidden" name="a" value="index" />
+                    <input type="hidden" name="menuid" value="{$menuid}" />
+					&nbsp;会员帐号 :
+                    <input name="keyword" type="text" class="input-text" size="15" value="{$search.keyword}" />
+                    &nbsp;手机号码 :
+                    <input name="tele" type="text" class="input-text" size="15" value="{$search.tele}" />
+                    &nbsp;真实名称 :
+                    <input name="realname" type="text" class="input-text" size="15" value="{$search.realname}" />
+					&nbsp;团队名称 :
+                    <input name="topkey" type="text" class="input-text" size="15" value="{$search.topkey}" />
+                    &nbsp;账号状态 :
+                    <select name="status">
+                        <option value="-1">全部</option>
+                        <option value="1" <if condition="$search['status'] eq 1">selected="selected"</if>>启用</option>
+                        <option value="0" <if condition="$search['status'] eq 0">selected="selected"</if>>停用</option>
+                    </select>
+					&nbsp;团队级别 :
+                    <select name="tgroup">
+                        <option value="0">全部</option>
+						<volist name="tgroup" id="val">
+                        <option value="{$key}" <if condition="$search['tgroup'] eq $key">selected="selected"</if>>{$val}</option>
+						</volist>
+                    </select>
+                    <input type="submit" name="search" class="btn" value="搜索" />
+                    <!-- <a href="{:U('user/download', array('keyword'=>$search['keyword'], 'tele'=>$search['tele'], 'realname'=>$search['realname'], 'status'=>$search['status']))}" class="btn" style="padding:1px 15px;">下载会员资料</a> -->
+                </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+
+    <div class="J_tablelist table_list" data-acturi="{:U('user/ajax_edit')}">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th width=25><input type="checkbox" id="checkall_t" class="J_checkall"></th>
+                <th width=40><span data-tdtype="order_by" data-field="id">ID</span></th>
+                <th width="40">头像</th>
+				<th align="left"><span data-tdtype="order_by" data-field="username">帐号/真名</span></th>
+                <th width="100" align="left"><span data-tdtype="order_by" data-field="tele">手机号码</span></th>
+				<th width="50"><span data-tdtype="order_by" data-field="orders">订单</span></th>
+                <th width="150" align="left"><span data-tdtype="order_by" data-field="reg_time">注册时间</span></th>
+                <th width="60" align="center">余额</th>
+                <th width="150" align="center">邀请</th>
+                <th width="200" align="center"><span data-tdtype="order_by" data-field="topclass">团队/级别</span></th>
+                <th width="40"><span data-tdtype="order_by" data-field="status">{:L('status')}</span></th>
+                <th width="120">{:L('operations_manage')}</th>
+            </tr>
+        </thead>
+    	<tbody>
+            <volist name="list" id="val" >
+            <tr>
+                <td align="center"><input type="checkbox" class="J_checkitem" value="{$val.id}"></td>
+                <td align="center">{$val.id}</td>
+        		<td align="center"><img src="{:avatar($val['img'], 32)}" width="32" /></td>
+				<td align="left">{$val.username}<br>{$val.realname}</td>
+				<td align="left">{$val.tele}</td>
+                <td align="center">{$val.orders}</td>
+                <td>{$val.reg_time}</td>
+                <td align="center">{$val.price}<br><a href="javascript:;" class="J_showdialog" data-uri="{:u('user/price', array('id'=>$val['id']))}" data-title="调整余额" data-id="price" data-width="300" data-height="100">修改</a></td>
+                <td align="center"><if condition="$val['invite_uid'] gt 0">{$val.invite.username}&nbsp;&nbsp;<font color="#33cc00">(ID:{$val.invite_uid})</font><br></if>[<a href="{:U('user/lower',array('id'=>$val[id]))}">下级</a>]&nbsp;&nbsp;[<a href="javascript:;" class="J_showdialog" data-uri="{:u('user/relationship_edit', array('id'=>$val['id']))}" data-title="设置推荐人" data-id="edit" data-width="400" data-height="20">设置</a>]</td>
+                <td align="center">
+					{$val.topkey}<if condition="$val.topclass eq 1"><font color="#ff0000">[管]</font></if><if condition="$val.tgroup gt 0"><font color="#3300ff">[{$tgroup[$val[tgroup]]}]</font></if><br>
+					[<a href="javascript:;" class="J_showdialog" data-uri="{:u('user/topclass', array('id'=>$val['id']))}" data-title="设置顶级" data-id="topclass" data-width="300" data-height="20">设置</a>]&nbsp;&nbsp;
+					[<a href="{:U('user/index',array('topkey'=>$val[topkey]))}">成员</a>]
+				</td>
+                <td align="center"><if condition="$val.status eq 0">停用<else/>启用</if></td>
+                <td align="center">
+                    <a href="{:u('user/edit', array('id'=>$val['id']))}">编辑</a> | 
+                    <a href="javascript:void(0);" class="J_confirmurl" data-uri="{:u('user/delete', array('id'=>$val['id']))}" data-acttype="ajax" data-msg="{:sprintf(L('confirm_delete_one'),$val['username'])}">{:L('delete')}</a><br />
+                    <a href="javascript:;" class="J_showdialog" data-uri="{:u('user/reset_password', array('id'=>$val['id']))}" data-title="重置密码" data-id="reset_password" data-width="320" data-height="50">重置密码</a> | <a href="{:u('price_log/index', array('uid'=>$val['id']))}">明细</a><br />
+					<a href="{:U('user_recharge/index',array('keyword'=>$val[username],'type'=>2))}">提现</a> |
+					<a href="{:U('user_recharge/index',array('keyword'=>$val[username],'type'=>1))}">充值</a><br>
+					
+
+                </td>
+            </tr>
+            </volist>
+    	</tbody>
+    </table>
+    <div class="btn_wrap_fixed">
+        <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('user/delete')}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />
+        <div id="pages">{$page}</div>
+    </div>
+
+    </div>
+</div>
+<include file="public:footer" />
+</body>
+</html>
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script type="text/javascript" src="__STATIC__/js/calendar/calendar.js"></script>

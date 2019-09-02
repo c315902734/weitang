@@ -1,0 +1,19 @@
+<include file="public:header" />
+<div id="bd">
+    <div class="layout grid-s45m0 w1000 user-center">
+        <div style="text-align: center; padding: 30px 0">
+            <div style="width: 500px; margin: 0 auto">
+                <img src="__ASSETS__/images/error.png" class="fl" />
+                <div class="fl" style="padding-top: 100px;">
+                    <span style="display: block; font-size: 18px">{$error}</span>
+                    <a href="{$jumpUrl}">点击返回上一页</a>
+                </div>
+            </div>
+            
+            <script language="javascript">
+                //setTimeout("location.href='{$jumpUrl}';",{$waitSecond}*1000);
+            </script>
+        </div>
+    </div>
+</div>
+<include file="public:footer" />

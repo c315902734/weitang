@@ -1,0 +1,72 @@
+<include file="public:header" />
+<div id="bd">
+    <div class="layout grid-s45m0 w1000 user-center">
+        <div class="col-main">
+            <div class="main-wrap">
+				<div class="box J_TBox">
+					<div class="global-title">收益比例
+					<div class="order_search_box">
+						<form method="get" action="">
+							<span class="standard_select fl"> 
+								<span class="select_shelter"> 
+								<select name="tgroup" class="order_select fl" style="width:112px;">
+									<option value="">用户类型(全部)</option>
+									<volist name="tgroup" id="val">
+									<if condition="$key gt 0">
+									<option value="{$key}" <if condition="$search[tgroup] eq $key">selected</if>>{$val}</option>
+									</if>
+									</volist>
+								</select>
+								</span>
+							</span>
+							<input type="text" name="tele" class="order_text fl" placeholder="请输入手机号" value="{$search[tele]}">
+							<input type="submit" class="order_sub" value="搜索"/>
+							<input type="hidden" name="id" value="{$search.id}">
+							<input type="hidden" name="m" value="user">
+							<input type="hidden" name="a" value="pers">
+						</form>
+					</div>
+					</div>
+				</div>
+
+                <div class="box J_TBox">
+					<table cellpadding="0" cellspacing="0" class="server-content table-list">
+						<tr class="title">
+							<td align="center">会员帐号</td>
+							<td align="center">团队级别</td>
+							<td align="center">收益比例</td>
+							<td align="center" width="120">操作</td>
+						</tr>
+						<volist name="list" id="val">
+						<tr class="list">
+							<td align="center">
+								{$val.username}
+							</td>
+							<td>
+								{$tgroup[$val[tgroup]]}
+							</td>
+							<td>
+								{$val.pers}%
+							</td>
+							<td>
+								<a href="javascript:;" class="J_edit_per" data-id="{$val.id}" data-pers="{$val.pers}">修改比例</a>
+							</td>
+						</tr>
+						</volist>
+					</table>
+                </div>
+				<div class="box J_TBox">
+					<div class="global-pages">
+						<span class="num">
+							{$page}
+						</span>
+					</div>
+				</div>
+            </div>
+        </div>
+        <include file="user:left" />
+    </div>
+</div>
+<!--主部结束-->
+
+<include file="public:footer" />

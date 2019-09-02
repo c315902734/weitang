@@ -1,0 +1,28 @@
+<div class="dialog_content">
+	<form id="info_form" name="info_form" action="{:U(MODULE_NAME.'/'.ACTION_NAME)}" method="post">
+    <table width="100%" class="table_form">
+		<tr>
+          <th width="100">所属类型 :</th>
+          <td>
+			  <select name="type">
+				  <option value="1">全赠</option>
+				  <option value="2">日赠</option>
+			  </select>
+		  </td>
+        </tr>
+    </table>
+	<input type="hidden" name="ids" value="{$_GET['ids']}" />
+    </form>
+</div>
+<script type="text/javascript">
+$('#info_form').ajaxForm({success:complete,dataType:'json'});
+function complete(result){
+	if(result.status == 1){
+		$.dialog.get(result.dialog).close();
+		$.pinphp.tip({content:result.msg});
+		window.location.reload();
+	} else {
+		$.pinphp.tip({content:result.msg, icon:'alert'});
+	}
+}
+</script>

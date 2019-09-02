@@ -1,0 +1,21 @@
+<include file="public:header"/>
+<div class="container">
+    <div class="row cate-list mb10" id="J_cate">
+        <volist name="cate_list" id="val">
+            <div class="col-xs-12 c-item">
+                <a href="{:U('item/lists',['cate_id'=>$val['id']])}">
+                <span class="img"><img data-original="{:attach($val['img'])}" style="max-width: 100%;"/></span>
+                </a>
+            </div>
+            <if condition="$val['child_list']">
+            <div class="col-xs-12 child_list">
+            <volist name="val['child_list']" id="v">
+                <a href="{:U('item/lists',['cate_id'=>$v['id'],'keywords'=>$v['name']])}">{$v.name}</a>
+            </volist>
+            </div>
+            </if>
+        </volist>
+    </div>
+</div>
+
+<include file="public:footer"/>

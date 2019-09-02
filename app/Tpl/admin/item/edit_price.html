@@ -1,0 +1,41 @@
+<div class="dialog_content">
+	<form id="info_form" name="info_form" action="{:u('item/edit')}" method="post">
+    <table width="100%" class="table_form">
+    	<tr>
+			<th width="120">市场价 :</th>
+			<td>
+				<input id="mprice" class="input-text" type="text" value="{$info.mprice}" size="10" name="mprice"> 元
+			</td>
+		</tr>
+		<tr>
+			<th width="120">东仁价 :</th>
+			<td>
+				<input id="price" class="input-text" type="text" value="{$info.price}" size="10" name="price"> 元
+			</td>
+		</tr>
+		<tr>
+			<th>APP价格 :</th>
+			<td>
+				<input type="text" name="app_price" class="input-text" size="10" value="{$info.app_price}"/>
+			</td>
+		</tr>
+    </table>
+	<input type="hidden" name="menuid" value="{$menuid}" />
+	<input type="hidden" name="id" value="{$id}" />
+    </form>
+</div>
+<script type="text/javascript">
+$('#info_form').ajaxForm({success:complate, dataType:'json'});
+function complate(result){
+	if(result.status == 1){
+		$.dialog.get('edit_price').close();
+		$.pinphp.tip({content:result.msg});
+		window.location.reload();
+	} else {
+		$.pinphp.tip({content:result.msg, icon:'alert'});
+	}
+}
+$(function(){
+	
+});
+</script>

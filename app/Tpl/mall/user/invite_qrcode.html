@@ -1,0 +1,12 @@
+<include file="public:header"/>
+<style>
+    html, body, img {
+        width: 100% !important;
+        background-color: #65b72f !important;
+    }
+</style>
+<if condition="$info['qrcode_status'] == 1">
+<img data-original="{:U(MODULE_NAME.'/'.ACTION_NAME,['act'=>'img'])}" class="qrcode"/>
+</if>
+<input type="hidden" name="qrcode_status" value="{$info['qrcode_status']}">
+<include file="public:footer"/>

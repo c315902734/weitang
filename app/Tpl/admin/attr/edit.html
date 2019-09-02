@@ -1,0 +1,58 @@
+<!--添加品牌-->
+<div class="dialog_content pad_10">
+	<form id="info_form" action="{:u('attr/edit')}" method="post">
+	<div class="col_tab">
+		<table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+			<tr>
+				<th>商品分类 :</th>
+				<td>
+					<select class="J_cate_select2 mr10" data-pid="0" data-uri="{:U('item_cate/ajax_getchild', array('type'=>0))}" data-selected="{$spid}"></select>
+					<input type="hidden" name="cate_id" id="J_cate_id2" value="{$info.cate_id}"/>
+				</td>
+			</tr>
+			<tr>
+				<th>属性类型 :</th>
+				<td>
+					<select name="class_id">
+                        <option value="">请选择</option>
+                        <option value="1" <if condition="$info['class_id'] eq 1">selected="selected"</if> >商品信息</option>
+                        <option value="2" <if condition="$info['class_id'] eq 2">selected="selected"</if> >商品品质</option>
+                    </select>
+				</td>
+			</tr>
+			<tr>
+				<th>属性格式 :</th>
+				<td>
+					<label for="select">
+						<input type="radio" id="select" name="type" value="1" <if condition="$info['type'] eq 1">checked="checked"</if> />下拉列表</label>
+					<label for="text">
+						<input type="radio" id="text" name="type" value="2" <if condition="$info['type'] eq 2">checked="checked"</if> />输入框</label>
+				</td>
+			</tr>
+			<tr>
+				<th>属性名称 :</th>
+				<td>
+					<input type="text" name="name" class="input-text" value="{$info.name}" size="30">
+				</td>
+			</tr>
+		</table>
+		<input type="hidden" name="menuid"  value="{$menuid}"/>
+		<input type="hidden" name="id"  value="{$info.id}"/>
+	</form>
+</div>
+<script type="text/javascript">
+$(function(){
+    $('.J_cate_select2').cate_select({field:'J_cate_id2'});
+});
+
+$('#info_form').ajaxForm({success:complate, dataType:'json'});
+function complate(result){
+	if(result.status == 1){
+		$.dialog.get(result.dialog).close();
+		$.pinphp.tip({content:result.msg});
+		window.location.reload();
+	} else {
+		$.pinphp.tip({content:result.msg, icon:'alert'});
+	}
+}
+</script>

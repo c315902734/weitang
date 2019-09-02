@@ -1,0 +1,191 @@
+<include file="public:header"/>
+
+<div class='container-fluid <if condition="!$token">mt-44</if>'>
+	<if condition="!$token">
+	<div class="row global-top">
+
+		<div class="col-xs-2">
+
+			<a class="return" href="Javascript:history.go(-1)"></a>
+
+		</div>
+
+		<div class="col-xs-8">
+
+			<div class="text">身份验证</div>
+
+		</div>
+
+		<div class="col-xs-2">
+
+		</div>
+
+	</div>
+	</if>
+	<form id="J_password_form" action="{:U('user/idcard')}" method="post">
+
+	<div class="row white-bg login-list">
+
+		<div class="global-list">
+
+			<div class="col-xs-3">会员姓名</div>
+
+			<div class="col-xs-9 b-b">
+
+				<input type="text" name="card_name" class="f_input" value="{$info.card_name}" placeholder="请输入真实姓名" id="card_name" />
+
+			</div>
+
+		</div>
+
+		<div class="global-list">
+
+			<div class="col-xs-3">身份证号</div>
+
+			<div class="col-xs-9 b-b">
+
+				<input type="text" name="idcard" class="f_input" value="{$info.idcard}" placeholder="请输入真实身份证" id="idcard" />
+
+			</div>
+
+		</div>
+
+	</div>
+
+	<!-- <div class="row pink-bg" style="margin-top:10px;">
+
+		<div class="col-xs-12" style="padding:0;">
+
+			<p style="color:#000;font-size: 14px;padding:10px;">亲，松滋印像家的所有产品均为保税仓发货，需要清关后入境，根据海关要求，需要您完善身份证信息，身份证信息绝对严格保密不外泄。谢谢您的配合！</p>
+
+		</div>
+
+	</div> -->
+
+	<div class="row">
+
+		<div class="global-submit-bot1"><button type="button" class="btnok">确定</button></div>
+
+	</div>
+
+	</form>
+
+</div>
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+	 $(".btnok").click(function(){
+
+	  var card_name=$('#card_name').val();
+
+	  var idcard=$('#idcard').val();
+
+		if(card_name == ''){
+
+			tip('姓名不能为空');
+
+			return false;
+
+		}
+
+		if(card_name.length > 16){
+
+			tip('会员姓名大于16位');
+
+			return false;
+
+		}
+
+		if(idcard == ''){
+
+			tip('身份证号不能为空');
+
+			return false;
+
+		}
+
+		if(idcard.length < 15){
+
+			tip('身份证号不能小于15位');
+
+			return false;
+
+		}
+
+		if(idcard.length > 18){
+
+			tip('身份证号不能大于18位');
+
+			return false;
+
+		}
+
+		if(!checkIdentity()){
+
+			tip('身份证号格式不对');
+
+			return false;
+
+		}
+
+		$.ajax({
+
+			type: 'POST',
+
+			url:"{:U('user/idcard')}",
+
+			dataType:'json',
+
+			data:{idcard:idcard,card_name:card_name},
+
+			success: function(data){
+
+				if(data.status == 1){
+
+					tip('修改成功');
+
+					setTimeout('location_index();',2000);
+
+				}else{
+
+					tip(data.data);
+
+				}
+
+			}
+
+		});
+
+	 });
+
+});
+
+function checkIdentity(){
+
+	return /^[1-9]\d{16}[\d|x|X]$/.test($('#idcard').val())
+
+}
+
+function location_index(){
+
+	<if condition="$page_type eq 1">
+
+	window.location.href = '{:U("buy/orderConfirm")}';
+
+	<else/>
+
+	window.location.href = '{:U("user/index")}';
+
+	</if>
+
+}
+
+</script>
+
+<script type="text/javascript" src="__ASSETS__/js/index.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,131 @@
+<include file="public:header" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/jquery-ui/themes/blue/jquery.ui.all.css" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/jquery-ui/extend/datepicker/jquery-ui-timepicker-addon.css" />
+
+<div id="bd">
+    <div class="layout grid-s45m0 w1000 user-center">
+        <div class="col-main">
+            <div class="main-wrap">
+				<div class="box J_TBox">
+					<div class="global-title">消费流水</div>
+				</div>
+				<div class="box J_TBox">
+					<div class="global-title" style="border:none;">
+						<div class="order_search_box">
+							<form method="get" action="">
+								<span class="standard_select fl"> 
+									<span class="select_shelter"> 
+									<select name="type" class="order_select fl" style="width:112px;">
+										<option value="">订单类型(全部)</option>
+										<option value="1" <if condition="$search.type eq 1">selected</if>>消费</option>
+										<option value="2" <if condition="$search.type eq 2">selected</if>>退款</option>
+										<option value="3" <if condition="$search.type eq 3">selected</if>>提货</option>
+									</select>
+									</span>
+								</span>
+								<span class="standard_select fl"> 
+									<span class="select_shelter"> 
+									<select name="lottery" class="order_select fl" style="width:112px;">
+										<option value="">升级状态(全部)</option>
+										<option value="1" <if condition="$search.lottery eq 1">selected</if>>升级中</option>
+										<option value="2" <if condition="$search.lottery eq 2">selected</if>>升级成功</option>
+										<option value="9" <if condition="$search.lottery eq 9">selected</if>>升级失败</option>
+									</select>
+									</span>
+								</span>
+
+								<span class="fl" style="font-size:12px;">下单时间：</span><input type="text" name="stime" class="J_date_picker order_text fl short" value="{$search[stime]}" style="width:100px"> <span class="fl">~</span> <input type="text" name="etime" class="J_date_picker order_text fl short" value="{$search[etime]}" style="width:100px">
+								<input type="text" name="tele" class="order_text fl" placeholder="请输入手机号" value="{$search[tele]}">
+								<input type="submit" class="order_sub" value="搜索">
+								<input type="submit" class="order_sub" value="导出订单" name="export" id="export-btn"/>
+								
+								<if condition="!$_GET['profit']"><input type="button" value="返回上一页" onclick="javascrtpt:window.location.href='{:U('user/team')}'" class="order_sub"></if>
+
+								<input type="hidden" name="id" value="{$search.id}">
+								<input type="hidden" name="profit" value="{$_GET['profit']}">
+
+								<input type="hidden" name="g" value="team">
+								<input type="hidden" name="m" value="user">
+								<input type="hidden" name="a" value="order">
+							</form>
+						</div>
+					</div>
+				</div>
+
+				<div class="box J_TBox">
+					<div class="global-title" style="border-bottom:none;padding:0;">
+						<div>
+							<div style="font-size:14px;float:left;">
+								总交易额：￥{$order.total}元&nbsp;&nbsp;&nbsp;&nbsp;
+								总退款额：￥{$order.refund}元&nbsp;&nbsp;&nbsp;&nbsp;
+								总提货额：￥{$order.delivery}元&nbsp;&nbsp;&nbsp;&nbsp;
+								今日交易额：￥{$order.days}元
+							</div>
+						</div>
+						<if condition="$commission && 1 eq 2">
+						<div>
+							<div style="font-size:14px;float:left;">
+								总收益：￥{$commission.total}元&nbsp;&nbsp;&nbsp;&nbsp;
+								今日收益：￥{$commission.days}元
+							</div>
+						</div>
+						</if>
+					</div>
+				</div>
+                <div class="box J_TBox">
+					<div class="diary-content">
+	                    <table class="table_list" width="100%" cellspacing="0" cellpadding="0">
+							<tr class="title">
+								<th width="150">用户信息</th>
+								<th width="80">所属联席董事</th>
+								<th width="80">所属官方合伙人</th>
+								<th width="80">所属总经销商</th>
+								<th width="60">订单金额</th>
+								<th width="60">升级状态</th>
+								<th width="60">退款/提货</th>
+								<th width="80">详情</th>
+							</tr>
+							<if condition="$list">
+							<volist name="list" id="val">
+								<tr class="content_tr underline">
+									<td align="left">
+										用户名称：{$val.username}<br>用户手机：{$val.tele}
+									</td>
+									<td align="center">
+										<a href="{:U('user/order',array('tgroup_1'=>$val['tgroup_1'],'profit'=>$_GET['profit']))}">{$val.tgroup_1_name}</a>
+									</td>
+									<td align="center">
+										<a href="{:U('user/order',array('tgroup_2'=>$val['tgroup_2'],'profit'=>$_GET['profit']))}">{$val.tgroup_2_name}</a>
+									</td>
+									<td align="center">
+										<a href="{:U('user/order',array('tgroup_3'=>$val['tgroup_3'],'profit'=>$_GET['profit']))}">{$val.tgroup_3_name}</a>
+									</td>
+									<td align="center">{$val.prices}</td>
+									<td align="center">{$val.lottery}</td>
+									<td align="center">{$val.status}</td>
+									<td align="center"><a href="{:U('user/order_detail',array('id'=>$val[oid]))}">查看详情</a></td>
+								</tr>
+							</volist>
+							<else />
+							<tr class="content_tr underline">
+								<td colspan="8"><div class="weixiao">暂无内容 </div></td>
+							</tr>
+							</if>
+						</table>
+					</div>
+                </div>
+				<div class="box J_TBox">
+					<div class="global-pages">
+						<span class="num">
+							{$page}
+						</span>
+					</div>
+				</div>
+            </div>
+        </div>
+        <include file="user:left" />
+    </div>
+</div>
+<!--主部结束-->
+
+<include file="public:footer" />

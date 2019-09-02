@@ -1,0 +1,47 @@
+<include file="public:header"/>
+<div class='container-fluid mt40 mb10'>
+    <div class="row global-top">
+        <div class="col-xs-2">
+            <a class="return" href="{:U('user/index')}"></a>
+        </div>
+        <div class="col-xs-8">
+            <div class="text">我的订单</div>
+        </div>
+        <div class="col-xs-2">
+        </div>
+    </div>
+    <div class="row white-bg b-b goods-class">
+        <div class="col-xs-2">
+            <a href="{:U(MODULE_NAME.'/'.ACTION_NAME)}" class="<if condition='$status eq -1 '>choise </if>">全部</a>
+        </div>
+        <div class="col-xs-2">
+            <a href="{:U(MODULE_NAME.'/'.ACTION_NAME,array('status'=>1,'lottery'=>0))}"
+               class="<if condition='$status eq 1 && $lottery eq 0'>choise </if>">待升级</a>
+        </div>
+        <div class="col-xs-2">
+            <a href="{:U(MODULE_NAME.'/'.ACTION_NAME,array('status'=>1,'lottery'=>1))}"
+               class="<if condition='$status eq 1 && $lottery eq 1'>choise </if>">升级中</a>
+        </div>
+        <div class="col-xs-2">
+            <a href="{:U(MODULE_NAME.'/'.ACTION_NAME,array('status'=>2))}"
+               class="<if condition='$status eq 2 '>choise </if>">待提货</a>
+        </div>
+        <div class="col-xs-2">
+            <a href="{:U(MODULE_NAME.'/'.ACTION_NAME,array('status'=>4))}"
+               class="<if condition='$status eq 4 '>choise </if>">提货中</a>
+        </div>
+        <div class="col-xs-2">
+            <a href="{:U(MODULE_NAME.'/'.ACTION_NAME,array('status'=>5))}"
+               class="<if condition='$status eq 5 '>choise </if>">已完成</a>
+        </div>
+
+    </div>
+</div>
+<div id="J_waterfall" class="container row order-info" data-uri="{:U(MODULE_NAME.'/'.ACTION_NAME,['status'=>$status])}">
+    <include file="order_waterfall"/>
+</div>
+
+<present name="show_load">
+    <div id="J_wall_loading" class="wall_loading tc gray"></div>
+</present>
+<include file="public:footer"/>

@@ -1,0 +1,46 @@
+<include file="public:header"/>
+<if condition="!$code_url && !$return_msg">
+<script type="text/javascript">
+wx.config({
+	debug: false,
+	appId: '{$res["config"]["appid"]}',
+	timestamp: '{$res["config"]["timestamp"]}',
+	nonceStr: '{$res["config"]["noncestr"]}',
+	signature: '{$res["config"]["signature"]}',
+	jsApiList: ['chooseWXPay']
+});
+wx.ready(function(){
+	wx.chooseWXPay({
+		timestamp: '{$res["paydata"]["timeStamp"]}',
+		nonceStr: '{$res["paydata"]["nonceStr"]}',
+		package: '{$res["paydata"]["package"]}',
+		signType: '{$res["paydata"]["signType"]}',
+		paySign: '{$res["paydata"]["paySign"]}',
+		success: function (res) {
+			window.location.href = "{$ret_url}";
+		},
+		cancel: function () { 
+			window.location.href = "{$ret_url}";
+		}
+	});
+});
+</script>
+</if>
+<if condition="$code_url">
+<div class="container padding">
+	<div class="row">
+		<div class="col-xs-12 ">
+			<img src="{$code_url}">
+		</div>
+	</div>
+</div>
+<elseif condition="$return_msg"/>
+<div class="container padding">
+	<div class="row">
+		<div class="col-xs-12 ">
+			{$return_msg}
+		</div>
+	</div>
+</div>
+</if>
+<include file="public:footer"/>

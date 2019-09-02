@@ -1,0 +1,60 @@
+<volist name="list" id="val">
+<if condition="$type=='item'">
+    <div class="col-xs-12 item">
+        <a class="layout sub80" href="{:U('item/index',['id'=>$val['id']])}">
+            <div class="col-main">
+                <div class="wrap brief">
+                    <p class="tit">{:item_type_html($val)}{$val.title}</p>
+                    <p class="price mb5">
+                        <span class="fs-16 green">￥{$val.price}</span>
+                        <span class="fs-12 through grey">￥{$val.mprice}</span>
+                    </p>
+                    <p class="fs-12 grey">已售{$val['sales']+$val['sales_base']}</p>
+                </div>
+            </div>
+            <div class="col-sub">
+                <div class="img">
+                    <img data-original="{:attach($val['img'])}" width="100%"/>
+                </div>
+            </div>
+        </a>
+    </div>
+<else/>
+    <div class="row item-rec-item bgwhite mb10 pt10">
+        <div class="col-xs-12 collect-shop">
+            <div class="layout sub60 pr z1">
+                <div class="col-main">
+                    <div class="wrap brief">
+                        <p>{$val.title}</p>
+                        <p class="fs-12">好评率：<span class="green">99%</span></p>
+                    </div>
+                </div>
+                <div class="col-sub">
+                    <div class="img">
+                        <img data-original="{:attach($val['img'])}" width="100%"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 item-rec no-pd oh">
+            <ul class="swiper-wrapper">
+                <volist name="val['item_list']" id="item">
+                    <li class="goods swiper-slide">
+                        <a href="{:U('item/index',['id'=>$item['id']])}"></a>
+                        <div class="cut-img">
+                            <img data-original="{:attach($item['img'])}" style="width: 100%;max-width: 114px;">
+                        </div>
+                        <div class="title grey">{$item.title}</div>
+                        <p class="brief">
+                            <span class="price green">￥{$item.price}</span>
+                        </p>
+                    </li>
+                </volist>
+            </ul>
+        </div>
+        <div class="col-xs-12 grey pb10 pt10 tc">
+            <p><a href="{:U('member/index',['mid'=>$val['id']])}" class="grey fs-12">进店逛逛</a></p>
+        </div>
+    </div>
+</if>
+</volist>

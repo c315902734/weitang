@@ -1,0 +1,16 @@
+<volist name="list" id="val">
+<div class="row ssc_item">
+	<div class="col-xs-3 time">
+		<span class="fs-13">{:date('Y-m-d',$val[expecttime])}</span><br><span class="fs-12">{:date('H:i',$val[expecttime])}</span>
+	</div>
+	<div class="col-xs-4 txt">
+		{$val.expect}
+	</div>
+	<div class="col-xs-3 txt">
+		{:str_replace(',','',$val[opencode])}
+	</div>
+	<div class="col-xs-2 txt">
+		<if condition="$val['is_odd']"><span class="odd">奇</span><else/><span class="even">偶</span></if>
+	</div>
+</div>
+</volist>

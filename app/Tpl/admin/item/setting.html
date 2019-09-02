@@ -1,0 +1,92 @@
+<div class="dialog_content">
+    <form id="info_form" name="info_form" action="{:U('item/setting')}" method="post">
+        <table width="100%" class="table_form">
+            <tr>
+                <!-- <th width="60">库存积分 :</th>
+                <td>
+                    <input type="text" class="input-text" size="10" name="score_pools" value="{$info.score_pools}"/>
+                </td>
+                <th width="60">赠送积分 :</th>
+                <td>
+                    <input type="text" class="input-text" size="10" name="score_my" value="{$info.score_my}"/>
+                </td> -->
+                <th width="60">限购数量 :</th>
+                <td>
+                    <input type="text" class="input-text" size="8" name="score_maxs" value="{$info.score_maxs}"/>
+                </td>
+                <th width="60">限购时间 :</th>
+                <td>
+                    <input type="text" class="input-text" size="8" name="score_times" value="{$info.score_times}"/> 天
+                </td>
+                <!-- <th width="60"></th>
+                <td>
+
+                </td> -->
+            </tr>
+            <!-- <tr>
+                <th width="60">省级 :</th>
+                <td>
+                    <input type="text" class="input-text" size="10" name="score_province"
+                           value="{$info.score_province}"/>
+                </td>
+                <th width="60">市级 :</th>
+                <td>
+                    <input type="text" class="input-text" size="10" name="score_city" value="{$info.score_city}"/>
+                </td>
+                <th width="60">县级 :</th>
+                <td>
+                    <input type="text" class="input-text" size="10" name="score_area" value="{$info.score_area}"/>
+                </td>
+                <th width="60"></th>
+                <td>
+
+                </td>
+                <th width="60"></th>
+                <td>
+
+                </td>
+            </tr>
+            <tr>
+                <th width="60">1级 :</th>
+                <td>
+                    <input type="text" class="input-text" size="10" name="score_1" value="{$info.score_1}"/>
+                </td>
+                <th width="60">2级 :</th>
+                <td>
+                    <input type="text" class="input-text" size="10" name="score_2" value="{$info.score_2}"/>
+                </td>
+                <th width="60">3级 :</th>
+                <td>
+                    <input type="text" class="input-text" size="10" name="score_3" value="{$info.score_3}"/>
+                </td>
+                <th width="60"></th>
+                <td>
+                </td>
+                <th width="60"></th>
+                <td>
+                </td>
+            </tr> -->
+        </table>
+        <input type="hidden" name="id" value="{$id}"/>
+    </form>
+</div>
+
+<script type="text/javascript">
+
+    $('#info_form').ajaxForm({success: complete, dataType: 'json'});
+
+    function complete(result) {
+
+        if (result.status == 1) {
+
+            $.dialog.get(result.dialog).close();
+
+            $.pinphp.tip({content: result.msg});
+
+            window.location.reload();
+        }
+        else {
+            $.pinphp.tip({content: result.msg, icon: 'alert'});
+        }
+    }
+</script>

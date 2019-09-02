@@ -1,0 +1,86 @@
+<div class="dialog_content">
+	<form id="info_form" name="info_form" action="{:U('item_cate/add')}" method="post">
+    <table width="100%" class="table_form">
+    	<tr>
+          <th width="100">上级分类 :</th>
+          <td>
+			<select class="J_cate_select mr10" data-pid="0" data-uri="{:U('item_cate/ajax_getchild')}" data-selected="{$spid}"></select>
+          	<input type="hidden" name="pid" id="J_cate_id"  value="{$info.pid}"/>
+			</td>
+        </tr>
+        <tr>
+          <th>分类名称 :</th>
+          <td><input type="text" name="name" id="name" class="input-text"></td>
+        </tr>
+        <tr>
+          <th>分类图片 :</th>
+          <td>
+              <input type="text" name="img" id="J_img" class="input-text fl mr10" value="{$info.img}" size="30">
+              <div id="J_upload_img" class="upload_btn"><span>{:L('upload')}</span></div>
+          </td>
+        </tr>
+        <tr>
+            <th>备注说明 :</th>
+            <td><textarea name="remark" id="remark" cols="40" rows="3">{$info.remark}</textarea></td>
+        </tr>
+        <tr>
+          <th>有效状态 :</th>
+          <td>
+            <label><input type="radio" name="status" class="radio_style" value="1" checked="checked"> {:L('yes')}&nbsp;&nbsp;</label>
+            <label><input type="radio" name="status" class="radio_style" value="0"> {:L('no')}</label>
+          </td>
+        </tr>
+    </table>
+	<input type="hidden" name="menuid" value="{$menuid}" />
+    </form>
+</div>
+<script src="__STATIC__/js/fileuploader.js"></script>
+<script type="text/javascript">
+
+
+$('#info_form').ajaxForm({success:complete, dataType:'json'});
+function complete(result){
+	if(result.status == 1){
+		$.dialog.get(result.dialog).close();
+		$.pinphp.tip({content:result.msg});
+		window.location.reload();
+	} else {
+		$.pinphp.tip({content:result.msg, icon:'alert'});
+	}
+}
+$(function (){
+  $('.J_cate_select').cate_select();
+  //上传图片
+  var uploader = new qq.FileUploaderBasic({
+    allowedExtensions: ['jpg','gif','jpeg','png','bmp','pdg'],
+      button: document.getElementById('J_upload_img'),
+      multiple: false,
+      action: "{:U('item_cate/ajax_upload_img')}",
+      inputName: 'img',
+      forceMultipart: true, //用$_FILES
+      messages: {
+        typeError: lang.upload_type_error,
+        sizeError: lang.upload_size_error,
+        minSizeError: lang.upload_minsize_error,
+        emptyError: lang.upload_empty_error,
+        noFilesError: lang.upload_nofile_error,
+        onLeave: lang.upload_onLeave
+      },
+      showMessage: function(message){
+        $.pinphp.tip({content:message, icon:'error'});
+      },
+      onSubmit: function(id, fileName){
+        $('#J_upload_img').addClass('btn_disabled').find('span').text(lang.uploading);
+      },
+      onComplete: function(id, fileName, result){
+        $('#J_upload_img').removeClass('btn_disabled').find('span').text(lang.upload);
+          if(result.status){
+          $('#J_img').val(result.data);
+        } else {
+          $.pinphp.tip({content:result.msg, icon:'error'});
+        }
+      }
+  });
+
+});
+</script>

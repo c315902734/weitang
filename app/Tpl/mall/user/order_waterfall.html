@@ -1,0 +1,93 @@
+<volist name="list" id="val">
+    <div class="row order-item mb10 J_order_item">
+        <div class="col-xs-12">
+            <div class="time fl pc-100">
+                <div class="fs-12 fl">
+                    订单号：<span class="grey">{$val.orderid}</span>
+                </div>
+                <span class="fs-12 fr green"><if condition="$val['lottery'] eq 2 && $val['status'] lt 2">升级成功<elseif condition="$val['lottery'] eq 9 && $val['status'] lt 2"/>升级失败<elseif condition="$val['lottery'] eq 1"/>升级中<else/>{:order_status_all($val['status'])}</if></span>
+            </div>
+        </div>
+        <volist name="val['order_item_list']" id="item">
+            <a class="col-xs-12 item" href="{:U('item/index',['id'=>$item['item_id']])}">
+                <div class="layout sub60ex70">
+                    <div class="col-main">
+                        <div class="wrap">
+                            <p class="title">{$item.title}</p>
+                            <if condition="$item['skus']">
+                                <p class="fs-12 mb3 grey">规格：{$item.skus}</p>
+                            </if>
+                            <if condition="$item['remark']">
+                                <p class="fs-12 grey">留言：{$item.remark}</p>
+                            </if>
+                        </div>
+                    </div>
+                    <div class="col-sub">
+                        <div class="img">
+                            <img  data-original="{:attach($item['img'], 'assets')}" width="100%">
+                        </div>
+                    </div>
+                    <div class="col-extra">
+                        <p class="tr green title">￥{$item.price}</p>
+                        <p class="tr grey">X{$item.nums}</p>
+                    </div>
+                </div>
+            </a>
+        </volist>
+        <div class="col-xs-12">
+            <div class="item-total fl pc-100">
+                <span class="fl">共{:count($val['order_item_list'])}件商品</span>
+                <span class="fr">邮费：<font color="#000">￥{$val.express}</font>&nbsp;&nbsp;&nbsp;
+                    实付：<font color="#000">￥{$val.prices}</font></span>
+				<p class="mt5 red pc-100 fl tr">升级状态：<if condition="$val['lottery'] eq 2">升级成功<elseif condition="$val['lottery'] eq 9"/>升级失败<elseif condition="$val['lottery'] eq 1"/>升级中<else/>待抽奖</if></p>
+            </div>
+        </div>
+        <div class="col-xs-12 tr order-btn">
+            <div class="clearfix">
+                <div class="fl">
+                    <if condition="$val['status'] eq 4">
+                        <if condition="$val['can_receive']">
+                            <a href="javascript:;" class="colour J_confirm_receive" data-id="{$val.id}">确认收货</a>
+                        <else/>
+                            <span class="fs-12">预计{:date('Y-m-d H:i:s',strtotime($val['express_time']) + $val['express_recv_time'] * 24 * 3600)}可确认收货</span>
+                        </if>
+                    </if>
+                </div>
+                <div class="fr">
+                    <a href="{:U(MODULE_NAME.'/order_info',['id'=>$val['id']])}" class="default">查看详情</a>
+					<!-- 订单按钮状态说明
+						待升级   status = 1 && lottery = 0 去抽奖 / 退款 (2个按钮)
+						待提货   status = 1 && lottery > 1 提货 (填写/选择 地址更新到订单)
+						待收货   status = 2  查看物流 
+						待评价   status = 3  确认收货
+						已完成   status = 5
+					-->
+					<if condition="$val['status'] eq 1 && $val['lottery'] eq 0">
+						<a href="{:U('user/lottery',array('oid'=>$val[id]))}" class="colour">去抽奖</a>
+					</if>
+					<if condition="$val['status'] eq 2 && $val['lottery'] gt 1">
+					<if condition="$val['is_express'] eq 1">
+						<a href="javascript:;" data-id="{$val.id}" class="J_take_delivery colour">提货</a>
+					<else/>
+						<a href="{:U('user/order_address',array('id'=>$val[id]))}" class="colour">提货</a>
+					</if>
+					</if>
+					<if condition="$val['status'] gt 3 && $val['status'] lt 9">
+						<a href="javascript:;" class="colour J_express_info" data-id="{$val.id}">查看物流</a>
+					</if>
+					<!--
+					<if condition="$val['status'] gt 1 && $val['status'] lt 9 && $val['status'] neq 4">
+						<a href="javascript:;" class="colour J_express_info" data-id="{$val.id}">查看物流</a>
+					</if>
+                    <if condition="$val['status']==0">
+                        <a href="{:U('pay/alipay_index',['order_id'=>$val['id']])}" class="colour">去付款</a>
+                    </if>
+					-->
+					<if condition="$val['status'] lt 3 && ($val['lottery']==0 || $val['lottery']==2)">
+                        <a href="javascript:;" class="J_refund_order colour" data-id="{$val.id}" data-title="确定要取消订单吗?" style="color:#fb6464;border:1px solid #fb6464;">退款</a>
+                    </if>
+                </div>
+            </div>
+        </div>
+    </div>
+</volist>

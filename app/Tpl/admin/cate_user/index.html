@@ -1,0 +1,112 @@
+<include file="public:header" />
+
+<!--会员列表-->
+
+<div class="pad_10" >
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+            <tr>
+                <td>
+                <div class="explain_col">
+                    <input type="hidden" name="g" value="admin" />
+                    <input type="hidden" name="m" value="cate_user" />
+                    <input type="hidden" name="a" value="index" />
+                    <input type="hidden" name="menuid" value="{$menuid}" />
+                    用户真实姓名 ：
+                    <input name="real_name" type="text" class="input-text" size="10" value="{$search.rea    l_name}" />
+                    &nbsp;&nbsp;活动名称 ：
+                    <select name="cate_id" style="width:120px;">
+                        <option value="">请选择</option>
+                        <volist name="cate_list" id="val">
+                        <option value="{$val.id}" <if condition="$search['cate_id'] eq $val['id']">selected</if>>{$val.title}</option>
+                        </volist>
+                    </select>
+                    <input type="submit" name="search" class="btn mr10" value="搜索" />
+                </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+    <div class="J_tablelist table_list" data-acturi="{:U('cate_user/ajax_edit')}">
+
+    <table width="100%" cellspacing="0">
+
+        <thead>
+
+            <tr>
+
+                <th width=25><input type="checkbox" id="checkall_t" class="J_checkall"></th>
+
+                <th width=40><span data-tdtype="order_by" data-field="id">ID</span></th>
+                <th align="left" width="100">会员账户</th>
+                <th align="left">活动名称</th>
+                <th width="50">头像</th>
+                <th width="60">来源</th>
+                <th width="80">真实姓名</th>
+                <th width="150" align="left">电话</th>
+                <th width="40">积分</th>
+                <th width="100">经纬度</th>
+                <th width="150" align="left">省份/城市</th>
+                <!-- <th width="50">第一次</th> -->
+                <th width="120" align="left"><span data-tdtype="order_by" data-field="add_time">添加时间</span></th>
+                <th width="40">状态</th>
+
+            </tr>
+
+        </thead>
+
+    	<tbody>
+
+            <volist name="list" id="val" >
+
+            <tr>
+
+                <td align="center"><input type="checkbox" class="J_checkitem" value="{$val.id}"></td>
+
+                <td align="center">{$val.id}</td>
+                <td align="left">{$val.uname}</td>
+                <td align="left">{$val.cate_title}</td>
+                <td><img src="{:attach($val['img'])}" width="40" /></td>
+                <td align="center">{$val.type_name}</td>
+                <td align="center">{$val.real_name}</td>
+                <td align="center">{$val.tele}</td>
+                <td align="center">{$val.num}</td>
+                <td align="center">{$val.lng}<br />{$val.lat}</td>
+                <td>{$val.province}/{$val.city}</td>
+                <!-- <td align="center"><if condition="$val['is_first']">是<else />不是</if></td> -->
+        		<td>{$val.add_time}</td>
+
+                <td align="center"><img data-tdtype="toggle" data-id="{$val.id}" data-field="status" data-value="{$val.status}" src="__STATIC__/images/admin/toggle_<if condition="$val.status eq 0">disabled<else/>enabled</if>.gif" /></td>
+
+
+            </tr>
+
+            </volist>
+
+    	</tbody>
+
+    </table>
+
+    <div class="btn_wrap_fixed">
+        <div id="pages">{$page}</div>
+
+    </div>
+
+
+
+    </div>
+
+</div>
+
+<include file="public:footer" />
+
+</body>
+
+</html>
+
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+
+<script type="text/javascript" src="__STATIC__/js/calendar/calendar.js"></script>
+

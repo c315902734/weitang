@@ -1,0 +1,294 @@
+<include file="public:header" />
+
+<form id="info_form" action="{:u('order/confirm')}" method="post" enctype="multipart/form-data">
+
+<div class="pad_lr_10">
+
+	<div class="content_list pad_10">
+
+		<table width="100%" class="table_list order_info">
+
+			<tr>
+
+				<th width="100">订单编号：</th>
+
+				<td>
+
+					<input name="orderid" type="text" class="input-text" size="15" value="" />
+
+					<span class="content_menu ib_a blue line_x">
+
+						<a class="add" href="javascript:;" onclick="searchOrder();">
+
+							<em>搜索</em>
+
+						</a>
+
+					</span>
+
+				</td>
+
+			</tr>
+
+			<tr>
+
+				<td colspan="2" style="background:#EAEEF4;text-align:left;padding:5px 10px;">订单信息</th>
+
+			</tr>
+
+			<tr>
+
+				<td colspan="2" class="orderbox">
+
+					
+
+				</td>
+
+			</tr>
+
+		</table>
+
+	</div>
+
+	<div class="mt10">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="id" type="hidden" value="0" /><input type="submit" value="确认订单" class="btn btn_submit"></div>
+
+	<div class="mt10">&nbsp;</div>
+
+</div>
+
+<input type="hidden" name="menuid"  value="{$menuid}"/>
+
+</form>
+
+<include file="public:footer" />
+
+<script src="__STATIC__/js/fileuploader.js"></script>
+
+<script src="__STATIC__/js/inktalk.template.js"></script>
+
+<script type="text/html" id="orderInfoBox">
+
+	<div class="content_list pad_10">
+
+		<table width="100%" class="table_list">
+
+			<tr>
+
+				<th width="100">收货地址：</th>
+
+				<td colspan="3">[[data.addr_name]]&nbsp;[[data.addr_tele]]&nbsp;[[data.addr_province]]&nbsp;[[data.addr_city]]&nbsp;[[data.addr_area]]&nbsp;[[data.addr_address]]</td>
+
+			</tr>
+
+			<tr>
+
+				<th width="100" class="bob">买家留言：</th>
+
+				<td class="bob" colspan="3">[[data.remark]]</td>
+
+			</tr>
+
+			<tr>
+
+				<th colspan="4" style="background:#EAEEF4;text-align:left;padding:5px 10px;">买家信息</th>
+
+			</tr>
+
+			<tr >
+
+				<th>&nbsp;</th>
+
+				<td width="120">昵称：[[data.uname]]</td>
+
+				<td width="120">真实姓名：<if condition="$info[addr_show] eq 0">[[data.addr_name]]<else />匿名</if></td>
+
+				<td width="120">城市：[[data.addr_province]]&nbsp;[[data.addr_city]]</td>
+
+			</tr>
+
+			<tr>
+
+				<th class="bob">&nbsp;</th>
+
+				<td width="120" class="bob">联系电话：[[data.addr_tele]]</td>
+
+				<td width="120" class="bob"></td>
+
+				<td width="120" class="bob"></td>
+
+			</tr>
+
+			<tr>
+
+				<th colspan="4" style="background:#EAEEF4;text-align:left;padding:5px 10px;">订单信息 :</th>
+
+			</tr>
+
+			<tr>
+
+				<th class="bob">&nbsp;</th>
+
+				<td width="120" class="bob">订单编号：[[data.orderid]]</td>
+
+				<td width="120" class="bob">支付流水号：[[data.pays_sn]]</td>
+
+				<td width="120" class="bob">成交时间：[[data.over_time]]</td>
+
+			</tr>
+
+			<tr>
+
+				<th class="bob">&nbsp;</th>
+
+				<td width="120" class="bob">发货时间：[[data.express_time]]</td>
+
+				<td width="120" class="bob">确认时间：[[data.check_time]]</td>
+
+				<td width="120" class="bob">&nbsp;</td>
+
+			</tr>
+
+		</table>
+
+		<table width="100%" class="table_list">
+
+			<tr>
+
+				<th>宝贝</th>
+
+				<th>状态</th>
+
+				<th>单价</th>
+
+				<th>数量</th>
+
+				<th>总价</th>
+
+			</tr>
+
+			[[each data.goodslist as item i]]
+
+			<tr>
+
+				<td>[[item.title]]</td>
+
+				<td align="center">[[item.status | orderStatus]]</td>
+
+				<td align="center">[[item.price]]</td>
+
+				<td align="center">[[item.num]]</td>
+
+				<td align="center">[[item.subtotal]]</td>
+
+			</tr>
+
+			[[/each]]
+
+		</table>
+
+	</div>
+
+</script>
+
+<script>
+
+var check_url = "{:U('user/ajax_check_order')}";
+
+$(function(){
+
+	$('#info_form').ajaxForm({success:complate,dataType:'json'});
+
+	function complate(result){
+		if(result.status == 1){
+
+			//$.dialog.get(result.dialog).close();
+
+			$.pinphp.tip({content:result.msg});
+
+			window.location.reload();
+
+		} else {
+
+			$.pinphp.tip({content:result.msg, icon:'alert'});
+
+		}
+
+	}
+
+});
+
+function searchOrder(){
+
+	var orderid = $('input[name="orderid"]').val()
+
+	if(orderid.length<8){
+
+		alert('订单编号错误');
+
+		return false;
+
+	}
+
+	var url = '{:u("order/search_order_info")}';
+
+	$.ajax({
+
+		url: url,
+
+		type:'POST',
+
+		data: {orderid:orderid},
+
+		dataType:'json',
+
+		success: function(data){
+
+			if(data.status==0 || data=='' || data==null){
+
+				$('.orderbox').html('');
+
+				alert('订单编号错误');
+
+				return;
+
+			}else{
+
+				var infoData = template('orderInfoBox', data);
+
+				$('.orderbox').html(infoData);
+
+				$('input[name="id"]').val(data.data.id);
+
+			}
+
+		}
+
+	});
+
+}
+
+//模版渲染订单状态
+
+template.helper('orderStatus', function (s) {
+
+	var i,status = new Array();
+
+	status[0] = '未付款';
+
+	status[1] = '已付款';
+
+	status[2] = '已发货';
+
+	status[4] = '已确认';
+
+	status[5] = '关闭';
+
+	status[6] = '成功';
+
+	i = parseInt(s);
+
+	return status[i];
+
+});
+
+</script>

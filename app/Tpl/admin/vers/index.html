@@ -1,0 +1,47 @@
+<include file="public:header" />
+<!--会员列表-->
+<div class="pad_10">
+   
+    <div class="J_tablelist table_list" data-acturi="{:U('top/ajax_edit')}">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th width=25><input type="checkbox" id="checkall_t" class="J_checkall"></th>
+                <th width="20"><span data-tdtype="order_by" data-field="id">ID</span></th>
+                <th width="150" align="center">链接</th>
+                <th width="150" align="center">版本号</th>
+                <th width="150" align="center">标题</th>
+                <th width="150" align="center">内容</th>
+                <th width="150" align="center"><span data-tdtype="order_by" data-field="add_time">时间</span></th>
+                <th width="80">{:L('operations_manage')}</th>
+            </tr>
+        </thead>
+    	<tbody>
+            <volist name="list" id="val" >
+            <tr>
+                <td align="center"><input type="checkbox" class="J_checkitem" value="{$val.id}"></td>
+                <td align="center">{$val.id}</td>
+                <td align="center">{$val.url}</td>
+				<td align="left">{$val.vers}</td>
+             	<td align="left">{$val.name}</td>
+             	<td align="left">{$val.remark}</td>
+             	<td align="center">{$val.add_time}</td>
+                <td align="center">
+                <a href="javascript:;" class="J_showdialog" data-uri="{:u('vers/edit', array('id'=>$val['id'], 'menuid'=>$menuid))}" data-title="编辑-{$val.name}" data-id="edit" data-width="520" data-height="330">编辑</a> | <a href="javascript:void(0);" class="J_confirmurl" data-uri="{:u('vers/delete', array('id'=>$val['id']))}" data-acttype="ajax" data-msg="{:sprintf(L('confirm_delete_one'),$val['name'])}">{:L('delete')}</a></td>
+            </tr>
+            </volist>
+    	</tbody>
+    </table>
+    <div class="btn_wrap_fixed">
+        <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('vers/delete',array('id'=>$r['id']))}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />
+        <div id="pages">{$page}</div>
+    </div>
+
+    </div>
+</div>
+<include file="public:footer" />
+</body>
+</html>
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+

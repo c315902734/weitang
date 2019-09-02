@@ -1,0 +1,35 @@
+<script src="__STATIC__/js/jquery/jquery.js"></script>
+
+<script src="__STATIC__/js/jquery-ui/ui/jquery-ui.js"></script>
+<load href="__STATIC__/js/jquery-ui/themes/blue/jquery.ui.all.css"/>
+<script src="__STATIC__/js/jquery-ui/extend/datepicker/jquery-ui-sliderAccess.js"></script>
+<load href="__STATIC__/js/jquery-ui/extend/datepicker/jquery-ui-timepicker-addon.css"/>
+<script src="__STATIC__/js/jquery-ui/extend/datepicker/jquery-ui-timepicker-addon.js"></script>
+<script src="__STATIC__/js/jquery-ui/ui/i18n/jquery.ui.datepicker-zh-CN.js"></script>
+
+<script src="__STATIC__/js/jquery/plugins/jquery.tools.min.js"></script>
+<script src="__STATIC__/js/jquery/plugins/formvalidator.js"></script>
+<script src="__STATIC__/js/common.js"></script>
+<script src="__STATIC__/js/pinphp.js"></script>
+<script src="__STATIC__/js/admin.js"></script>
+<script>
+	//初始化JS使用到的系统常量
+	var PINER = {
+        STATIC: "__STATIC__",
+    };
+//初始化弹窗
+(function (d) {
+    d['okValue'] = lang.dialog_ok;
+    d['cancelValue'] = lang.dialog_cancel;
+    d['title'] = lang.dialog_title;
+})($.dialog.defaults);
+</script>
+
+<present name="list_table">
+<script src="__STATIC__/js/jquery/plugins/listTable.js"></script>
+<script>
+$(function(){
+	$('.J_tablelist').listTable();
+});
+</script>
+</present>

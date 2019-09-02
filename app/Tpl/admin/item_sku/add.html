@@ -1,0 +1,58 @@
+<!--添加品牌-->
+<include file="public:header" />
+<div class="dialog_content pad_lr_10">
+	<form id="info_form" action="{:u('item_sku/add')}" method="post">
+	<div class="col_tab">
+		<div class="content_list">
+			<table width="100%" cellpadding="2" cellspacing="1" class="table_form" id="first_upload_file">
+				<tr>
+					<th width="150">所属品种 :</th>
+					<td>
+						<select class="J_cate_select mr10" data-pid="0" data-uri="{:U('item_cate/ajax_getchild', array('type'=>0))}" data-selected="{$search.selected_ids}"></select>
+                    	<input type="hidden" name="cate_id" id="J_cate_id" value=""/>
+					</td>
+				</tr>
+				<tbody class="uplode_file">
+					<tr class="tr_con">
+						<th>
+							<a href="javascript:void(0);" class="blue" onclick="add_tr();"><img src="__STATIC__/css/admin/bgimg/tv-expandable.gif" /></a>规格属性 :
+						</th>
+						<td>
+							<input type="text" class="input-text" name="name[]" placeholder="名称" size="10" />
+							<input type="text" class="input-text" name="nums[]" placeholder="数量" size="10" />
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="mt10"><input type="submit" value="{:L('submit')}" class="btn btn_submit"></div>
+	<input type="hidden" name="menuid"  value="{$menuid}"/>
+	</form>
+</div>
+<include file="public:footer" />
+<script type="text/javascript">
+function add_tr()
+{
+	$("#next_upload_file .uplode_file").clone().insertAfter($("#first_upload_file .uplode_file:last"));
+}
+function del_file_box(obj)
+{
+	$(obj).parent().parent().remove();
+}
+
+$(function(){
+	$('.J_cate_select').cate_select({field:'J_cate_id'});
+});
+</script>
+<table id="next_upload_file" style="display:none;">
+<tbody class="uplode_file">
+   <tr>
+      <th width="150"><a href="javascript:void(0);" onclick="del_file_box(this);" class="blue"><img src="__STATIC__/css/admin/bgimg/tv-collapsable.gif" /></a>规格属性 :</th>
+      <td>
+      		<input type="text" class="input-text" name="name[]" placeholder="名称" size="10" />
+			<input type="text" class="input-text" name="nums[]" placeholder="数量" size="10" />
+      </td>
+   </tr>
+</tbody>
+</table>

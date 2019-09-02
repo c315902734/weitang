@@ -1,0 +1,37 @@
+<include file="public:header"/>
+<style type="text/css">
+	body{background-color:#fff !important;}
+</style>
+	<div class="container">
+		<div class="row filter">
+			<div class="col-xs-12 title">
+				价格区间
+			</div>
+			<form method="get" action="{:U('item/lists')}">
+				<div class="col-xs-12 form">
+					<div class="input-box"><input type="text" name="sprice" placeholder="起始价格" value="{$_GET['sprice']}"></div>
+					<div class="symbol"></div>
+					<div class="input-box"><input type="text" name="eprice" placeholder="起始价格" value="{$_GET['eprice']}"></div>
+				</div>
+				<div class="col-xs-12 title">
+					系统推荐
+				</div>
+				<div class="col-xs-12 form">
+					<div class="made">
+						<a href="javascript:;" class="js-change-price all"><span <if condition="$_GET['sprice'] == '' && $_GET['eprice'] == ''">class="ac"</if>>全部</span></a>
+						<a href="javascript:;" class="js-change-price" data-sprice="0" data-eprice="99"><span <if condition="$_GET['sprice'] == '0' && $_GET['eprice'] == '99'">class="ac"</if>>0-99</span></a>
+						<a href="javascript:;" class="js-change-price" data-sprice="99" data-eprice="199"><span <if condition="$_GET['sprice'] == '99' && $_GET['eprice'] == '199'">class="ac"</if>>99-199</span></a>
+						<a href="javascript:;" class="js-change-price" data-sprice="199" data-eprice="299"><span <if condition="$_GET['sprice'] == '199' && $_GET['eprice'] == '299'">class="ac"</if>>199-299</span></a>
+						<a href="javascript:;" class="js-change-price" data-sprice="299" data-eprice="399"><span <if condition="$_GET['sprice'] == '299' && $_GET['eprice'] == '399'">class="ac"</if>>299-399</span></a>
+					</div>
+				</div>
+				<div class="col-xs-12 btn-box pf b0 l0 r0">
+					<input type="button" value="重置" class="reset js-change-price">
+					<input type="submit" value="确定" class="submit">
+					<input type="hidden" name="m" value="item">
+					<input type="hidden" name="a" value="lists">
+				</div>
+			</form>
+		</div>
+	</div>
+<include file="public:footer"/>

@@ -1,0 +1,26 @@
+<div class="dialog_content">
+	<form id="info_form" name="info_form" action="{:u('item/add_tags')}" method="post">
+    <table width="100%" class="table_form">
+		<tr>
+          <th width="80">标签 :</th>
+          <td>
+			<textarea name="tags" rows="5" cols="30">{$info.tags}</textarea><br>多个以空格" "隔开
+		  </td>
+        </tr>
+    </table>
+	<input type="hidden" name="menuid" value="{$menuid}" />
+	<input type="hidden" name="id" value="{$info.id}" />
+    </form>
+</div>
+<script type="text/javascript">
+$('#info_form').ajaxForm({success:complate, dataType:'json'});
+function complate(result){
+	if(result.status == 1){
+		$.dialog.get(result.dialog).close();
+		$.pinphp.tip({content:result.msg});
+		window.location.reload();
+	} else {
+		$.pinphp.tip({content:result.msg, icon:'alert'});
+	}
+}
+</script>

@@ -1,0 +1,37 @@
+<include file="public:header"/>
+<div class="container simple-list">
+	<div class="row global-top">
+        <div class="col-xs-2">
+            <a href="{:U('mall/user/index')}" class="return"></a>
+        </div>
+        <div class="col-xs-8">
+            <div class="text">其它设置</div>
+        </div>
+        <div class="col-xs-2">
+        </div>
+    </div>
+    <div class="row bgwhite mt50">
+        <a href="{:U(MODULE_NAME.'/profile')}" class="col-xs-12 title pl10 pr10">
+            <span>用户信息</span>
+            <span class="arrow mt3"></span>
+            <if condition="!$profile_status"><span class="fr mr5 fs-12 red">未设置！</span></if>
+        </a>
+        <a href="{:U(MODULE_NAME.'/edit_password')}" class="col-xs-12 title pl10 pr10">
+            <span>修改密码</span>
+            <span class="arrow mt3"></span>
+        </a>
+        <a href="{:U(MODULE_NAME.'/feedback')}" class="col-xs-12 title pl10 pr10">
+            <span>意见反馈</span>
+            <span class="arrow"></span>
+        </a>
+        <a href="{:U(MODULE_NAME.'/aboutus')}" class="col-xs-12 title pl10 pr10">
+            <span>关于我们</span>
+            <span class="arrow"></span>
+        </a>
+        <div class="col-xs-12 title pl10 pr10">
+            <span>当前版本</span>
+            <span class="fr fs-12 grey">V1.0.1</span>
+        </div>
+    </div>
+</div>
+<include file="public:footer"/>

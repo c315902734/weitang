@@ -1,0 +1,79 @@
+<form id="info_form" name="info_form" action="{:U('user/relationship_edit')}" method="post">
+	<table width="100%" class="table_form">  
+		<if condition="!$user[invite_uid]">
+		<tr><td align="center" colspan="2">未绑定推荐人</td></tr> 
+		<else/>
+		<tr>
+			<th width="100">推荐人名称 :</th>
+			<td>
+				{$invite_user.username}(ID:{$user.invite_uid})
+			</td>
+		</tr> 
+		<tr>
+			<th>推荐人手机 :</th>
+			<td>
+				{$invite_user.tele}
+			</td>
+		</tr>
+		<tr>
+			<th>推荐人团队 :</th>
+			<td>
+				{$invite_user.topkey}
+			</td>
+		</tr>
+		</if>
+		<tr>
+			<th>修改推荐人 :</th>
+			<td>
+				<input type="text" name="keyword" class="input-text fl mr10"><div class="J_usersearch upload_btn"><span>搜索</span></div>
+				<p style="clear:both;color:#959595;">请输入用户名或手机号搜索推荐人<br>搜索结果会在下面显示,选择后提交即可修改.</p>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" class="userlist"></td>
+		</tr>
+	</table>
+	<input name="id" type="hidden" value="{$id}"  />
+</form>
+<script type="text/javascript">
+$(function(){
+	$('#info_form').ajaxForm({success:complate,dataType:'json'});
+    function complate(result){
+        if(result.status == 1){
+            $.dialog.get(result.dialog).close();
+            $.pinphp.tip({content:result.msg});
+            window.location.reload();
+        } else {
+            $.pinphp.tip({content:result.msg, icon:'alert'});
+        }
+    }
+	
+	$('.J_usersearch').live('click',function(){
+		searchUser();
+	});
+});
+
+function searchUser(){
+	var keyword=$('input[name="keyword"]').val();
+	if(keyword == ''){
+		return false;
+	}
+	$.ajax({
+		url: '{:u("user/searchuser")}',
+		type:'POST',
+		dataType:'json',
+		data: {keyword:keyword},
+		success: function(result){
+			var html='';
+			if(result.data.list == null){
+				$('.userlist').html('没有数据');
+			}else{
+				for(var i=0;i<result.data.list.length;i++){
+					html +='<label class="fl mr10"><input type="radio" name="user_id" value="'+result.data.list[i].id+'">'+result.data.list[i].username+'</label>&nbsp;&nbsp;';
+				}
+				$('.userlist').html(html);
+			}
+		}
+	});
+}
+</script>

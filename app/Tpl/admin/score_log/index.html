@@ -1,0 +1,105 @@
+<include file="public:header" />
+<div class="pad_lr_10" >
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+            <tr>
+                <td>
+                <div class="explain_col">
+                    <input type="hidden" name="g" value="admin" />
+                    <input type="hidden" name="m" value="score_log" />
+                    <input type="hidden" name="a" value="index" />
+                    <input type="hidden" name="menuid" value="{$menuid}" />
+					&nbsp;会员ID :
+                    <input name="uid" type="text" class="input-text" size="10" value="{$search.uid}" />
+                    &nbsp;会员帐号 :
+                    <input name="keyword" type="text" class="input-text" size="20" value="{$search.keyword}" />
+                      时间 :
+                    <input type="text" name="time_start" id="J_time_start" class="date" size="12" value="{$search.time_start}">
+                    -
+                    <input type="text" name="time_end" id="J_time_end" class="date" size="12" value="{$search.time_end}">
+                    操作类型 :
+                	<select name="action">
+                		<option value="">请选择</option>
+                     	<option value="login" <if condition="$search.action eq 'login'">selected="selected"</if>>登陆</option>
+                     	<option value="register" <if condition="$search.action eq 'register'">selected="selected"</if>>注册</option>
+                        <option value="consume" <if condition="$search.action eq 'consume'">selected="selected"</if>>消费</option>
+                        <option value="pubcmt" <if condition="$search.action eq 'pubcmt'">selected="selected"</if>>发布评论</option>
+                        <option value="orderreturn" <if condition="$search.action eq 'orderreturn'">selected="selected"</if>>订单返还</option>
+                        <option value="handle" <if condition="$search.action eq 'handle'">selected="selected"</if>>手动操作</option>
+                	    <option value="order" <if condition="$search.action eq 'order'">selected="selected"</if>>订单消费</option>
+                	</select>
+                    &nbsp;操作者 :
+                    <input name="admin_uname" type="text" class="input-text" size="20" value="{$search.admin_uname}" />
+                    <input type="submit" name="search" class="btn" value="搜索" />
+                </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+
+    <div class="J_tablelist table_list" data-acturi="{:U('score_log/ajax_edit')}">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+            <th width=25><input type="checkbox" id="checkall_t" class="J_checkall"></th>
+                <th width="40"><span data-tdtype="order_by" data-field="id">ID</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="uid">会员帐号</span></th>
+				<th align="left" width="120">操作</th>
+                <th width="100">积分</th>
+                <th align="left" width="120">操作者</th>
+                <th align="left" width="180">备注</th>
+				<th width="120">操作时间</th>
+            </tr>
+        </thead>
+    	<tbody>
+            <volist name="list" id="val" >
+            <tr>
+            	<td align="center"><input type="checkbox" class="J_checkitem" value="{$val.id}"></td>
+                <td align="center">{$val.id}</td>
+                <td>{$val.user.username}</td>
+				<td>
+                    <if condition="$val.action eq 'login'">登陆</if>
+                    <if condition="$val.action eq 'register'">注册</if>
+                    <if condition="$val.action eq 'pubcmt'">发布评论</if>
+					<if condition="$val.action eq 'consume'">消费</if>
+					<if condition="$val.action eq 'orderreturn'">订单返还</if>
+                    <if condition="$val.action eq 'handle'">手动操作</if>
+				    <if condition="$val.action eq 'order'">订单消费</if>
+				</td>
+                <td align="center"><if condition="$val['score'] gt 0"><label class="green">+{$val.score}</label><else /><label class="red">{$val.score}</label></if></td>
+               	<td><if condition="$val['admin_uname']">{$val.admin_uname}<else />系统</if></td>
+                <td>{$val.remark}</if></td>
+				<td align="center"> {$val.add_time}</td>
+            </tr>
+            </volist>
+    	</tbody>
+    </table>
+    <div class="btn_wrap_fixed">
+        <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('score_log/delete',array('id'=>$r['id']))}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />
+        <div id="pages">{$page}</div>
+    </div>
+
+    </div>
+</div>
+<include file="public:footer" />
+</body>
+</html>
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script src="__STATIC__/js/calendar/calendar.js"></script>
+<script>
+Calendar.setup({
+	inputField : "J_time_start",
+	ifFormat   : "%Y-%m-%d",
+	showsTime  : false,
+	timeFormat : "24"
+});
+Calendar.setup({
+	inputField : "J_time_end",
+	ifFormat   : "%Y-%m-%d",
+	showsTime  : false,
+	timeFormat : "24"
+});
+</script>

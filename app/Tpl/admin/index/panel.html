@@ -1,0 +1,150 @@
+<include file="public:header" />
+<div class="pad_10">
+	<notempty name="message">
+	<ul id="message_list">
+    	<volist name="message" id="val">
+    	<li class="list_{$val.type}">{$val.content}</li>
+        </volist>
+    </ul>
+    </notempty>
+
+	<div class="clearfix">
+        <div class="col-2">
+            <h6>微糖升级商城</h6>
+            <div class="content">
+                <div style="width:100%;height:100px;">欢迎访问微糖升级商城管理后台</div>
+            </div>
+        </div>
+		<div class="col-2 mt10">
+            <h6>资金汇总</h6>
+            <div class="content">
+                <table class="table_panel lh26" style="width: 100%;">
+                    <tr>
+                        <td>今日冲值：￥{$recharge.total_day}元</td>
+                        <td width="10%"></td>
+                        <td>本月冲值：￥{$recharge.total_month}元</td>
+                        <td width="10%"></td>
+                        <td>冲值总额：￥{$recharge.total}元</td>
+                        <td width="10%"></td>
+                    </tr>
+					<tr>
+                        <td>今日提现：￥{$cash.total_day}元</td>
+                        <td width="10%"></td>
+                        <td>本月提现：￥{$cash.total_month}元</td>
+                        <td width="10%"></td>
+                        <td>提现总额：￥{$cash.total}元</td>
+                        <td width="10%"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>  
+		<div class="col-2 mt10">
+            <h6>订单信息汇总</h6>
+            <div class="content">
+                <table class="table_panel lh26" style="width: 100%;">
+
+                    <tr>
+                        <td>今日统计：</td>
+                       <!--<td><a href="{:U('order/index', array('status'=>0, 'suse_time'=>$suse_time,'euse_time'=>$euse_time))}">未付款订单（{$order.status_0_day}）</a></td>-->
+                        <!--<td><a href="{:U('order/index', array('status'=>1, 'suse_time'=>$suse_time,'euse_time'=>$euse_time))}">已付款订单（{$order.status_1_day}）</a></td>-->
+                        <!--<td>订单金额（￥{$order.total_day}元）</td>-->
+                        <!--<td>订单总数（{$order.number_day}）</td>-->
+                        <td>升级订单金额（{$order.up_total_day}）</td>
+                        <td>升级订单总数（{$order.up_number_day}）</td>
+                    </tr>
+                    <tr>
+                        <td>历史统计汇总：</td>
+                        <!--<td><a href="{:U('order/index', array('status'=>9))}">取消订单（{$order.status_9}）</a></td>-->
+                        <!--<td><a href="{:U('order/index', array('status'=>12))}">已成交订单（{$order.status_5}）</a></td>-->
+                        <!--<td>订单总额（￥{$order.total}元）</td>-->
+                        <!--<td>订单总数（{$order.number}）</td>-->
+                        <td>升级订单总额（￥{$order.up_total}元）</td>
+                        <td>升级订单总数（{$order.up_number}）</td>
+                    </tr>
+                </table>
+            </div>
+        </div> 
+		<div class="col-2 mt10">
+            <h6>产品信息汇总</h6>
+            <div class="content">
+                <table class="table_panel lh26" style="width: 100%;">
+                    <tr>
+                        <td width="10%">产品审核：</td>
+                        <td><a href="{:U('item/index', array('status'=>0))}">未审核（{$item.status_0}）</a></td>
+                        <td><a href="{:U('item/index', array('status'=>1))}">已审核（{$item.status_1}）</a></td>
+                        <td>商品总数（{$item.number}）</td>
+                    </tr>
+                </table>
+            </div>
+        </div>  
+
+        <div class="col-2 mt10">
+            <h6>系统信息</h6>
+            <div class="content">
+                <table class="table_panel lh26" style="width: 100%;">
+                    <tr>
+                        <td width="20%">微糖版本：</td>
+                        <td width="30%">V1.0</td>
+                        <td width="20%">{:L('server_domain')}：</td>
+                        <td width="30%">{$system_info.server_domain}</td>
+                    </tr>
+                    <tr>
+                        <td>{:L('server_os')}：</td>
+                        <td>{$system_info.server_os}</td>
+                        <td>{:L('web_server')}：</td>
+                        <td>{$system_info.web_server}</td>
+                    </tr>
+                    <tr>
+                        <td>{:L('php_version')}：</td>
+                        <td>{$system_info.php_version}</td>
+                        <td>{:L('mysql_version')}：</td>
+                        <td>{$system_info.mysql_version}</td>
+                    </tr>
+                    <tr>
+                        <td>{:L('upload_max_filesize')}：</td>
+                        <td>{$system_info.upload_max_filesize}</td>
+                        <td>{:L('max_execution_time')}：</td>
+                        <td>{$system_info.max_execution_time}</td>
+                    </tr>
+                    <tr>
+                        <td>{:L('safe_mode')}：</td>
+                        <td>{$system_info.safe_mode}</td>
+                        <td>{:L('zlib')}：</td>
+                        <td>{$system_info.zlib}</td>
+                    </tr>
+                    <tr>
+                        <td>{:L('curl')}：</td>
+                        <td>{$system_info.curl}</td>
+                        <td>{:L('timezone')}：</td>
+                        <td>{$system_info.timezone}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>   
+                 
+        <!--<div class="col-2 mt10">-->
+            <!--<h6>开发团队</h6>-->
+            <!--<div class="content">-->
+                <!--<table class="table_panel lh26" style="width: 100%;">-->
+                    <!--<tr>-->
+                        <!--<td width="10%">版权所有：</td>-->
+                        <!--<td>杭州云装网络技术有限公司</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td>项目经理：</td>-->
+                        <!--<td>卢佳</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td>技术支持：</td>-->
+                        <!--<td>杭州言商网络技术有限公司</td>-->
+                    <!--</tr>-->
+                <!--</table>-->
+            <!--</div>-->
+        </div>  
+		
+        
+
+    </div>
+</div>
+</body>
+</html>

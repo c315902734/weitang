@@ -1,0 +1,42 @@
+<include file="public:header"/>
+<style type="text/css">
+.lottery-bg{background:url('__ASSETS__/images/lottery_bg.jpg') center no-repeat;background-size:auto 100%;}
+b{font-family:'Microsoft JhengHei';color:#000;}
+.lottery{margin-top:70%;}
+.lottery a{display:block;width:80%;margin:0 auto;position:relative;cursor:pointer;}
+.lottery a i{display:block;width:100%;height:100%;position: absolute;background: rgba(0,0,0,.4);top:0;left:0;border-radius:50%;cursor:pointer;}
+.lottery a.lottery-btn{width:60%;margin-top:50px;}
+</style>
+<div class="container-fluid oh pf t0 l0 r0 b0 lottery-bg">
+	<div class="row">
+		<div class="col-xs-12 tc mt40">
+			<img src="__ASSETS__/images/lottery.png" width="90%">
+		</div>
+    </div>
+</div>
+
+<div class="container lottery">
+	<div class="row">
+		<div class="col-xs-12 tc">
+			<b class="fs-16">请参考公布号码，选择下方的鸡或藕图标。</b>
+		</div>
+    </div>
+	<div class="row mt30">
+		<div class="col-xs-6">
+			<a href="javascript:;" class="J_lottery_item" data-type="odd" data-id="{$id}" data-mid="{$order_item_id}">
+				<img src="__ASSETS__/images/odd.png" width="100%">
+				<i></i>
+			</a>
+		</div>
+		<div class="col-xs-6">
+			<a href="javascript:;" class="J_lottery_item" data-type="even" data-id="{$id}" data-mid="{$order_item_id}">
+				<img src="__ASSETS__/images/even.png" width="100%">
+				<i></i>
+			</a>
+		</div>
+		<div class="col-xs-12">
+			<a href="javascript:;" class="lottery-btn J_lottery_btn"><img src="__ASSETS__/images/lottery-btn-bg.png" width="100%"></a>
+		</div>
+    </div>
+</div>
+<include file="public:footer"/>

@@ -1,0 +1,29 @@
+<include file="public:header"/>
+<div class='container-fluid mb60 mt-44'>
+    <div class="row global-top">
+        <div class="col-xs-2">
+            <a class="return" href="Javascript:history.go(-1)"></a>
+        </div>
+        <div class="col-xs-8">
+            <div class="text">意见反馈</div>
+        </div>
+        <div class="col-xs-2"></div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <form method="post" action="{:U(MODULE_NAME.'/feedback')}">
+			<textarea
+                    style="width:95%;display:block;margin:60px auto 15px;height:120px;border:1px solid #ddd;border-radius:5px;"
+                    name="info"
+                    placeholder="请输入反馈内容"
+                    data-rule-required="true"></textarea>
+                <div class="global-submit-bot1">
+                    <input type="submit" value="确定" class="btnok"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<include file="public:footer"/>
+
+

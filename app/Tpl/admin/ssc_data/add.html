@@ -1,0 +1,35 @@
+<div class="dialog_content">
+	<form id="info_form" name="info_form" action="{:U('ssc_data/add')}" method="post">
+    <table width="100%" class="table_form">
+    	<tr>
+			<th width="100">开奖期号 :</th>
+				<td><input type="text" name="expect" id="expect" class="input-text" size="25"></td>
+			</td>
+        </tr>
+        <tr>
+          <th>开奖号码 :</th>
+          <td><input type="text" name="opencode" id="opencode" class="input-text" size="25"></td>
+        </tr>
+        <tr>
+          <th>开奖时间 :</th>
+          <td><input type="text" name="opentime" id="opentime" class="input-text date J_date_picker"></td>
+        </tr>
+    </table>
+	<input type="hidden" name="menuid" value="{$menuid}" />
+    </form>
+</div>
+<script src="__STATIC__/js/fileuploader.js"></script>
+<script type="text/javascript">
+
+
+$('#info_form').ajaxForm({success:complete, dataType:'json'});
+function complete(result){
+	if(result.status == 1){
+		$.dialog.get(result.dialog).close();
+		$.pinphp.tip({content:result.msg});
+		window.location.reload();
+	} else {
+		$.pinphp.tip({content:result.msg, icon:'alert'});
+	}
+}
+</script>

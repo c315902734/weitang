@@ -1,0 +1,61 @@
+<include file="public:header" />
+<!--添加会员-->
+<div class="pad_10">
+<div class="dialog_content">
+	<form id="info_form" action="{:u('coin_apply/edit')}" method="post">
+	<table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+		<tr>
+			<th width="100">申请会员 :</th>
+			<td>
+				【{$info.uid}】{$info.uname}
+            </td>
+		</tr>
+		<tr>
+			<th>扣出数量 :</th>
+			<td>
+				{$info.coin}
+			</td>
+		</tr>
+		<tr>
+			<th>提现数量 :</th>
+			<td>
+				{$info.price}
+			</td>
+		</tr>
+		<tr>
+			<th>申请时间 :</th>
+			<td>
+				{$info.add_time}
+			<td>
+		</tr>
+		<tr>
+			<th>备注说明 :</th>
+			<td>
+				<if condition="$info['status'] eq 0">
+					<textarea name="remark">{$info.remark}</textarea>
+				<else />
+					{$info.remark}
+				</if>
+			<td>
+		</tr>
+        <tr>
+			<th>审核状态 :</th>
+			<td>
+				<if condition="$info['status'] eq 0">
+				<label><input type="radio" name="status" value="0" <if condition="$info['status'] eq 0">checked</if> > 未处理</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<label><input type="radio" name="status" value="1" <if condition="$info['status'] eq 1">checked</if>> 已处理</label>
+				<else />
+				已处理
+				</if>
+			<td>
+		</tr>
+	</table>
+	<input type="hidden" name="id" value="{$info.id}" />
+	<input type="hidden" name="menuid" value="{$menuid}" />
+	<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	</form>
+</div>
+</div>
+<include file="public:footer" />
+</body>
+</html>

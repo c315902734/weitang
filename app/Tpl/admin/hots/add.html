@@ -1,0 +1,46 @@
+<div class="dialog_content">
+	<form id="info_form" name="info_form" action="{:u('hots/add')}" method="post">
+    <table width="100%" class="table_form">
+    	
+        <tr>
+          <th>搜索词 :</th>
+          <td><input type="text" name="name" id="name" class="input-text"></td>
+        </tr>
+        <tr>
+            <th>次数 :</th>
+            <td><input type="text" name="hits" id="hits" class="input-text"></td>
+        </tr>
+        <tr>
+          <th>添加时间 :</th>
+          <td><input type="text" name="add_time" id="add_time" class="date J_date_picker"></td>
+        </tr>
+        <tr>
+          <th>最后时间 :</th>
+          <td><input type="text" name="last_time" id="last_time" class="date J_date_picker"></td>
+        </tr>
+    </table>
+	<input type="hidden" name="menuid" value="{$menuid}" />
+    </form>
+</div>
+
+<script type="text/javascript">
+
+$(function(){
+	if( typeof create_datepicker === 'function' ){
+		create_datepicker();
+	}else{
+		//不存在或不是function
+	}
+});
+
+$('#info_form').ajaxForm({success:complate, dataType:'json'});
+function complate(result){
+	if(result.status == 1){
+		$.dialog.get(result.dialog).close();
+		$.pinphp.tip({content:result.msg});
+		window.location.reload();
+	} else {
+		$.pinphp.tip({content:result.msg, icon:'alert'});
+	}
+}
+</script>

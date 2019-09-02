@@ -1,0 +1,463 @@
+<include file="public:header" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script type="text/javascript" src="__STATIC__/js/calendar/calendar.js"></script>
+<!--添加商品-->
+<form id="info_form" action="{:U('item/add')}" method="post" enctype="multipart/form-data">
+<div class="pad_10">
+	<div class="col_tab">
+		<div style="height:27px">
+		<ul class="J_tabs tab_but cu_li" style=" float: left;">
+			<li class="current">基本信息</li>
+			<li>详细信息</li>
+			<li>商品主图</li>
+			<li>商品属性</li>
+			<li>商品规格</li>
+			<!-- <li>SEO设置</li> -->
+		</ul>
+		</div>
+		<div class="J_panes">
+			<div class="content_list pad_10">
+				<table width="70%" cellpadding="2" cellspacing="1" class="table_form">
+					<tr>
+						<th width="120">所属分类 :</th>
+						<td>
+							<select class="J_cate_select mr10" data-pid="0" data-uri="{:U('item_cate/ajax_getchild')}" data-selected="{$selected_cate_ids}"></select>
+							<input type="hidden" name="cate_id" id="J_cate_id" value="{$info.cate_id}"/>
+						</td>
+					</tr>
+					<tr>
+						<th width="120">所属品牌 :</th>
+						<td>
+							<select name="brand_id">
+								<option value="">-请选择-</option>
+								<volist name="brand_list" id="val">
+								<option value="{$val.id}" <if condition="$info['brand_id'] eq $val['id']">selected="selected"</if>>{$val.title}</option>
+								</volist>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th>商品名称 :</th>
+						<td>
+							<input type="text" id="J_title" name="title" class="input-text" size="40" value="{$info.title}"/>
+						</td>
+					</tr>
+					<tr>
+						<th>商品名称(升级后) :</th>
+						<td>
+							<input type="text" id="J_title_up" name="title_up" class="input-text" size="40" value="{$info.title_up}"/>
+						</td>
+					</tr>
+					<tr>
+						<th>商品图片 :</th>
+						<td>
+							<input type="text" name="img" id="J_img" class="input-text fl mr10" value="{$info.img}" size="30">
+							<div id="J_upload_img" class="upload_btn"><span>{:L('upload')}</span></div>
+							<notempty name="info['img']"><span class="attachment_icon J_attachment_icon" file-type="image" file-rel="{:attach($info['img'], 'assets')}"><img src="{:attach($info['img'], 'assets')}" width="30" /></span></notempty>
+						</td>
+					</tr>
+					<tr>
+						<th>商品图片(升级后) :</th>
+						<td>
+							<input type="text" name="img_up" id="J_img_up" class="input-text fl mr10" value="{$info.img_up}" size="30">
+							<div id="J_upload_img_up" class="upload_btn"><span>{:L('upload')}</span></div>
+							<notempty name="info['img_up']"><span class="attachment_icon J_attachment_icon" file-type="image" file-rel="{:attach($info['img_up'], 'assets')}"><img src="{:attach($info['img_up'], 'assets')}" width="30" /></span></notempty>
+						</td>
+					</tr>
+					<tr>
+						<th>商品编码 :</th>
+						<td>
+							<input type="text" id="sn" name="sn" class="input-text" size="40" value="{$info.sn}"/>
+						</td>
+					</tr>
+					<tr>
+						<th width="120">建议售价 :</th>
+						<td>
+							<input id="mprice" class="input-text" type="text" value="{$info.mprice}" size="15" name="mprice" disabled> 元
+						</td>
+					</tr>
+					<tr>
+						<th width="120">市场价格 :</th>
+						<td>
+							<input id="official_price" class="input-text" type="text" value="{$info.official_price}" size="15" name="official_price"> 元
+						</td>
+					</tr>
+					<tr>
+						<th width="120">销售价格 :</th>
+						<td>
+							<input id="price" class="input-text" type="text" value="{$info.price}" size="15" name="price"> 元
+						</td>
+					</tr>
+					<tr>
+						<th width="120">销售价格(升级后) :</th>
+						<td>
+							<input id="price_up" class="input-text" type="text" value="{$info.price_up}" size="15" name="price_up"> 元
+						</td>
+					</tr>
+					<!-- <tr>
+						<th width="120">成本价格 :</th>
+						<td>
+							<input id="cprice" class="input-text" type="text" value="{$info.cprice}" size="15" name="cprice"> 元
+						</td>
+					</tr> -->
+					<tr>
+						<th width="120">赠送积分 :</th>
+						<td>
+							<input class="input-text" type="text" value="{$info.score}" size="15" name="score">
+						</td>
+					</tr>
+					<tr>
+						<th> 库存量 / 已售 :</th>
+						<td>
+							<input type="text" id="stock" name="stock" class="input-text" size="5" value="{$info.stock}"/> / <input type="text" id="sales" name="sales" class="input-text" size="5" value="{$info.sales}"/>
+						</td>
+					</tr>
+					<tr>
+						<th width="120">商品重量 :</th>
+						<td>
+							<input id="weight" class="input-text" type="text" value="{$info.weight}" size="15" name="weight"> 千克
+						</td>
+					</tr>
+					<tr>
+						<th> 有效时间 :</th>
+						<td>
+							<input name="stime" type="text" class="J_date_picker date" size="15" value="{$info.stime}" placeholder="起始时间" />~
+							<input name="etime" type="text" class="J_date_picker date" size="15" value="{$info.etime}" placeholder="结束时间" />
+						</td>
+					</tr>
+					<tr>
+						<th width="120">温馨提示 :</th>
+						<td>
+							<textarea name="tips" style="width:435px; height: 75px;">{$info.tips}</textarea>
+						</td>
+					</tr>
+					<tr>
+						<th>是否新品 :</th>
+						<td>
+							<label><input type="radio" name="is_new" value="1" <if condition="$info.is_new eq 1">checked</if> > 是</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<label><input type="radio" name="is_new" value="0" <if condition="$info.is_new eq 0">checked</if>> 否</label>
+						</td>
+					</tr>
+					<tr>
+						<th>是否促销 :</th>
+						<td>
+							<label><input type="radio" name="is_hots" value="1" <if condition="$info.is_hots eq 1">checked</if> > 是</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<label><input type="radio" name="is_hots" value="0" <if condition="$info.is_hots eq 0">checked</if>> 否</label>
+						</td>
+					</tr>
+					<tr>
+						<th>是否上架 :</th>
+						<td>
+							<label><input type="radio" name="is_check" value="1" <if condition="$info.is_check eq 1">checked</if> > 是</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<label><input type="radio" name="is_check" value="0" <if condition="$info.is_check eq 0">checked</if>> 否</label>
+						</td>
+					</tr>
+					<tr>
+						<th>审核状态 :</th>
+						<td>
+							<label><input type="radio" name="status" value="1" <if condition="$info.status eq 1">checked</if> > 通过</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<label><input type="radio" name="status" value="0" <if condition="$info.status eq 0">checked</if>> 未通过</label>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div class="content_list pad_10">
+				<table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+					<tr>
+						<th>收藏数 :</th>
+						<td>
+							<input type="text" id="favs" name="favs" class="input-text" size="10" value="{$info.favs}"/>
+						</td>
+					</tr>
+					<tr>
+						<th>评论数 :</th>
+						<td>
+							<input type="text" id="comments" name="comments" class="input-text" size="10" value="{$info.comments}"/>
+						</td>
+					</tr>
+					<tr>
+						<th>点击数 :</th>
+						<td>
+							<input type="text" id="hits" name="hits" class="input-text" size="10" value="{$info.hits}"/>
+						</td>
+					</tr>
+					<tr>
+						<th>排序值 :</th>
+						<td>
+							<input type="text" id="ordid" name="ordid" class="input-text" size="10" value="{$info.ordid}"/>
+						</td>
+					</tr>
+					
+					<tr>
+						<th>商品描述 :</th>
+						<td>
+							<textarea name="info" id="info" style="width:700px;height:300px;" >{$info.info}</textarea>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div class="content_list pad_10 hidden">
+				<style>
+					.addpic {}
+					.addpic li { float:left; text-align:center; margin:0 0 10px 20px;}
+					.addpic a { display:block;}
+				</style>
+				<ul class="addpic">
+				<volist name="img_list" id="val">      
+				<li class="album_{$val['id']}">
+				<a href="javascript:void(0)" onclick="del_img({$val['id']});"><img src="__STATIC__/css/admin/bgimg/tv-collapsable.gif" /></a>
+				<a><img src="{:attach($val['img'], 'assets')}" style="width:80px;height:60px; border:solid 1px #000; "/></a>
+				</li>
+				</volist>
+				</ul>
+				<div class="cb"></div>
+				<table width="100%" cellpadding="2" cellspacing="1" class="table_form" id="first_upload_file">
+					<tbody class="uplode_file">
+					<tr>
+						<th width="120"><a href="javascript:void(0);" class="blue" onclick="add_file();"><img src="__STATIC__/css/admin/bgimg/tv-expandable.gif" /></a> 上传文件 :</th>
+						<td><input type="file" name="imgs[]"></td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="content_list pad_10 hidden">
+				<table width="100%" cellpadding="2" cellspacing="1" class="table_form" id="first_attr_file">
+					<tbody class="uplode_file">
+					<tr>
+						<th width="120"></th>
+						<td>
+							<span style="margin-right:58px;">属性名</span>
+							<span style="margin-right:80px;">属性值</span>
+						</td>
+					</tr>
+					</tbody>
+					<tbody class="uplode_file">
+					<tr>
+						<th width="120"><a href="javascript:void(0);" class="blue" onclick="add_attr();"><img src="__STATIC__/css/admin/bgimg/tv-expandable.gif" /></a> 属性 :</th>
+						<td>
+							<input type="text" name="attr_name[]" size="10" class="input-text mr10" />
+							<input type="text" name="attr_val[]" size="10" class="input-text mr10" />
+						</td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="content_list pad_10 hidden">
+				<table width="100%" cellpadding="2" cellspacing="1" class="table_form" id="first_sku_file">
+					<tbody class="uplode_file">
+					<tr>
+						<th width="120"></th>
+						<td>
+							<span style="margin-right:58px;">规格名</span>
+							<span style="margin-right:80px;">规格值</span>
+							<span style="margin-right:80px;">价格</span>
+							<span style="margin-right:80px;">库存</span>
+						</td>
+					</tr>
+					</tbody>
+					<tbody class="uplode_file">
+					<tr>
+						<th width="120"><!-- <a href="javascript:void(0);" class="blue" onclick="add_sku();"><img src="__STATIC__/css/admin/bgimg/tv-expandable.gif" /></a> --> 规格 :</th>
+						<td>
+							<input type="text" name="attr_name[]" size="10" class="input-text mr10" />
+							<input type="text" name="attr_val[]" size="10" class="input-text mr10" />
+							<input type="text" name="attr_price[]" size="10" class="input-text mr10" />
+							<input type="text" name="attr_stock[]" size="10" class="input-text mr10" />
+						</td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+			<!-- <div class="content_list pad_10">
+				<table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+					<tr width="120">
+						<th>{:L('seo_title')}</th>
+						<td><input type="text" name="seo_titile" id="seo_titile" value="{$info.seo_titile}" class="input-text" size="70"></td>
+					</tr>
+					<tr>
+						<th>{:L('seo_keys')}</th>
+						<td><input type="text" name="seo_keys" id="seo_keys" class="input-text"  value="{$info.seo_keys}" size="70"></td>
+					</tr>
+					<tr>
+						<th>{:L('seo_desc')}</th>
+						<td><textarea name="seo_desc" id="seo_desc" cols="70" rows="3">{$info.seo_desc}</textarea></td>
+					</tr>
+				</table>
+			</div> -->
+		</div>
+		
+		<div class="mt10"><input type="submit" value="{:L('submit')}" class="btn btn_submit"></div>
+	</div>
+</div>
+<input type="hidden" name="menuid"  value="{$menuid}"/>
+<input type="hidden" name="id"  value="{$info.id}"/>
+</form>
+<include file="public:footer" />
+<script src="__STATIC__/js/kindeditor/kindeditor.js"></script>
+<script src="__STATIC__/js/fileuploader.js"></script>
+<script type="text/javascript">
+function add_attr()
+{
+    $("#next_attr_file .uplode_file").clone().insertAfter($("#first_attr_file .uplode_file:last"));
+}
+function add_sku()
+{
+    $("#next_sku_file .uplode_file").clone().insertAfter($("#first_sku_file .uplode_file:last"));
+}
+$(function (){
+	$('.J_cate_select').cate_select({field:'J_cate_id'});
+	KindEditor.create('#info', {
+		uploadJson : '{:U("attachment/editer_upload")}',
+		fileManagerJson : '{:U("attachment/editer_manager")}',
+		allowFileManager : true
+	});
+	KindEditor.create('#app_info', {
+		uploadJson : '{:U("attachment/editer_upload")}',
+		fileManagerJson : '{:U("attachment/editer_manager")}',
+		allowFileManager : true
+	});
+	KindEditor.create('#services', {
+		uploadJson : '{:U("attachment/editer_upload")}',
+		fileManagerJson : '{:U("attachment/editer_manager")}',
+		allowFileManager : true
+	});
+	$('ul.J_tabs').tabs('div.J_panes > div');
+
+	//上传图片
+	var uploader = new qq.FileUploaderBasic({
+		allowedExtensions: ['jpg','gif','jpeg','png','bmp','pdg'],
+	    button: document.getElementById('J_upload_img'),
+	    multiple: false,
+	    action: "{:U('item/ajax_upload_img')}",
+	    inputName: 'img',
+	    forceMultipart: true, //用$_FILES
+	    messages: {
+	    	typeError: lang.upload_type_error,
+	    	sizeError: lang.upload_size_error,
+	    	minSizeError: lang.upload_minsize_error,
+	    	emptyError: lang.upload_empty_error,
+	    	noFilesError: lang.upload_nofile_error,
+	    	onLeave: lang.upload_onLeave
+	    },
+	    showMessage: function(message){
+	    	$.pinphp.tip({content:message, icon:'error'});
+	    },
+	    onSubmit: function(id, fileName){
+	    	$('#J_upload_img').addClass('btn_disabled').find('span').text(lang.uploading);
+	    },
+	    onComplete: function(id, fileName, result){
+	    	$('#J_upload_img').removeClass('btn_disabled').find('span').text(lang.upload);
+	        if(result.status){
+	    		$('#J_img').val(result.data);
+	    	} else {
+	    		$.pinphp.tip({content:result.msg, icon:'error'});
+	    	}
+	    }
+	});
+	
+	//上传图片_up
+	var uploader_up = new qq.FileUploaderBasic({
+		allowedExtensions: ['jpg','gif','jpeg','png','bmp','pdg'],
+	    button: document.getElementById('J_upload_img_up'),
+	    multiple: false,
+	    action: "{:U('item/ajax_upload_img')}",
+	    inputName: 'img',
+	    forceMultipart: true, //用$_FILES
+	    messages: {
+	    	typeError: lang.upload_type_error,
+	    	sizeError: lang.upload_size_error,
+	    	minSizeError: lang.upload_minsize_error,
+	    	emptyError: lang.upload_empty_error,
+	    	noFilesError: lang.upload_nofile_error,
+	    	onLeave: lang.upload_onLeave
+	    },
+	    showMessage: function(message){
+	    	$.pinphp.tip({content:message, icon:'error'});
+	    },
+	    onSubmit: function(id, fileName){
+	    	$('#J_upload_img_up').addClass('btn_disabled').find('span').text(lang.uploading);
+	    },
+	    onComplete: function(id, fileName, result){
+	    	$('#J_upload_img_up').removeClass('btn_disabled').find('span').text(lang.upload);
+	        if(result.status){
+	    		$('#J_img_up').val(result.data);
+	    	} else {
+	    		$.pinphp.tip({content:result.msg, icon:'error'});
+	    	}
+	    }
+	});
+
+	$('#tags_cate_list').find('input').click(function(){
+		var ids = '';
+		for(var i=0;i<$('#tags_cate_list').find('input:checked').length;i++){
+			if(i == 0){
+				ids += $('#tags_cate_list').find('input:checked').eq(i).val();
+			}else{
+				ids += ','+$('#tags_cate_list').find('input:checked').eq(i).val();
+			}
+		}
+		$.ajax({
+			url: '{:U("item/search_tags")}',
+			type:'POST',
+			dataType:'json',
+			data: {ids:ids},
+			success: function(result){
+				$('#tags_list').find('td').html(result.data);
+			}
+		});
+	});
+});
+
+function add_file()
+{
+    $("#next_upload_file .uplode_file").clone().insertAfter($("#first_upload_file .uplode_file:last"));
+}
+function del_file_box(obj)
+{
+	$(obj).parent().parent().remove();
+}
+function del_img(id)
+{
+	var url = "{:U('item/delete_img')}";
+	var albumdata = {
+	  "album_id":id
+	}
+    $.get(url, albumdata, function(data){
+		if(data==1){
+		    $('.album_'+id).remove();
+		};
+    });
+}
+</script>
+<table id="next_upload_file" style="display:none;">
+<tbody class="uplode_file">
+   <tr>
+      <th width="100"><a href="javascript:void(0);" onclick="del_file_box(this);" class="blue"><img src="__STATIC__/css/admin/bgimg/tv-collapsable.gif" /></a>上传文件 :</th>
+      <td><input type="file" name="imgs[]"></td>
+   </tr>
+</tbody>
+</table>
+<table id="next_attr_file" style="display:none;">
+<tbody class="uplode_file">
+   <tr>
+      <th width="100"><a href="javascript:void(0);" onclick="del_file_box(this);" class="blue"><img src="__STATIC__/css/admin/bgimg/tv-collapsable.gif" /></a>属性 :</th>
+      <td>
+      	<input type="text" name="attr_name[]" size="10" class="input-text mr10" />
+		<input type="text" name="attr_val[]" size="10" class="input-text mr10" />
+      </td>
+   </tr>
+</tbody>
+</table>
+<table id="next_sku_file" style="display:none;">
+<tbody class="uplode_file">
+   <tr>
+      <th width="100"><a href="javascript:void(0);" onclick="del_file_box(this);" class="blue"><img src="__STATIC__/css/admin/bgimg/tv-collapsable.gif" /></a>规格 :</th>
+      <td>
+      	<input type="text" name="attr_name[]" size="10" class="input-text mr10" />
+		<input type="text" name="attr_val[]" size="10" class="input-text mr10" />
+		<input type="text" name="attr_price[]" size="10" class="input-text mr10" />
+		<input type="text" name="attr_stock[]" size="10" class="input-text mr10" />
+      </td>
+   </tr>
+</tbody>
+</table>

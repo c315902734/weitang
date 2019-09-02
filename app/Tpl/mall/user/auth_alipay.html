@@ -1,0 +1,51 @@
+<include file="public:header"/>
+<div class='container-fluid mt40 form-list'>
+    <div class="row global-top">
+        <div class="col-xs-2">
+            <a href="javascript:history.back();" class="return"></a>
+        </div>
+        <div class="col-xs-8">
+            <div class="text">帐户认证</div>
+        </div>
+        <div class="col-xs-2">
+        </div>
+    </div>
+    <form method="post">
+        <div class="row white-bg login-list">
+            <div class="form-list">
+                <div class="col-xs-3 name">支付账号</div>
+                <div class="col-xs-9 b-b input-text">
+                    <input type="text"
+                           name="alipay_account"
+                           placeholder="支付账号"
+                           data-rule-required="true"
+                           value="{$info.alipay_account}"/>
+                </div>
+            </div>
+            <div class="form-list">
+                <div class="col-xs-3 name">真实姓名</div>
+                <div class="col-xs-9 b-b input-text">
+					<input type="hidden" name="realname" value="{$info.realname}">
+					{$info.realname}&nbsp;
+                </div>
+            </div>
+            <if condition="$status">
+            <div class="form-list">
+                <div class="col-xs-3 name">认证状态</div>
+                <div class="col-xs-9 b-b input-text"><font color=red>已认证&nbsp;</font></div>
+            </div>
+            </if>
+        </div>
+        <div class="row mt20">
+            <div class="global-submit-bot1">
+            	<p class="fs-12 mb5">温馨提示：实名认证信息一经认证不可修必，如有疑问请联系客户：{:C('ins_site_tele')}</p>                    
+                <if condition="$status">
+                    <else/>
+					<input type="submit" value="确定" class="submit-btn js-submit-btn"/>
+                    <input type="hidden" id="J_from" value="{$_GET['from']}">
+                </if>
+            </div>
+        </div>
+    </form>
+</div>
+<include file="public:footer"/>

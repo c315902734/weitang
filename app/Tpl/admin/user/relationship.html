@@ -1,0 +1,111 @@
+<include file="public:header" /><br>
+<!--会员列表-->
+<div class="pad_lr_10" >
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+            <tr>
+                <td>
+                <div class="explain_col">
+                    <input type="hidden" name="g" value="admin" />
+                    <input type="hidden" name="m" value="user" />
+                    <input type="hidden" name="a" value="relationship" />
+                    <input type="hidden" name="menuid" value="{$menuid}" />
+					&nbsp;会员帐号 :
+                    <input name="keyword" type="text" class="input-text" size="15" value="{$search.keyword}" />
+                    &nbsp;手机号码 :
+                    <input name="tele" type="text" class="input-text" size="15" value="{$search.tele}" />
+                    <input type="submit" name="search" class="btn" value="搜索" />
+                </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+
+    <div class="J_tablelist table_list treeTable" data-acturi="{:U('user/ajax_edit')}">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th width="40">ID</th>
+                <th width="40">头像</th>
+				<th align="left">会员帐号</th>
+                <th width="100" align="left">手机号码</th>
+				<th width="50">订单</th>
+				<th width="40">{:L('status')}</th>
+				<th width="120">操作</th>
+            </tr>
+        </thead>
+    	<tbody>
+            <volist name="list" id="val">
+            <tr class="initialized collapsed" data-id="{$val.uid}" data-level="1">
+                <td align="center">{$val.id}</td>
+				<td align="center"><img src="{:avatar($val['img'], 32)}" width="32" /></td>
+                <td align="left"><if condition="$val[nums] gt 0"><span style="padding-left: 20px" class="expander J_show_child"></span></if>{$val.username}</td>
+                <td align="left">{$val.tele}</td>
+                <td align="center">{$val.orders}</td>
+				<td align="center"><if condition="$val.status eq 0">停用<else/>启用</if></td>
+                <td align="center">
+					<a href="{:U('user/relationship_tree',array('id'=>$val[id]))}">查看树图＞</a>
+				</td>
+            </tr>
+            </volist>
+    	</tbody>
+    </table>
+    <div class="btn_wrap_fixed">
+        <div id="pages">{$page}</div>
+    </div>
+    </div>
+</div>
+<include file="public:footer" />
+<script type="text/javascript">
+$(function(){
+	$('.J_show_child').live('click',function(){
+		var btn = $(this);
+		var th = btn.parent().parent();
+		var id = th.attr('data-id');
+		var level = parseInt(th.attr('data-level'));
+
+		if($('[data-pid="'+id+'"]').length > 0){
+			//th.toggleClass('collapsed');
+			//th.toggleClass('expanded');
+			return false;
+		}
+		$.ajax({
+			url:"{:U('user/get_child')}",
+			type:'POST',
+			data:{id:id},
+			dataType:'JSON',
+			success:function(result){
+				if(result.status == 1){
+					th.removeClass('collapsed').addClass('expanded');
+					var list = result.data,html,pdl = 24*level;
+					for(var i=0;i<list.length;i++){
+						var status_str = list[i].status == 0 ? '停用' : '启用';
+						var icon = list.length == i+1 ? '└─ ' : '├─ ';
+						var btn_str = parseInt(list[i].nums) > 0 ? '<span style="padding-left: 20px" class="expander J_show_child"></span>' : '';
+						var nbsp = '&nbsp;&nbsp;&nbsp;';
+						for(var n=1;n<level;n++){
+							nbsp += nbsp;
+						}
+
+						html += '<tr class="initialized collapsed" data-id="'+list[i].uid+'" data-pid="'+id+'" data-level="'+(level+1)+'">\
+									<td align="center">'+list[i].uid+'</td>\
+									<td align="center"><img src="'+list[i]._img+'" width="32" /></td>\
+									<td align="left" style="padding-left:'+pdl+'px">'+btn_str+nbsp+icon+list[i].username+'</td>\
+									<td align="center">'+list[i].nums+'人</td>\
+									<td align="left">'+list[i].tele+'</td>\
+									<td align="center">'+list[i].orders+'</td>\
+									<td align="center">'+status_str+'</td>\
+									<td align="center"><a href="javascript:;" class="J_showdialog" data-uri="/?g=admin&m=user&a=relationship_edit&id='+list[i].uid+'" data-title="修改上级" data-id="edit" data-width="400" data-height="100">修改上级</a><br><a href="/?g=admin&m=order&a=index&uname='+list[i].username+'">查看交易记录＞</a></td>\
+								</tr>';
+					}
+					th.after(html);
+				}
+			}
+		});
+	});
+});
+</script>
+</body>
+</html>

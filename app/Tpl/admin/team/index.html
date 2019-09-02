@@ -1,0 +1,77 @@
+<include file="public:header" />
+<style>
+    select{width:90px;}
+	.item_img{width:120px;float:left;margin-right:10px;padding:5px;position:relative;margin-bottom:10px;}
+	.item_img input{position:absolute;top:5px;left:5px;}
+	.item_img .img{height:156px;overflow:hidden;border-bottom:1px solid #d5dfe8;}
+	.item_img .img .pic{height:120px;}
+	.item_img .img .desc{height:36px;line-height:18px;overflow:hidden;}
+	.item_img .img img{width:100%;}
+	.item_img .bottom {text-align:center;height: 25px;line-height:30px;}
+	.item_img .bottom a{padding:5px;color:#fff;background-color:#6666ff;border-radius:5px;}
+</style>
+<!--会员列表-->
+<div class="pad_lr_10">
+    <!-- <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+            <tr>
+                <td>
+                <div class="explain_col">
+                    <input type="hidden" name="g" value="admin" />
+                    <input type="hidden" name="m" value="item_img" />
+                    <input type="hidden" name="a" value="index" />
+                    <input type="hidden" name="menuid" value="{$menuid}" />
+                    &nbsp;&nbsp;商品名称：      
+                    <input name="title" type="text" class="input-text" size="15" value="{$search.title}" /> 
+                    商品id：
+                    <input name="item_id" type="text" class="input-text" size="18" value="{$search.item_id}" />
+                    <input type="submit" name="search" class="btn mr10" value="搜索" />
+                </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </form> -->
+
+    <div class="J_tablelist table_list" data-acturi="{:U('team/ajax_edit')}" style="margin-bottom:50px;">
+
+	<table width="100%" cellspacing="0">
+
+        <thead>
+            <tr>
+                <th width=25><input type="checkbox" id="checkall_t" class="J_checkall"></th>
+                <th width="20"><span data-tdtype="order_by" data-field="id">ID</span></th>
+                <th width="200" align="left">团队名称</th>
+                <th width="200" align="center"><span data-tdtype="order_by" data-field="status">状态</span></th>
+                <th width="200">{:L('operations_manage')}</th>
+            </tr>
+        </thead>
+    	<tbody>
+            <volist name="list" id="val" >
+            <tr>
+                <td align="center"><input type="checkbox" class="J_checkitem" value="{$val.id}"></td>
+                <td align="center">{$val.id}</td>
+                <td>{$val.title}</td>
+                <td align="center"><if condition="$val.status eq 0">关闭<else/>启用</if></td>
+				<td align="center">
+                    <a href="javascript:;" class="J_showdialog" data-uri="{:U('team/edit',array('id'=>$val['id']))}" data-title="编辑 - {$val.title}" data-id="edit" data-width="350" data-height="50">编辑</a> | 
+					<a href="javascript:void(0);" class="J_confirmurl" data-uri="{:U('team/delete', array('id'=>$val['id']))}" data-acttype="ajax" data-msg="{:sprintf(L('confirm_delete_one'),$val['title'])}">{:L('delete')}</a><br>
+                    <a href="javascript:;" class="J_showdialog" data-uri="{:U('team/add_user',array('id'=>$val['id']))}" data-title="创建团队 - {$val.title}" data-id="add_user" data-width="500" data-height="50">创建团队</a> |
+					<a href="{:U('team/user',array('id'=>$val['id']))}">团队管理</a> | 
+                    <a href="{:U('team/order',array('id'=>$val['id']))}">查看明细</a>
+				</td>
+            </tr>
+            </volist>
+    	</tbody>
+    </table>
+		
+    <div class="btn_wrap_fixed">
+        <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('team/delete',array('id'=>$r['id']))}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />
+        <div id="pages">{$page}</div>
+    </div>
+
+    </div>
+</div>
+<include file="public:footer" />

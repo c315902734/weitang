@@ -1,0 +1,60 @@
+<include file="public:header" />
+<div class="pad_lr_10" >
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+            <tr>
+                <td>
+                <div class="explain_col">
+					<input type="hidden" name="g" value="admin" />
+                    <input type="hidden" name="m" value="ssc_data" />
+                    <input type="hidden" name="a" value="index" />
+                    <input type="hidden" name="menuid" value="{$menuid}" />
+                    时间 :
+                    <input type="text" name="time_start" id="J_time_start" class="date J_date_picker" size="20" value="{$search.time_start}">
+                    -
+                    <input type="text" name="time_end" id="J_time_end" class="date J_date_picker" size="20" value="{$search.time_end}">
+                    <input type="submit" name="search" class="btn" value="搜索" />
+                </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+
+    <div class="J_tablelist table_list" data-acturi="{:U('ssc_data/ajax_edit')}">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+            <th width=25><input type="checkbox" id="checkall_t" class="J_checkall"></th>
+                <th width="40"><span data-tdtype="order_by" data-field="id">ID</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="expect">开奖期号</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="opencode">开奖号码</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="opentime">开奖时间</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="lastno">尾号</span></th>
+            </tr>
+        </thead>
+    	<tbody>
+            <volist name="list" id="val" >
+            <tr>
+            	<td align="center"><input type="checkbox" class="J_checkitem" value="{$val.id}"></td>
+                <td align="center">{$val.id}</td>
+                <td>{$val.expect}</td>
+                <td>{$val.opencode}</td>
+                <td>{:date('Y-m-d H:i',strtotime($val[opentime]))}</td>
+                <td>{$val.lastno}</td>
+            </tr>
+            </volist>
+    	</tbody>
+    </table>
+    <div class="btn_wrap_fixed">
+        <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('ssc_data/delete',array('id'=>$r['id']))}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />
+        <div id="pages">{$page}</div>
+    </div>
+
+    </div>
+</div>
+<include file="public:footer" />
+</body>
+</html>

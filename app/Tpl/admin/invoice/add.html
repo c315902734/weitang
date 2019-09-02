@@ -1,0 +1,38 @@
+<div class="dialog_content">
+	<form id="info_form" name="info_form" action="{:u('invoice/add')}" method="post">
+    <table width="100%" class="table_form">
+    	<tr>
+          <th width="100">名称 :</th>
+          <td><input type="text" name="name" id="name" class="input-text"></td>
+        </tr>
+        <tr>
+          <th>排序值 :</th>
+          <td><input type="text" name="ordid" class="input-text"></td>
+        </tr>
+        <tr>
+          <th>状态 :</th>
+          <td>
+              <label><input type="radio" name="status" class="radio_style" value="1" > {:L('yes')}&nbsp;&nbsp;</label>
+              <label><input type="radio" name="status" class="radio_style" value="0" checked="checked" /> {:L('no')}</label>
+          </td>
+        </tr>
+    </table>
+	<input type="hidden" name="menuid" value="{$menuid}" />
+    </form>
+</div>
+<script src="__STATIC__/js/fileuploader.js"></script>
+<script type="text/javascript">
+
+
+$('#info_form').ajaxForm({success:complate, dataType:'json'});
+function complate(result){
+	if(result.status == 1){
+		$.dialog.get(result.dialog).close();
+		$.pinphp.tip({content:result.msg});
+		window.location.reload();
+	} else {
+		$.pinphp.tip({content:result.msg, icon:'alert'});
+	}
+}
+
+</script>

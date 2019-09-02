@@ -1,0 +1,141 @@
+<include file="public:header" />
+<!--添加商品-->
+<br>
+<form id="info_form" action="{:u('user_bind/edit')}" method="post" enctype="multipart/form-data">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+			<li class="current">基本信息</li>
+            <!-- <li>商家详情</li> -->
+			<!-- <li>SEO设置</li> -->
+		</ul>
+		<div class="J_panes">
+			<div class="content_list pad_10">
+				<table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+					<tr>
+						<th>会员帐号 :</th>
+						<td>
+							<input type="text" id="username" name="username" class="input-text fl mr10" size="30" /><div class="upload_btn"><span onclick="searchUserList();">搜索</span></div><select name="uid" id="uid" class="fl ml10" ><option value="{$uid}">{$uname}</option></select>
+						</td>
+					</tr>
+					<tr>
+						<th>类型 :</th>
+						<td>
+							<select name="type">
+								<option value="qq" <if condition="$info.type eq 'qq'">selected</if>>QQ</option>
+								<option value="sina" <if condition="$info.type eq 'sina'">selected</if>>新浪</option>
+								<option value="taobao" <if condition="$info.type eq 'taobao'">selected</if>>淘宝</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th>KEYID :</th>
+						<td>
+							<input type="text" id="keyid" name="keyid" class="input-text fl mr10" size="30" value="{$info.keyid}" />
+						</td>
+					</tr>
+					<tr>
+						<th>备注信息 :</th>
+						<td>
+							<textarea name="info" rows="5" cols="30">{$info.info}</textarea>
+						</td>
+					</tr>
+					<tr>
+						<th>是否显示 :</th>
+						<td>
+							<label><input type="radio" name="status" value="1" <if condition="$info.status eq 1">checked</if>> 是</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<label><input type="radio" name="status" value="0" <if condition="$info.status eq 0">checked</if>> 否</label>
+						</td>
+					</tr>
+
+				</table>
+			</div>
+		</div>
+		<div class="mt10"><input type="submit" value="{:L('submit')}" class="btn btn_submit"></div>
+	</div>
+</div>
+<input type="hidden" name="menuid"  value="{$menuid}"/>
+<input type="hidden" name="id"  value="{$info.id}"/>
+</form>
+<include file="public:footer" />
+
+<script src="__STATIC__/js/kindeditor/kindeditor.js"></script>
+<script src="__STATIC__/js/fileuploader.js"></script>
+<script type="text/javascript">
+	$('.J_province_select').cate_select({field:'J_province_id'});
+    $('.J_city_select').cate_select({field:'J_city_id'});
+    $('.J_area_select').cate_select({field:'J_area_id'});
+
+
+function searchUserList(){
+	var username = $('#username').val();
+	if(username == ''){
+		return false;
+	}
+	var url = '{:u("item/search_user")}';
+	$.ajax({
+		url: url,
+		type:'POST',
+		data: {username:username},
+		success: function(uhtml){
+			$('#uid').show().html(uhtml);
+		}
+	});
+}
+$(function(){
+	KindEditor.create('#rules', {
+		uploadJson : '{:U("attachment/editer_upload")}',
+		fileManagerJson : '{:U("attachment/editer_manager")}',
+		allowFileManager : true
+	});
+$('ul.J_tabs').tabs('div.J_panes > div');
+//上传图片
+var uploader = new qq.FileUploaderBasic({
+	allowedExtensions: ['jpg','gif','jpeg','png','bmp','pdg'],
+    button: document.getElementById('J_upload_img'),
+    multiple: false,
+    action: "{:U('goods/ajax_upload_img')}",
+    inputName: 'img',
+    forceMultipart: true, //用$_FILES
+    messages: {
+    	typeError: lang.upload_type_error,
+    	sizeError: lang.upload_size_error,
+    	minSizeError: lang.upload_minsize_error,
+    	emptyError: lang.upload_empty_error,
+    	noFilesError: lang.upload_nofile_error,
+    	onLeave: lang.upload_onLeave
+    },
+    showMessage: function(message){
+    	$.pinphp.tip({content:message, icon:'error'});
+    },
+    onSubmit: function(id, fileName){
+    	$('#J_upload_img').addClass('btn_disabled').find('span').text(lang.uploading);
+    },
+    onComplete: function(id, fileName, result){
+    	$('#J_upload_img').removeClass('btn_disabled').find('span').text(lang.upload);
+        if(result.status){
+    		$('#J_img').val(result.status);
+    	} else {
+    		$.pinphp.tip({content:result.msg, icon:'error'});
+    	}
+    }
+});
+});
+
+
+function searchShopList(){
+	var shopname = $('#shopname').val();
+	if(shopname == ''){
+		return false;
+	}
+	var url = '{:u("shop_rate/search_shop")}';
+	$.ajax({
+		url: url,
+		type:'POST',
+		data: {shopname:shopname},
+		success: function(uhtml){
+			$('#shop_id').show().html(uhtml);
+		}
+	});
+}
+</script>

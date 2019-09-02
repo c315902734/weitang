@@ -1,0 +1,44 @@
+<if condition="$list">
+	<style>
+    .content{margin:10px;overflow:hidden;position:relative;background:url("__ASSETS__/images/stbg.jpg") repeat-y 5px 0;}
+    .list{overflow:hidden;}
+    .list-radio{width:30px;float:left;margin-left:-100%;}
+    .list-comtent{float:left;width:100%;overflow:hidden;}
+    .text{padding:10px 0;border-bottom:1px solid #e7e7e7;margin-left:30px;font-size:12px;color:#b5b5b5;line-height:18px;}
+    .text time{display:block;}
+    .first{color:#00c481;}
+
+    .first-radio{width:12px;height:12px;background-color:#00c481;border-radius:50%;margin-top:22px;}
+    .blank{width:4px;height:22px;background-color:#fff;position:absolute;}
+    .top{top:0px;left:3px;}
+    .end{height:25px;bottom:0px;left:3px;}
+    .secand-radio{width:8px;height:8px;background-color:#b5b5b5;border-radius:50%;margin-top:24px;margin-left:2px;}
+	</style>
+	<div class="content">
+		<div class="blank top"></div>
+		<!-- <div class="blank end"></div> -->
+		<volist name="list" id="val">
+		<div class="list">
+			<div class="list-comtent">
+				<if condition="$i eq 1">
+					<div class="text first">
+				<else />
+					<div class="text">
+				</if>
+					{$val.context}
+					<time>{$val.ftime}</time>
+				</div>
+			</div>
+			<div class="list-radio">
+				<if condition="$i eq 1">
+					<div class="first-radio"></div>
+				<else />
+					<div class="secand-radio"></div>
+				</if>
+			</div>
+		</div>
+		</volist>
+	</div>
+	<else />
+	没有物流信息
+</if>

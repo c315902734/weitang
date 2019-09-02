@@ -1,0 +1,92 @@
+<include file="public:header" />
+<!--会员列表-->
+<div class="pad_10" >
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+            <tr>
+                <td>
+                <div class="explain_col">
+                    <input type="hidden" name="g" value="admin" />
+                    <input type="hidden" name="m" value="order" />
+                    <input type="hidden" name="a" value="search_order" />
+                    <input type="hidden" name="menuid" value="{$menuid}" />
+                    订单编号 ：
+                    <input name="orderid" type="text" class="input-text" size="20" value="{$search.orderid}" />
+                    &nbsp;&nbsp;下单时间 ：
+					<input name="stime" type="text" class="J_date_picker date" size="15" value="{$search.stime}" /> ~ 
+					<input name="etime" type="text" class="J_date_picker date" size="15" value="{$search.etime}" />
+					&nbsp;&nbsp;订单状态 ：
+					<select name="status" class=" mr10">
+						<option value="-1">全部</option>
+						<option value="0" <if condition="$search.status eq 0">selected</if>>未付款</option>
+						<option value="1" <if condition="$search.status eq 1">selected</if>>已付款待发货</option>
+						<option value="2" <if condition="$search.status eq 2">selected</if>>已发货</option>
+						<option value="3" <if condition="$search.status eq 3">selected</if>>已确认收货</option>
+						<option value="4" <if condition="$search.status eq 4">selected</if>>已评价</option>
+						<option value="5" <if condition="$search.status eq 5">selected</if>>已成功</option>
+						<option value="7" <if condition="$search.status eq 7">selected</if>>待处理退款</option>
+						<option value="8" <if condition="$search.status eq 8">selected</if>>已退款</option>
+						<option value="9" <if condition="$search.status eq 9">selected</if>>已关闭</option>
+					</select>
+                    <input type="submit" name="search" class="btn mr10" value="搜索" />
+                    <a class="btn" href="{:U('order/export', array('orderid'=>$search['orderid'], 'atime'=>$search['atime'], 'etime'=>$search['etime'], 'status'=>$search['status']))}" style="padding:1px 15px;">导出到Excel</a>
+                </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+
+    <div class="J_tablelist table_list" data-acturi="{:U('order/ajax_edit')}">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th width=25><input type="checkbox" id="checkall_t" class="J_checkall"></th>
+                <th width="120" align="left">订单编号</th>
+                <th width="80">送货方式</th>
+                <th width="80" align="left">物流费用(元)</th>
+                <th width="80" align="left">商品金额(元)</th>
+                <th width="80" align="left">实付金额(元)</th>
+                <th width="120" align="left">下单日期</th>
+                <th width="60">收货人</th>
+                <th width="100" align="left">联系电话</th>
+                <th align="left">送货地址</th>
+                <th width="80">订单状态</th>
+                <th width="80">{:L('operations_manage')}</th>
+            </tr>
+        </thead>
+    	<tbody>
+            <volist name="list" id="val" >
+            <tr>
+                <td align="center"><input type="checkbox" class="J_checkitem" value="{$val.id}"></td>
+                <td>{$val.orderid}</td>
+                <td align="center">
+                    {$val.express_type}
+                </td>
+               	<td>￥{$val.express}</td>
+               	<td>￥{$val.prices}</td>
+               	<td>￥{$val.pays_price}</td>
+                <td align="center">{$val['add_time']}</td>
+                <td align="center">{$val.addr_name}</td>
+                <td>{$val.addr_tele}</td>
+                <td>{$val.addr_address}</td>
+                <td align="center">{$val.status}</td>
+               	<td align="center">
+                    <a href="{:u('order/edit', array('id'=>$val['id'], 'type'=>'search'))}">查看</a>
+				</td>
+            </tr>
+            </volist>
+    	</tbody>
+    </table>
+    <div class="btn_wrap_fixed">
+        <div id="pages">{$page}</div>
+    </div>
+
+    </div>
+</div>
+<include file="public:footer" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script type="text/javascript" src="__STATIC__/js/calendar/calendar.js"></script>
+</body>
+</html>

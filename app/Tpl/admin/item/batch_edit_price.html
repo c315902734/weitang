@@ -1,0 +1,24 @@
+<include file="public:header" />
+<form id="info_form" action="{:u('item/batch_edit_price')}" method="post" enctype="multipart/form-data">
+<div class="pad_10">
+	<div class="col_tab">
+		<table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+			<tr>
+				<th width="200">批量修改价格Excel模板：</th>
+				<td><a href="{$down_file}">点击这里下载</a>
+				</td>
+			</tr>
+			<tr>
+				<th width="200">批量修改价格Excel文件：</th>
+				<td>
+					<input type="file" name="file_stu"  size="30" />
+				</td>
+			</tr>
+		</table>
+		<div class="mt10"><input type="submit" value="{:L('submit')}" class="btn btn_submit"></div>
+	</div>
+</div>
+<input type="hidden" name="menuid"  value="{$menuid}"/>
+<input type="hidden" name="id"  value="{$info.id}"/>
+</form>
+<include file="public:footer" />

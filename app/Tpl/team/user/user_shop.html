@@ -1,0 +1,22 @@
+<table cellpadding="0" cellspacing="0" class="server-content">
+    <tr class="title">
+        <td width=500>团队信息</td>
+        <td>账户状态</td>
+    </tr>
+    <tr class="list">
+        <td>
+			<div class="info">
+				<span>{$info.topkey}</span>
+				<p>共{$nums}人</p>
+			</div>
+			<div class="info">
+				<span>￥{$order.days}元</span>
+				<p>今日收益</p>
+			</div>
+		</td>
+        <td style="font-size:14px;line-height:30px;">
+			<p>用户名称：{$visitor.username}<if condition="$info[topclass] eq 1"><font color="#ff0000">[管]</font></if></p>
+			<p>用户级别：{$tgroup[$info[tgroup]]}</p>
+		</td>
+    </tr>
+</table>

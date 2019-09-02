@@ -1,0 +1,201 @@
+<include file="public:header" />
+<style type="text/css">
+	.table_list { border: none;}
+	.table_list tbody td{border-top:none;}
+	.table_list tbody td.order_info{border-bottom: 1px solid #d5dfe8;padding:0;margin-bottom:20px;}
+	.table_list tbody td.order_info .order_info_table{border-right:1px solid #d5dfe8;border-left:1px solid #d5dfe8;border-bottom:none;}
+
+	.table_list tbody td.order_info th{border-bottom: 1px solid #d5dfe8;}
+	.table_list tbody td.order_info .goods_list{padding:0;}
+	.table_list tbody td.order_info .goods_list td,.table_list tbody td.order_info .goods_list th{border-top: 1px solid #d5dfe8;}
+	.table_list tbody td.order_info .order_item {border-left: 1px solid #d5dfe8;}
+
+
+</style>
+<!--会员列表-->
+<div class="pad_10" >
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+            <tr>
+                <td>
+                <div class="explain_col">
+                    <input type="hidden" name="g" value="admin" />
+                    <input type="hidden" name="m" value="order" />
+                    <input type="hidden" name="a" value="index" />
+                    <input type="hidden" name="menuid" value="{$menuid}" />
+                    &nbsp;&nbsp;订单编号 ：
+                    <input name="orderid" type="text" class="input-text" size="15" value="{$search.orderid}" />
+					&nbsp;&nbsp;用户帐号 ：
+                    <input name="uname" type="text" class="input-text" size="10" value="{$search.uname}" />
+					&nbsp;&nbsp;总价范围 ：
+                    <input name="price_min" type="text" class="input-text" size="6" value="{$search.price_min}" />
+					- <input name="price_max" type="text" class="input-text" size="6" value="{$search.price_max}" />
+					<!-- &nbsp;&nbsp;支付方式 ：
+					<select name="pays">
+						<option value="">--请选择--</option>
+						<option value="1" <if condition="$search.pays eq 1">selected</if>>余额支付</option>
+						<option value="2" <if condition="$search.pays eq 2">selected</if>>网银在线</option>
+						<option value="3" <if condition="$search.pays eq 3">selected</if>>支付宝</option>
+						<option value="4" <if condition="$search.pays eq 4">selected</if>>微信支付</option>
+						<option value="5" <if condition="$search.pays eq 5">selected</if>>信用卡支付</option>
+					</select>
+					&nbsp;&nbsp;支付状态 ：
+					<select name="pays_status">
+						<option value="-1">--请选择--</option>
+						<option value="0" <if condition="$search.pays_status eq 0">selected</if>>未支付</option>
+						<option value="1" <if condition="$search.pays_status eq 1">selected</if>>支付成功</option>
+						<option value="2" <if condition="$search.pays_status eq 2">selected</if>>支付失败</option>
+					</select>
+					-->
+					&nbsp;&nbsp;订单状态 ：
+					<select name="status">
+						<option value="-1">--请选择--</option>
+						<option value="1" <if condition="$search.status eq 1">selected</if>>已付款</option>
+						<option value="2" <if condition="$search.status eq 2">selected</if>>待提货</option>
+						<option value="3" <if condition="$search.status eq 3">selected</if>>已提货</option>
+						<option value="4" <if condition="$search.status eq 4">selected</if>>已发货</option>
+						<option value="5" <if condition="$search.status eq 5">selected</if>>已成功</option>
+						<option value="7" <if condition="$search.status eq 7">selected</if>>待处理退款</option>
+						<option value="8" <if condition="$search.status eq 8">selected</if>>已退款</option>
+						<option value="9" <if condition="$search.status eq 9">selected</if>>已关闭</option>
+					</select>
+					<div style="height:8px;"></div>
+					&nbsp;&nbsp;升级状态 ：
+					<select name="lottery">
+						<option value="-1">--请选择--</option>
+						<option value="0" <if condition="$search.lottery eq 0">selected</if>>未升级</option>
+						<option value="0" <if condition="$search.lottery eq 1">selected</if>>升级中</option>
+						<option value="2" <if condition="$search.lottery eq 2">selected</if>>升级成功</option>
+						<option value="9" <if condition="$search.lottery eq 9">selected</if>>升级失败</option>
+					</select>
+					&nbsp;&nbsp;联系手机 ：
+					<input name="addr_tele" type="text" class="input-text" size="15" value="{$search.addr_tele}" />
+					&nbsp;&nbsp;收件名称 ：
+					<input name="addr_name" type="text" class="input-text" size="10" value="{$search.addr_name}" />
+					&nbsp;&nbsp;下单时间 ：
+					<input name="suse_time" type="text" class="J_date_picker date" size="15" value="{$search.suse_time}" /> ~ 
+					<input name="euse_time" type="text" class="J_date_picker date" size="15" value="{$search.euse_time}" />
+					<div style="height:8px;"></div>
+					&nbsp;&nbsp;商品名称 ：
+					<input name="goods_name" type="text" class="input-text mr10" size="25" value="{$search.goods_name}" />
+					&nbsp;&nbsp;商品编码 ：
+					<input name="goods_sn" type="text" class="input-text mr10" size="25" value="{$search.goods_sn}" />
+					<!-- &nbsp;&nbsp;设备 ：
+					<select name="dev" class=" mr10">
+						<option value="-1">--请选择--</option>
+						<option value="0" <if condition="$search.dev eq 0">selected</if>>未知</option>
+						<option value="1" <if condition="$search.dev eq 1">selected</if>>微信</option>
+						<option value="2" <if condition="$search.dev eq 2">selected</if>>APP</option>
+					</select> -->
+                    <input type="submit" name="search" class="btn mr10" value="搜索" />
+					<input type="submit" name="export" class="btn mr10" value="导出到Excel文件">
+                    <!-- <input type="submit" name="search" class="btn" value="导入" /> -->
+                </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+
+    <div class="J_tablelist table_list" data-acturi="{:U('order/ajax_edit')}">
+    <table width="100%" cellspacing="0">
+    	<tbody>
+            <volist name="list" id="val" >
+            <if condition="$val['goods_str_one']">
+            <tr>
+				<td class="order_info">
+					<table width="100%" cellspacing="0" class="order_info_table goods_list">
+						<tr style="background:#EAEEF4;height:30px;">
+							<th colspan="7" align="left">
+								<input type="checkbox" class="J_checkitem" value="{$val.id}"> 
+								订单号: {$val.orderid} <if condition="$val['dev'] eq 0">[未知]<elseif condition="$val['dev'] eq 1" /><span style="color:#30B797">[微信]</span><elseif condition="$val['dev'] eq 2" /><span style="color:#EA4F4F;">[APP]</span></if>
+
+								<if condition="$val['uname']">&nbsp;&nbsp;&nbsp;&nbsp;会员帐号: {$val.uname}
+								</if>
+								<if condition="$val['addr_name']">&nbsp;&nbsp;&nbsp;&nbsp;收货人: {$val.addr_name}</if>
+								<if condition="$val['addr_tele']">&nbsp;&nbsp;&nbsp;&nbsp;联系手机: {$val.addr_tele}</if>
+							</th>
+							<th colspan="2" align="left">
+								下单时间: {$val.add_time}
+								<if condition="$val['remark_flag'] eq 0">
+									&nbsp;&nbsp;&nbsp;&nbsp;<a class="J_showdialog" href="javascript:;" data-uri="{:u('order/order_remark', array('id'=>$val['id']))}" data-title="编辑备注" data-id="order_remark" data-width="500"><img src="__ASSETS__/images/8.png" width="15" /></a> 
+								<else />
+									&nbsp;&nbsp;&nbsp;&nbsp;<a class="J_showdialog" href="javascript:;" data-uri="{:u('order/order_remark', array('id'=>$val['id']))}" data-title="编辑备注" data-id="order_remark" data-width="500" title="{$val.remark_info}"><img src="__ASSETS__/images/{$val['remark_flag']}.png" width="15" /></a> 
+								</if>
+								<if condition="$val['is_del'] eq 1">
+									&nbsp;&nbsp;&nbsp;&nbsp;<a class="J_showdialog" href="javascript:;" data-uri="{:u('order/order_del', array('id'=>$val['id']))}" data-title="编辑隐藏" data-id="order_del" data-width="500"><img src="__ASSETS__/images/eye.png" width="20" /></a> 
+								</if>
+							</th>
+						</tr>
+						<tr>
+							{$val.goods_str_one}
+							<td width="8%" rowspan="{$val.goods_num}" class="order_item" align="center">
+								<if condition="$val['lottery'] eq 9"><font color="#ff9900">升级失败</font>
+								<elseif condition="$val[lottery] eq 1"/><font color="#666">升级中</font>
+								<elseif condition="$val[lottery] eq 2"/><font color="#33cc00">升级成功</font>
+								<else/>未升级</if>
+							</td>
+							<td width="20%" rowspan="{$val.goods_num}" class="order_item" align="center">订单总价：￥{$val['total_price']} 元<br>商品总价：￥{$val.prices} 元 <br>实付金额：￥{$val['pays_price']} 元
+							<if condition="$val['express'] gt 0">快递费：￥{$val.express} 元<br></if>
+							<if condition="$val['quan_id']">{$val.quan.code}</if>
+							<if condition="$val['quan']['type'] eq 1">(现金券)<elseif condition="$val['quan']['type'] eq 2" />(满减)<elseif condition="$val['quan']['type'] eq 3" />(打折)</if>
+							</td>
+							<td width="10%" rowspan="{$val.goods_num}"  class="order_item" align="center">
+								<if condition="$val['lottery'] eq 1">升级中
+								<elseif condition="$val['lottery'] eq 2"/>升级成功
+								<elseif condition="$val['lottery'] eq 9"/>升级失败
+								<else/>未升级</if>
+								<br>{$status[$val['status']]}<br>
+								<if condition="$val['express_type']">{$val.express_type}</if>
+							</td>
+							<td width="10%" rowspan="{$val.goods_num}"  class="order_item" align="center">
+								<if condition="$val.status eq 0">
+									<a class="J_showdialog" href="javascript:;" data-uri="{:u('order/order_pay', array('id'=>$val['id']))}" data-title="订单付款" data-id="order_pay" data-width="400">付款</a> | <a class="J_showdialog" href="javascript:;" data-uri="{:u('order/order_express', array('id'=>$val['id']))}" data-title="修改运费" data-id="order_express" data-width="400">修改运费</a><br />
+								</if>
+								<if condition="$val.status eq 3">
+									<a class="J_showdialog" href="javascript:;" data-uri="{:u('order/order_deliver', array('id'=>$val['id'], 'menuid'=>$menuid))}" data-title="发货" data-id="order_deliver" data-width="400">发货</a> |  
+								</if>
+								<if condition="$val.status eq 4">
+									<a class="J_showdialog" href="javascript:;" data-uri="{:u('order/order_deliver', array('id'=>$val['id'], 'menuid'=>$menuid))}" data-title="修改物流" data-id="order_deliver" data-width="400">修改物流</a> |
+									<!-- <a class="J_showdialog" href="javascript:;" data-uri="{:u('order/confirm', array('id'=>$val['id'], 'menuid'=>$menuid))}" data-title="订单确认" data-id="confirm" data-width="400">确认订单</a><br /> -->
+								</if>
+								
+								<!-- [if condition="$val['status'] eq 1 || $val['status'] eq 2">
+									<a class="J_confirmurl" href="javascript:;" data-uri="{:u('order/order_tuikuan', array('id'=>$val['id'], 'menuid'=>$menuid))}" data-acttype="ajax" data-msg="您确定要给申请退款吗？">退款</a> | 
+								</if] -->
+
+								<if condition="$val['status'] eq 4 || $val['status'] eq 5">
+									<a class="J_showdialog" href="javascript:;" data-uri="{:u('order/order_wuliu', array('id'=>$val['id'], 'menuid'=>$menuid))}" data-title="查看物流" data-id="order_wuliu" data-width="400">查看物流</a><br />
+								</if>
+								<a href="{:u('order/edit', array('id'=>$val['id'], 'menuid'=>$menuid))}">详情</a>
+								<if condition="$val.status eq 0">
+									 | <a class="J_showdialog" href="javascript:;" data-uri="{:u('order/order_close', array('id'=>$val['id'], 'menuid'=>$menuid))}" data-title="关闭订单" data-id="order_close" data-width="400">关闭订单</a>
+								</if>
+								<!-- <a href="javascript:;" class="J_confirmurl" data-uri="{:u('order/delete', array('id'=>$val['id']))}" data-acttype="ajax" data-msg="{:sprintf(L('confirm_delete_one'),$val['name'])}">{:L('delete')}</a> -->
+							</td>
+						</tr>
+						{$val.goods_str}
+					</table>
+				</td>
+            </tr>
+			 <tr>
+				<td>&nbsp;</td>
+			 </tr>
+			 </if>
+            </volist>
+    	</tbody>
+    </table>
+    <div class="btn_wrap_fixed">
+        <!-- <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label> -->
+        <!-- <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('order/delete')}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" /> -->
+        <div id="pages">{$page}</div>
+    </div>
+
+    </div>
+</div>
+<include file="public:footer" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script type="text/javascript" src="__STATIC__/js/calendar/calendar.js"></script>
+</body>
+</html>

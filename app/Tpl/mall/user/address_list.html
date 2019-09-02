@@ -1,0 +1,112 @@
+<include file="public:header"/>
+
+<div class='container-fluid <if condition="!$token">mb-50 mt-44</if>'>
+    <if condition="!$token">
+        <div class="row global-top">
+            <div class="col-xs-2">
+                <a href="Javascript:history.go(-1);" class="return"></a>
+            </div>
+            <div class="col-xs-8">
+                <div class="text">收货地址</div>
+            </div>
+            <div class="col-xs-2">
+            </div>
+        </div>
+    </if>
+    <div class="row white-bg">
+        <volist name="address_list" id="val">
+            <div class="col-xs-12 b-b <if condition='$val.is_default eq 1'>pink-bg</if> address_{$val.id}">
+                <div class="dress-detal ps-r">
+                    <div class="name">
+                        <span class="left">{$val.name}</span>
+                        <span class="right">{$val.tele}</span>
+                    </div>
+                    <div class="text gray">收货地址：{$val.province} {$val.city}{$val.area} {$val.address} {$val.zipcode}
+                    </div>
+                    <div class="editbtn">
+                        <a href="javascript:;" onclick="confirmNew('确定要删除？',{$val.id});">删除</a>&nbsp;
+                        <a href="{:U('user/edit_address',array('id'=>$val[id],'page_type'=>$page_type))}">编辑地址</a>
+                    </div>
+                    <input type="hidden" name="id" class="is_default" value="{$val.id}">
+                </div>
+            </div>
+        </volist>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $(".dress-detal .name,.dress-detal .text").click(function () {
+            var s = $(this).parent().find('.is_default').val();
+            $.ajax({
+                url: "{:U('user/is_default_address')}",
+                dataType: 'json',
+                data: {id: s},
+                success: function (data) {
+                    if ('{$_GET["page_type"]}' == '1') {
+                        self.location = "{:U('buy/orderConfirm')}";
+                    }
+                    else {
+                        self.location = document.referrer;
+                    }
+                }
+            });
+        });
+    });
+
+    function confirmNew(tit, id) {
+        var html = '<div class="global-tip-box confirm">' +
+                '<div class="global-confirm">' +
+                '<span>' +
+                '<table>' +
+                '<tr>' +
+                '<td colspan="2">' + tit + '</td>' +
+                '</tr>' +
+                '<tr>' +
+                '<td><a href="javascript:$(\'.global-tip-box\').remove();">取消</a></td>' +
+                '<td><a href="javascript:;" class="receiptBtn">确定</a></td>' +
+                '</tr>' +
+                '</table>' +
+                '</span>' +
+                '</div>' +
+                '</div>';
+
+        $('body').append(html);
+
+        $('.global-tip-box').find('.receiptBtn').click(function () {
+
+            $.ajax({
+
+                type: 'POST',
+
+                url: "{:U('user/address')}",
+
+                dataType: 'json',
+
+                data: {'id': id, 'type': 'del'},
+
+                success: function (data) {
+
+                    $('.global-tip-box').remove();
+
+                    if (data.status == 1) {
+
+                        $('.address_' + id).remove();
+
+                    }
+                    else {
+
+                        tip(data.data);
+                    }
+                }
+            });
+        });
+    }
+
+</script>
+
+</body>
+
+</html>
+

@@ -1,0 +1,50 @@
+<div class="dialog_content">
+    <form id="info_form" action="{:u(MODULE_NAME.'/'.ACTION_NAME)}" method="post">
+        <div class="common-form">
+            <table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+                <tr>
+                    <th width="100px">快递公司：</th>
+                    <td>
+                        <select name="express_code">
+                            <volist name="ex_list" id="val">
+                            <option value="{$val.express_code}" <if condition="$info['express_code'] eq $val['express_code']">selected="selected"</if>>{$val.express_name}</option>
+                            </volist>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th width="100px">发货时间：</th>
+                    <td><input type="text" name="express_time" id="express_time" class="input-text date J_date_picker" value="{$time}" size="27"></td>
+                </tr>
+                <tr>
+                    <th width="100px">快递单号：</th>
+                    <td><input type="text" name="express_sn" id="express_sn" class="input-text" value="{$info.express_sn}" size="30"></td>
+                </tr>
+				<tr>
+                    <th width="100px">快递备注：</th>
+                    <td><input type="text" name="express_remark" id="express_remark" class="input-text" value="{$info.express_remark}" size="20">&nbsp;&nbsp;<font color="#999">(可不填)</font></td>
+                </tr>
+				<!-- <tr>
+                    <th width="100px">电子监管码：</th>
+                    <td><input type="text" name="express_code" id="express_code" class="input-text" value="{$info.express_code}" size="20">&nbsp;&nbsp;<font color="#999">(可不填)</font></td>
+                </tr> -->
+            </table>
+        </div>
+        <input type="hidden" name="id" value="{$Think.get.id}">
+    </form>
+</div>
+
+<script type="text/javascript">
+$(function(){
+    $('#info_form').ajaxForm({success:complate,dataType:'json'});
+    function complate(result){
+        if(result.status == 1){
+            $.pinphp.tip({content:result.msg});
+            window.location.reload();
+        } else {
+            $.pinphp.tip({content:result.msg, icon:'alert'});
+        }
+    }
+});
+
+</script>

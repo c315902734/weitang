@@ -1,0 +1,57 @@
+<div class="dialog_content">
+	<form id="info_form" name="info_form" action="{:U('item/topic')}" method="post">
+    <table width="100%" class="table_form">
+		<tr>
+          <th width="100">专题分类 :</th>
+          <td>
+			<select class="J_cate_select mr10" data-pid="0" data-uri="{:U('topic_cate/ajax_getchild')}" data-selected="{$selected_cate_ids}"></select>
+			<input type="hidden" name="cate_id" id="J_cate_id" value="{$info.cate_id}"/>
+		  </td>
+        </tr>
+    	<tr>
+          <th width="100">专题名称 :</th>
+          <td>
+			<select name="topic_id">
+				<option value="">请选择</option>
+				<volist name="topiclist" id="val">
+				<option value="{$val.id}" <if condition="$search eq $val['id']">selected="selected"</if>>{$val.title}</option>
+				</volist>
+             </select>
+		  </td>
+        </tr>
+    </table>
+	<input type="hidden" name="ids" value="{$ids}" />
+    </form>
+</div>
+<script type="text/javascript">
+$('.J_cate_select').cate_select({field:'J_cate_id',callback:selectCate});
+$('#info_form').ajaxForm({success:complete,dataType:'json'});
+function complete(result){
+	if(result.status == 1){
+		$.dialog.get(result.dialog).close();
+		$.pinphp.tip({content:result.msg});
+		window.location.reload();
+	} else {
+		$.pinphp.tip({content:result.msg, icon:'alert'});
+	}
+}
+function selectCate(){
+	var cate_id = $('#J_cate_id').val();
+	if(cate_id == 0) return false;
+	$.ajax({
+		url: '{:U("item/search_topic")}',
+		type:'POST',
+		dataType:'json',
+		data: {cate_id:cate_id},
+		success: function(result){
+			var html = '';
+			if(result.data != null){
+				for(var i=0;i<result.data.length;i++){
+					html += '<option value="'+result.data[i].id+'">'+result.data[i].title+'</option>';
+				}
+			}
+			$('select[name=topic_id]').html(html);
+		}
+	});
+}
+</script>

@@ -1,0 +1,103 @@
+<include file="public:header" />
+
+<!--会员列表-->
+
+<div class="pad_10" >
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+            <tr>
+                <td>
+                <div class="explain_col">
+                    <input type="hidden" name="g" value="admin" />
+                    <input type="hidden" name="m" value="cate" />
+                    <input type="hidden" name="a" value="index" />
+                    <input type="hidden" name="menuid" value="{$menuid}" />
+                    &nbsp;&nbsp;活动名称 ：
+                    <input name="title" type="text" class="input-text" size="30" value="{$search.title}" />
+                    <input type="submit" name="search" class="btn mr10" value="搜索" />
+                </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+    <div class="J_tablelist table_list" data-acturi="{:U('cate/ajax_edit')}">
+
+    <table width="100%" cellspacing="0">
+
+        <thead>
+
+            <tr>
+
+                <th width=25><input type="checkbox" id="checkall_t" class="J_checkall"></th>
+
+                <th width=40><span data-tdtype="order_by" data-field="id">ID</span></th>
+                <th width="300" align="left">活动名称</th> <!--<th align="left">活动名称</th>-->
+                <th width="60">活动海报</th>
+                <th width="120" align="left">开始时间</th>
+                <th width="120" align="left">结束时间</th>
+                <th width="120" align="left">会员账户</th>
+                <th width="120" align="left">添加时间</th>
+                <th width="40">状态</th>
+                <th width="80">{:L('operations_manage')}</th>
+            </tr>
+
+        </thead>
+
+    	<tbody>
+
+            <volist name="list" id="val" >
+
+            <tr>
+
+                <td align="center"><input type="checkbox" class="J_checkitem" value="{$val.id}"></td>
+                <td align="center">{$val.id}</td>
+                <td align="left">{$val.title}</td>
+                <td align="center"><img src="{:attach($val['img'])}" width="40" /></td>
+                <td>{$val.stime}</td>
+        		<td>{$val.etime}</td>
+                <td>{$val.uname}</td>
+        		<td>{:date('Y-m-d H:i:s', $val['add_time'])}</td>
+
+                <td align="center"><img data-tdtype="toggle" data-id="{$val.id}" data-field="status" data-value="{$val.status}" src="__STATIC__/images/admin/toggle_<if condition="$val.status eq 0">disabled<else/>enabled</if>.gif" /></td>
+                <td align="center">
+                    <a href="{:U('cate/edit', array('id'=>$val['id'], 'menuid'=>$menuid))}">编辑</a> |
+                    <a href="javascript:void(0);" class="J_confirmurl" data-uri="{:U('cate/delete', array('id'=>$val['id']))}" data-acttype="ajax" data-msg="{:sprintf(L('confirm_delete_one'),$val['title'])}">{:L('delete')}</a>
+
+                </td>
+
+
+            </tr>
+
+            </volist>
+
+    	</tbody>
+
+    </table>
+
+    <div class="btn_wrap_fixed">
+        <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('cate/delete',array('id'=>$r['id']))}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />
+
+        <div id="pages">{$page}</div>
+
+    </div>
+
+
+
+    </div>
+
+</div>
+
+<include file="public:footer" />
+
+</body>
+
+</html>
+
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+
+<script type="text/javascript" src="__STATIC__/js/calendar/calendar.js"></script>
+

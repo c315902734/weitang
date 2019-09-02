@@ -1,0 +1,25 @@
+<include file="public:header"/>
+<style type="text/css">
+.score-input{width:80px;margin:0 5px;text-align:center;border:1px solid #e7e7e7;border-radius:4px;line-height:18px;padding:5px 0;}
+</style>
+<div class="container">
+	<div class="row global-top">
+        <div class="col-xs-2">
+            <a href="{:U(MODULE_NAME.'/index')}" class="return"></a>
+        </div>
+        <div class="col-xs-8">
+            <div class="text">我的邀请码</div>
+        </div>
+        <div class="col-xs-2">
+        </div>
+    </div>
+</div>
+<div class="container">
+	<div class="row mt50 bgwhite">
+		<div class="col-xs-12">
+			<img src="{:U('user/erweima_img',array('code'=>$code_url))}" width="100%">
+		</div>
+    </div>
+    <p style="text-align:center; margin-top:10px; color:#999;">将本页转发或截图分享好友，有惊喜奖励等你来拿</p>
+</div>
+<include file="public:footer"/>

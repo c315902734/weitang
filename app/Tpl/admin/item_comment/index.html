@@ -1,0 +1,84 @@
+<include file="public:header" />
+<!--会员列表-->
+<div class="pad_lr_10">
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+            <tr>
+                <td>
+                <div class="explain_col">
+                    <input type="hidden" name="g" value="admin" />
+                    <input type="hidden" name="m" value="item_comment" />
+                    <input type="hidden" name="a" value="index" />
+                    <input type="hidden" name="menuid" value="{$menuid}" />
+            		&nbsp;用户名称 :
+                    <input name="uname" type="text" class="input-text" size="10" value="{$search.uname}" />
+                   	&nbsp;内容 :
+                    <input name="reply_info" type="text" class="input-text" size="10" value="{$search.reply_info}" />               
+                    添加时间 :
+                    <input type="text" name="stime" id="J_time_start" class="date J_date_picker" size="20" value="{$search.stime}">
+                    -<input type="text" name="etime" id="J_time_end" class="date J_date_picker" size="20" value="{$search.etime}">
+           			是否回复
+	           		<select name="reply_status">
+						<option value="">全部</option>
+						<option value="1" <if condition="$search.reply_status eq '1'">selected="selected"</if>>已回复</option>
+						<option value="0" <if condition="$search.reply_status eq '0'">selected="selected"</if>>未回复</option>
+					</select> 
+					&nbsp;关键字 :
+                    <input name="keyword" type="text" class="input-text" size="10" value="{$search.keyword}" />
+                    <input type="submit" name="search" class="btn" value="搜索" />
+                </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+
+    <div class="J_tablelist table_list" data-acturi="{:U('item_comment/ajax_edit')}">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th width=25><input type="checkbox" id="checkall_t" class="J_checkall"></th>
+                <th width="20"><span data-tdtype="order_by" data-field="id">ID</span></th>
+                <th width="200" align="left">商品名称</th>
+                <th align="left">评论/回复</th>
+               	<th width="120" align="left"><span  data-tdtype="order_by" data-field="add_time">添加时间</span></th>
+                <th width="40"><span data-tdtype="order_by" data-field="status">状态</span></th>
+                <th width="120">{:L('operations_manage')}</th>
+            </tr>
+        </thead>
+    	<tbody>
+            <volist name="list" id="val" >
+            <tr>
+                <td align="center"><input type="checkbox" class="J_checkitem" value="{$val.id}"></td>
+                <td align="center">{$val.id}</td>
+                <td align="left">{$val.item_title}</td>
+                <td align="left">
+                	{$val.info}<br>
+                	<if condition="$val.reply_info eq ''"><font color=green>未回复</font>
+						<else />
+					    {$val.reply_info}<br>{$val.reply_time}
+					</if>
+				</td>
+  				<td align="left"><b>{$val.uname}</b><br>{$val.add_time}</td>
+                <td align="center">
+                 <img data-tdtype="toggle" data-id="{$val.id}" data-field="status" data-value="{$val.status}" src="__STATIC__/images/admin/toggle_<if condition="$val.status eq 0">disabled<else/>enabled</if>.gif" />
+                </td>
+
+                <td align="center">
+                <a href="javascript:;" class="J_showdialog" data-uri="{:U('item_comment/edit', array('id'=>$val['id'], 'menuid'=>$menuid))}" data-title="编辑-{$val.title}" data-id="edit" data-width="520" data-height="200">编辑</a> | <a href="javascript:;" class="J_showdialog" data-uri="{:U('item_comment/reply', array('id'=>$val['id'], 'menuid'=>$menuid))}" data-title="回复-{$item_list[$val[item_id]][title]}" data-id="reply" data-width="520">回复</a> | <a href="javascript:void(0);" class="J_confirmurl" data-uri="{:U('item_comment/delete', array('id'=>$val['id']))}" data-acttype="ajax" data-msg="{:sprintf(L('confirm_delete_one'),$val['item_title'])}">{:L('delete')}</a></td>
+            </tr>
+            </volist>
+    	</tbody>
+    </table>
+    <div class="btn_wrap_fixed">
+        <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('item_comment/delete',array('id'=>$r['id']))}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />
+        <div id="pages">{$page}</div>
+    </div>
+
+    </div>
+</div>
+<include file="public:footer" />
+</body>
+</html>

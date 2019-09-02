@@ -1,0 +1,84 @@
+<include file="public:header" />
+<div id="bd">
+    <div class="layout grid-s45m0 w1000 user-center">
+        <div class="col-main">
+            <div class="main-wrap">
+				<div class="box J_TBox">
+					<div class="global-title">用户信息
+					<div class="order_search_box">
+						<form method="get" action="">
+							<span class="standard_select fl"> 
+								<span class="select_shelter"> 
+								<select name="tgroup" class="order_select fl" style="width:112px;">
+									<option value="">用户类型(全部)</option>
+									<volist name="tgroup" id="val">
+									<if condition="$key gt 0">
+									<option value="{$key}" <if condition="$search[tgroup] eq $key">selected</if>>{$val}</option>
+									</if>
+									</volist>
+								</select>
+								</span>
+							</span>
+							<input type="text" name="tele" class="order_text fl" placeholder="请输入手机号" value="{$search[tele]}">
+							<input type="submit" class="order_sub" value="搜索"/>
+							<input type="hidden" name="id" value="{$search.id}">
+							<input type="hidden" name="m" value="user">
+							<input type="hidden" name="a" value="team">
+						</form>
+					</div>
+					</div>
+				</div>
+				<div class="box J_TBox" style="font-size:14px;">
+					<p style="padding:10px 0;border-bottom:1px solid #ccc;"><span style="font-size:18px;">团队</span><br>交易总额：￥{$order.total}元 提货总额：￥{$order.delivery}元 <!-- 退款总额：{$order.refund} --> 累计充值：￥{$recharge.total}元 <!-- 累积提现：{$cash.total} --></p>
+					<!-- <p style="padding:10px 0;"><span style="font-size:18px;">我的</span><br>交易总额：{$order_user.total} 提总货额：{$order_user.delivery} 退款总额：{$order_user.refund} 累计充值：{$recharge_user.total} 累积提现：{$cash_user.total}</p> -->
+				</div>
+
+                <div class="box J_TBox">
+					<table cellpadding="0" cellspacing="0" class="server-content table-list" style="margin-bottom:10px;">
+						<tr class="title">
+							<td align="center">用户名称</td>
+							<td align="center">用户类型</td>
+							<td align="center">手机号码</td>
+							<td align="center">状态</td>
+							<td align="center" width="120">操作</td>
+						</tr>
+						<volist name="list" id="val">
+						<tr class="list">
+							<td align="center">
+								{$val.username}
+							</td>
+							<td>
+								<if condition="$val[tgroup] elt 3 && $val[tgroup] gt 0"><a href="{:U('user/order',array('tgroup_'.$val['tgroup']=>$val['id'],'profit'=>$_GET['profit']))}">{$tgroup[$val[tgroup]]}</a><else/>{$tgroup[$val[tgroup]]}</if>
+							</td>
+							<td>
+								{$val.tele}
+							</td>
+							<td>
+								<if condition="$val.status eq 1">启用<else/>关闭</if>
+							</td>
+							<td>
+								<a href="{:U('user/order_total',array('id'=>$val['id']))}">消费明细</a> | <a href="{:U('user/price_total',array('id'=>$val['id']))}">资金明细</a>
+							</td>
+						</tr>
+						</volist>
+					</table>
+                </div>
+                <div class="box J_TBox"  style="margin-bottom:40px;text-align:right">
+					联席董事、官方合伙人、总经销商，点击用户类型可查看相关消费明细
+                </div>
+
+				<div class="box J_TBox">
+					<div class="global-pages">
+						<span class="num">
+							{$page}
+						</span>
+					</div>
+				</div>
+            </div>
+        </div>
+        <include file="user:left" />
+    </div>
+</div>
+<!--主部结束-->
+
+<include file="public:footer" />

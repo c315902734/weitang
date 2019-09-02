@@ -1,0 +1,31 @@
+<div class="dialog_content">
+	<form id="info_form" name="info_form" action="{:U('item/item_topic')}" method="post">
+    <table width="100%" class="table_form">
+    	<tr>
+          <th width="100">选择专题 :</th>
+          <td>
+			<select name="topic_id">
+				<option value="">请选择</option>
+				<volist name="topiclist" id="val">
+				<option value="{$val.id}" <if condition="$search eq $val['id']">selected="selected"</if>>{$val.title}</option>
+				</volist>
+             </select>
+          	<!-- <input type="hidden" name="pid" id="J_cate_id"  value="{$info.pid}"/> -->
+				<input type="hidden" name="item_id" value="{$id}" />
+		  </td>
+        </tr>
+    </table>
+    </form>
+</div>
+<script type="text/javascript">
+$('#info_form').ajaxForm({success:complete,dataType:'json'});
+function complete(result){
+	if(result.status == 1){
+		$.dialog.get(result.dialog).close();
+		$.pinphp.tip({content:result.msg});
+		window.location.reload();
+	} else {
+		$.pinphp.tip({content:result.msg, icon:'alert'});
+	}
+}
+</script>

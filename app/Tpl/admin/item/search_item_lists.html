@@ -1,0 +1,74 @@
+<include file="public:header" />
+<style>
+    select{width:90px;}
+	.btn_wrap_fixed .btn{padding: 4px 5px; margin-right: 5px;}
+</style>
+<!--会员列表-->
+<div class="pad_10">
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+            <tr>
+                <td>
+                <div class="explain_col">
+                    <input type="hidden" name="g" value="admin" />
+                    <input type="hidden" name="m" value="item" />
+                    <input type="hidden" name="a" value="search_item_lists" />
+                    <input type="hidden" name="menuid" value="{$menuid}" />
+                    商品编码：      
+                    <input name="sn" type="text" class="input-text" size="15" value="{$search.sn}" />
+                    &nbsp;&nbsp;商品名称：      
+                    <input name="title" type="text" class="input-text" size="15" value="{$search.title}" />
+                    &nbsp;&nbsp;生产厂家：
+                    <input name="company" type="text" class="input-text" size="15" value="{$search.company}" />
+                    &nbsp;&nbsp;产品价格：
+                    <input name="price" type="text" class="input-text" size="15" value="{$search.price}" />
+
+                    <input type="submit" name="search" class="btn mr10" value="搜索" />
+                </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+
+    <div class="J_tablelist table_list" data-acturi="{:U('item/ajax_edit')}">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th width=25><input type="checkbox" id="checkall_t" class="J_checkall"></th>
+                <th width="100" align="left">商品编码</th>
+                <th align="left">商品通用名</th>
+                <th width="100" align="left">规格</th>
+                <th width="150"><span data-tdtype="order_by" data-field="sales">批准文号</span></th>
+                <th width="180"><span data-tdtype="order_by" data-field="price">生产厂家</span></th>
+                <th width="80"><span data-tdtype="order_by" data-field="mprice">销售价(元)</span></th>
+                <th width="80">{:L('operations_manage')}</th>
+            </tr>
+        </thead>
+    	<tbody>
+            <volist name="list" id="val" >
+            <tr>
+                <td align="center"><input type="checkbox" class="J_checkitem" value="{$val.id}"></td>
+                <td>{$val.sn}</td>
+                <td align="left">
+                    {$val.name}
+                </td>
+               	<td>{$val.spec}</td>
+               	<td>{$val.docs}</td>
+               	<td title="{:$val[company]}">{:msubstr($val[company],20)}</td>
+                <td align="center">￥{$val['price']}</td>
+               	<td align="center">
+                    <a href="{:u('item/see', array('id'=>$val['id'], 'p'=>$p, 'retail'=>$retail, 'menuid'=>$menuid))}">查看</a>
+				</td>
+            </tr>
+            </volist>
+    	</tbody>
+    </table>
+    <div class="btn_wrap_fixed">
+        <div id="pages">{$page}</div>
+    </div>
+
+    </div>
+</div>
+<include file="public:footer" />

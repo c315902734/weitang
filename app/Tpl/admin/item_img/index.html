@@ -1,0 +1,63 @@
+<include file="public:header" />
+<br>
+<style>
+    select{width:90px;}
+	.item_img{width:120px;float:left;margin-right:10px;padding:5px;position:relative;margin-bottom:10px;}
+	.item_img input{position:absolute;top:5px;left:5px;}
+	.item_img .img{height:156px;overflow:hidden;border-bottom:1px solid #d5dfe8;}
+	.item_img .img .pic{height:120px;}
+	.item_img .img .desc{height:36px;line-height:18px;overflow:hidden;}
+	.item_img .img img{width:100%;}
+	.item_img .bottom {text-align:center;height: 25px;line-height:30px;}
+	.item_img .bottom a{padding:5px;color:#fff;background-color:#6666ff;border-radius:5px;}
+</style>
+<!--会员列表-->
+<div class="pad_lr_10">
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+            <tr>
+                <td>
+                <div class="explain_col">
+                    <input type="hidden" name="g" value="admin" />
+                    <input type="hidden" name="m" value="item_img" />
+                    <input type="hidden" name="a" value="index" />
+                    <input type="hidden" name="menuid" value="{$menuid}" />
+                    <!-- &nbsp;&nbsp;商品名称：      
+                    <input name="title" type="text" class="input-text" size="15" value="{$search.title}" /> -->
+                    商品id：
+                    <input name="item_id" type="text" class="input-text" size="18" value="{$search.item_id}" />
+                    <input type="submit" name="search" class="btn mr10" value="搜索" />
+                </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+
+    <div class="J_tablelist" data-acturi="{:U('item_img/ajax_edit')}" style="margin-bottom:50px;">
+	<volist name="list" id="val">
+		<div class="item_img table_list">
+			<input type="checkbox" class="J_checkitem" value="{$val.id}">
+			<div class="img">
+				<p class="pic"><img src="{:attach($val['img'], 'assets')}"/></p>
+				<p class="desc">{$val.item.title}</p>
+			</div>
+			<div class="bottom">
+				<a href="javascript:void(0);" class="J_confirmurl" data-uri="{:u('item_img/delete', array('id'=>$val['id']))}" data-acttype="ajax" data-msg="确定要删除该图片吗?">{:L('delete')}</a>
+				<a href="javascript:;" class="J_showdialog" data-uri="{:u('item_img/edit', array('id'=>$val['id']))}" data-title="替换图片" data-id="edit" data-width="500" data-height="20">替换</a>
+			</div>
+		</div>
+	</volist>
+	<div style="clear:both;">
+		
+	</div>
+    <div class="btn_wrap_fixed">
+        <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('item_img/delete',array('id'=>$r['id']))}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />
+        <div id="pages">{$page}</div>
+    </div>
+
+    </div>
+</div>
+<include file="public:footer" />

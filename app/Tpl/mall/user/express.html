@@ -1,0 +1,29 @@
+<div class="dialog_content">
+
+	<div class="common-form">
+
+		<if condition="$list">
+
+		<table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+			<tr>
+				<td colspan="2">发货时间：{$info.express_time}<br>快递公司：{$info.express_name}<br>快递单号：{$info.express_sn}</td>
+			</tr>
+			<tr>
+				<th>&nbsp;</th>
+			</tr>
+			<volist name="list" id="val">
+			<tr>
+				<th>{$val.time}</th>
+			</tr>
+			<tr style="font-size:10px;font-bold:">
+				<td>{$val.context}</td>
+			</tr>
+			</volist>
+		</table>
+		<else/>
+		<div style="padding:10px;text-align:center;">
+			当前没有物流信息反馈,请稍后再试.
+		</div>
+		</if>
+	</div>
+</div>

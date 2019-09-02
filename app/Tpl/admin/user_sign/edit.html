@@ -1,0 +1,57 @@
+<include file="public:header" />
+<form id="info_form" action="{:U('user_sign/edit')}" method="post" enctype="multipart/form-data">
+<div class="pad_10">
+  <div class="col_tab">
+    <ul class="J_tabs tab_but cu_li">
+      <li class="current">基本信息</li>
+    </ul>
+    <div class="J_panes">
+      <div class="content_list pad_10">
+        <table width="70%" cellpadding="2" cellspacing="1" class="table_form">
+          <tr>
+            <th width="120">会员帐号 :</th>
+            <td>
+              <input type="text" id="username" name="username" class="input-text fl mr10" size="30" /><div class="upload_btn"><span onclick="searchUserList();">搜索</span></div><select name="uid" id="uid" class="fl ml10" ><option value="{$info.uid}">{$info.uname}</option></select>
+            </td>
+          </tr>
+          <tr>
+            <th>签到时间 :</th>
+            <td>
+              <input name="date" type="text" class="J_date_picker date short" size="15" value="{$info.year}-{$info.month}-{$info.day}" placeholder="签到时间" />
+            </td>
+          </tr>
+          <tr>
+            <th>审核状态 :</th>
+            <td>
+              <label><input type="radio" name="status" value="1" <if condition="$info.status eq 1">checked</if> > 通过</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <label><input type="radio" name="status" value="0" <if condition="$info.status eq 0">checked</if>> 未通过</label>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    
+    <div class="mt10"><input type="submit" value="{:L('submit')}" class="btn btn_submit"></div>
+  </div>
+</div>
+<input type="hidden" name="menuid"  value="{$menuid}"/>
+<input type="hidden" name="id"  value="{$info.id}"/>
+</form>
+<include file="public:footer" />
+<script type="text/javascript">
+function searchUserList(){
+  var username = $('#username').val();
+  if(username == ''){
+    return false;
+  }
+  var url = '{:u("user_sign/search_user")}';
+  $.ajax({
+    url: url,
+    type:'POST',
+    data: {username:username},
+    success: function(uhtml){
+      $('#uid').show().html(uhtml);
+    }
+  });
+}
+</script>

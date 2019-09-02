@@ -1,0 +1,96 @@
+<include file="public:header" /><br>
+<!--会员列表-->
+<div class="pad_lr_10" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+			<tr>
+                <td>
+					<div style="margin-bottom:10px;">
+						<a href="{:U('team/order',array('id'=>$team[id]))}" class="btn btn_submit">消费明细</a>
+						<a href="{:U('team/price',array('id'=>$team[id]))}" class="btn">资金明细</a>
+						<a href="{:U('team/price_log',array('id'=>$team[id]))}" class="btn">收益明细</a>
+					</div>
+                </td>
+            </tr>
+			<tr>
+                <td>
+				<div class="explain_col">
+					<form name="searchform" method="get" >
+                    <input type="hidden" name="g" value="admin" />
+                    <input type="hidden" name="m" value="team" />
+                    <input type="hidden" name="a" value="order" />
+                    <input type="hidden" name="menuid" value="{$menuid}" />
+                    &nbsp;&nbsp;订单类型：      
+					<select name="type">
+						<option value="">订单类型(全部)</option>
+						<option value="1" <if condition="$search.type eq 1">selected</if>>消费</option>
+						<option value="2" <if condition="$search.type eq 2">selected</if>>退款</option>
+						<option value="3" <if condition="$search.type eq 3">selected</if>>提货</option>
+					</select>
+					&nbsp;&nbsp;升级状态：      
+					<select name="lottery">
+						<option value="">升级状态(全部)</option>
+						<option value="1" <if condition="$search.lottery eq 1">selected</if>>升级中</option>
+						<option value="2" <if condition="$search.lottery eq 2">selected</if>>升级成功</option>
+						<option value="9" <if condition="$search.lottery eq 9">selected</if>>升级失败</option>
+					</select>
+                    &nbsp;&nbsp;下单时间：
+                    <input type="text" name="stime" class="date J_date_picker short" value="{$search[stime]}" style="width:100px"> ~ <input type="text" name="etime" class="date J_date_picker short" value="{$search[etime]}" style="width:100px">
+                    &nbsp;&nbsp;手机号码
+					<input name="tele" type="text" class="input-text" size="15" value="{$search[tele]}">
+					<input type="hidden" name="id" value="{$_GET[id]}">
+
+                    <input type="submit" name="search" class="btn mr10" value="搜索" />
+					</form>
+                </div>
+                </td>
+            </tr>
+			<tr>
+                <td>
+                <div class="explain_col" style="margin-top:10px;">
+					团队名称：{$team.title}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;总交易额：￥{$order.total}元&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;总退款额：￥{$order.refund}元&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;总提货额：￥{$order.delivery}元&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;今日交易额：￥{$order.days}元
+                </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    
+
+    <div class="J_tablelist table_list" data-acturi="{:U('user/ajax_edit')}">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th width="120" align="left">用户</th>
+                <th width="100" align="left">手机号码</th>
+				<th width="50">订单金额</th>
+				<th width="50">升级状态</th>
+				<th width="40">退款/提货</th>
+				<th width="120">时间</th>
+				<th width="120">操作</th>
+            </tr>
+        </thead>
+    	<tbody>
+            <volist name="list" id="val" >
+            <tr>
+                <td align="left">{$val.username}</td>
+                <td align="left">{$val.tele}</td>
+        		<td align="center">{$val.prices}</td>
+                <td align="center">{$val.lottery}</td>
+                <td align="center">{$val.status}</td>
+				<td align="center">{$val.add_time}</td>
+				<td align="center"><a href="{:U('order/index',array('orderid'=>$val['orderid']))}">查看订单详情</a></td>
+            </tr>
+            </volist>
+    	</tbody>
+    </table>
+    <div class="btn_wrap_fixed">
+        <div id="pages">{$page}</div>
+    </div>
+
+    </div>
+</div>
+<include file="public:footer" />
+</body>
+</html>
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script type="text/javascript" src="__STATIC__/js/calendar/calendar.js"></script>

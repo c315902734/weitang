@@ -1,0 +1,19 @@
+<volist name="list" id="val">
+    <div class="row pb10 pt10 b-b">
+        <div class="col-xs-3" style="padding:0;">
+			{:date('Y-m-d',strtotime($val[add_time]))}
+        </div>
+		<div class="col-xs-3">
+			{$val.prices}
+        </div>
+		<div class="col-xs-3">
+			{$val.lottery}
+        </div>
+		<div class="col-xs-3">
+            {$val.status}
+        </div>
+		<div class="col-xs-12 mt5">
+			<p class="tr fs-12 gray">用户名：{$val['username']}&nbsp;&nbsp;手机号：{$val['tele']}</p>
+		</div>
+    </div>
+</volist>

@@ -1,0 +1,360 @@
+<include file="public:header" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script type="text/javascript" src="__STATIC__/js/calendar/calendar.js"></script>
+<div class="pad_10">
+	<div class="col_tab">
+		<div style="height:27px">
+		<ul class="J_tabs tab_but cu_li" style=" float: left;">
+			<li class="current">基本信息</li>
+			<li>商品详情</li>
+			<li>品质信息</li>
+			<li>APP信息</li>
+			<li>商品图</li>
+			<li>包装图</li>
+			<li>SEO设置</li>
+		</ul>
+		</div>
+		<div class="J_panes">
+			<div class="content_list pad_10">
+				<table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+					<tr>
+						<th width="120">所属分类 :</th>
+						<td>
+							<select class="J_cate_select mr10" data-pid="0" data-uri="{:U('item_cate/ajax_getchild')}" data-selected="{$selected_cate_ids}"></select>
+							<input type="hidden" name="cate_id" id="J_cate_id" value="{$info.cate_id}"/>
+						</td>
+					</tr>
+					<tr>
+						<th>商品名称 :</th>
+						<td>
+							{$info.title}
+						</td>
+					</tr>
+					<tr>
+						<th>商品货号 :</th>
+						<td>
+							{$info.sn}
+						</td>
+					</tr>
+					<tr>
+						<th>上市时间 :</th>
+						<td>
+							{$info['new_year']}年{$info['new_month']}月
+							<if condition="'上旬' eq $info['new_days']">上旬</if>
+                            <if condition="'中旬' eq $info['new_days']">中旬</if>
+                            <if condition="'下旬' eq $info['new_days']">下旬</if>
+                            </select>
+						</td>
+					</tr>
+					<tr>
+						<th>生产周期 :</th>
+						<td>
+							{$info.years}
+						</td>
+					</tr>
+					<tr>
+						<th>生产规模 :</th>
+						<td>
+							{$info.areas}
+						</td>
+					</tr>
+					<tr>
+						<th width="120">商品标签 :</th>
+						<td>
+							{$info.tags}
+						</td>
+					</tr>
+					<tr>
+						<th width="120">零售价格 :</th>
+						<td>
+							{$info.price} 元/斤
+						</td>
+					</tr>
+					<tr>
+						<th width="120">批发价格 :</th>
+						<td>
+							{$info.rprice} 元/斤
+						</td>
+					</tr>
+					<tr>
+						<th width="120">总重量 :</th>
+						<td>
+							{$info.stock} 斤
+						</td>
+					</tr>
+					<tr>
+						<th>商品图片 :</th>
+						<td>
+							<notempty name="info['img']"><span class="attachment_icon J_attachment_icon" file-type="image" file-rel="{:attach($info['img'], 'assets')}"><img src="{:attach($info['img'], 'assets')}" width="30" /></span></notempty>
+						</td>
+					</tr>
+					<tr>
+						<th>链接地址 :</th>
+						<td>
+							{$info.url}
+						</td>
+					</tr>
+                    <tr>
+                        <th>保质期 :</th>
+                        <td>
+                            <volist name="days_list" id="val">
+                                <if condition="$info['days'] eq $val['id']">{$val.name}</if>
+                            </volist>
+                        </td>
+                    </tr>
+					<if condition="$item_sku">
+					<tr>
+						<th>规格属性 :</th>
+						<td>
+							<table width="350">
+								<tr>
+									<td style="background-color:#efefef">名称</td>
+									<td style="background-color:#efefef" align="center">数量</td>
+									<td style="background-color:#efefef" align="center">价格</td>
+								</tr>
+								<volist name="item_sku" id="val">
+								<tr>
+									<td>{$val.name}</td>
+									<td align="center">{$val.nums}KG</td>
+									<td align="center">{$val['nums']*$info['price']}元</td>
+								</tr>
+							</volist>
+							</table>
+						</td>
+					</tr>
+					</if>
+					<tr>
+						<th>是否新品 :</th>
+						<td>
+							<if condition="$info.is_new eq 1">是</if>
+							<if condition="$info.is_new eq 0">否</if>
+						</td>
+					</tr>
+					<tr>
+						<th>是否热门 :</th>
+						<td>
+							<if condition="$info.is_hots eq 1">是</if>
+							<if condition="$info.is_hots eq 0">否</if>
+						</td>
+					</tr>
+					<tr>
+						<th width="120">添加时间</th>
+					   	<td>
+							{$info.uname}({$info.add_time})
+						</td>
+					</tr>
+					<tr>
+						<th>审核状态 :</th>
+						<td>
+							<if condition="$info.status eq 1">通过</if>
+							<if condition="$info.status eq 0">未通过</if>
+						</td>
+					</tr>
+				</table>
+			</div>
+
+			<div class="content_list pad_10">
+				<table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+					<tr>
+						<th width="120">生产许可证 :</th>
+						<td>
+							{$info.license}
+						</td>
+					</tr>
+					<tr>
+						<th>品牌 :</th>
+						<td>
+							{$info.brand}
+						</td>
+					</tr>
+					<tr>
+						<th>存储方式 :</th>
+						<td>
+							<volist name="storage_list" id="val">
+								<if condition="$info['storage'] eq $val['id']">{$val.name}</if>
+							</volist>
+						</td>
+					</tr>
+					<tr>
+						<th>收藏数 :</th>
+						<td>
+							{$info.favs}
+						</td>
+					</tr>
+					<tr>
+						<th>评论数 :</th>
+						<td>
+							{$info.comments}
+						</td>
+					</tr>
+					<tr>
+						<th>点击数 :</th>
+						<td>
+							{$info.hits}
+						</td>
+					</tr>
+					<tr>
+						<th>排序值 :</th>
+						<td>
+							{$info.ordid}
+						</td>
+					</tr>
+					<tr>
+						<th>商品描述 :</th>
+						<td>
+							<div style="width:700px; height: 300px;">{$info.info}</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div class="content_list pad_10">
+				<table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+                    <if condition="$attr_list">
+                        <volist name="attr_list" id="val" key="k">
+                        <tr>
+                            <th>{$val.name} :</th>
+                            <td>
+                                <if condition="$val['type'] eq 1">
+                                    <volist name="val['attr_val']" id="vo" key="key">
+                                        <if condition="$vo['id'] eq $qual_attr[$k-1]['attr_val_id']">{$vo.name}</if>
+                                    </volist>
+                                <else />
+                                    {$qual_attr[$k-1]}
+                                </if>
+                            </td>
+                        </tr>
+                        </volist>
+                    </if>
+                    <tr>
+						<th width="120">复合肥含量 :</th>
+						<td>
+							{$info.qual_comp}
+						</td>
+					</tr>
+					<tr>
+						<th>有机质含量 :</th>
+						<td>
+							{$info.qual_orga}
+						</td>
+					</tr>
+					<tr>
+						<th>产品认证  :</th>
+						<td>
+                            <if condition="$info.auth eq 0">无</if>
+                            <if condition="$info.auth eq 1">绿色</if>
+                            <if condition="$info.auth eq 2">有机</if>
+                            <if condition="$info.auth eq 3">无公害</if>
+						</td>
+					</tr>
+                    <if condition="$info.auth gt 0">
+                    <if condition="$info.qual_img neq ''">
+                        <tr class="auth_img">
+                            <th></th>
+                            <td>
+                                <img src="{:attach($info['qual_img'], 'assets')}" width="100" height="50" />
+                            </td>
+                        </tr>
+                    </if>
+                    </if>
+					<if condition="$info.qual_safe neq ''">
+					<tr>
+						<th></th>
+						<td>
+							<img src="{:attach($info['qual_safe'], 'assets')}" width="100" height="50" />
+						</td>
+					</tr>
+					</if>
+					<if condition="$info['qual_char'] neq ''">
+					<tr>
+						<th></th>
+						<td>
+							<img src="{:attach($info['qual_char'], 'assets')}" width="100" height="50" />
+						</td>
+					</tr>
+					</if>
+					<tr>
+						<th>产品品质状态 :</th>
+						<td>
+							<if condition="$info.qual_status eq 0">未审核<elseif condition="$info.qual_status eq 1" />通过<elseif condition="$info.qual_status eq 2" />未通过<elseif condition="$info.qual_status eq 3" />黑名单</if>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div class="content_list pad_10">
+				<table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+					<tr>
+						<th width="120">APP描述 :</th>
+						<td>
+							<div style="width:700px;height:300px;" >{$info.app_info}</div>
+						</td>
+					</tr>
+					<tr>
+						<th>APP状态 :</th>
+						<td>
+							<label><input type="radio" name="app_status" value="1" <if condition="$info.app_status eq 1">checked</if> > 通过</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<label><input type="radio" name="app_status" value="0" <if condition="$info.app_status eq 0">checked</if>> 未通过</label>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div class="content_list pad_10 hidden">
+				<style>
+					.addpic {}
+					.addpic li { float:left; text-align:center; margin:0 0 10px 20px;}
+					.addpic a { display:block;}
+				</style>
+				<ul class="addpic">
+				<volist name="img_list" id="val">      
+				<li class="album_{$val['id']}">
+				<a><img src="{:attach($val['img'], 'assets')}" style="width:80px;height:60px; border:solid 1px #000; "/></a>
+				</li>
+				</volist>
+				</ul>
+			</div>
+			<div class="content_list pad_10 hidden">
+				<style>
+					.addpic {}
+					.addpic li { float:left; text-align:center; margin:0 0 10px 20px;}
+					.addpic a { display:block;}
+				</style>
+				<ul class="addpic">
+				<volist name="img_list2" id="val">      
+				<li class="album_{$val['id']}">
+				<a><img src="{:attach($val['img'], 'assets')}" style="width:80px;height:60px; border:solid 1px #000; "/></a>
+				</li>
+				</volist>
+				</ul>
+			</div>
+			<div class="content_list pad_10">
+				<table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+					<tr>
+						<th width="120">{:L('seo_title')} :</th>
+						<td>{$info.seo_titile}</td>
+					</tr>
+					<tr>
+						<th>{:L('seo_keys')} :</th>
+						<td>{$info.seo_keys}</td>
+					</tr>
+					<tr>
+						<th>{:L('seo_desc')} :</th>
+						<td>{$info.seo_desc}</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		
+		<div class="mt10"><a href="{:U('item/index', array('p'=>$p))}" class="btn btn_submit">返回</a></div>
+	</div>
+</div>
+<input type="hidden" name="menuid"  value="{$menuid}"/>
+<input type="hidden" name="p"  value="{$p}"/>
+<input type="hidden" name="id"  value="{$info.id}"/>
+
+<include file="public:footer" />
+<script type="text/javascript">
+$(function (){
+	$('ul.J_tabs').tabs('div.J_panes > div');
+	$('.J_cate_select').cate_select({field:'J_cate_id'});
+});
+
+</script>

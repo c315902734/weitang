@@ -1,0 +1,394 @@
+<include file="public:header" />
+
+<!--会员列表-->
+
+<div class="pad_10">
+
+    <form name="searchform" method="get" >
+
+    <table width="100%" cellspacing="0" class="search_form">
+
+        <tbody>
+
+            <tr>
+
+                <td>
+
+                <div class="explain_col">
+
+                    <input type="hidden" name="g" value="admin" />
+
+                    <input type="hidden" name="m" value="item" />
+
+                    <input type="hidden" name="a" value="index" />
+
+                    <input type="hidden" name="menuid" value="{$menuid}" />
+
+                   	商品分类：
+
+              		<select class="J_cate_select mr10" data-pid="0" data-uri="{:U('item_cate/ajax_getchild', array('type'=>0))}" data-selected="{$search.selected_ids}"></select>
+
+                    <input type="hidden" name="cate_id" id="J_cate_id" value="{$search.selected_ids}"/>
+
+                    商品品牌：
+
+                    <select name="brand_id">
+
+                        <option value="">-请选择-</option>
+
+                        <volist name="sbrand_list" id="val">
+
+                            <option value="{$val.id}" <if condition="$search[brand_id] eq $val[id]">selected</if>>{$val.title}</option>
+
+                        </volist>
+
+                    </select>
+
+                    <!-- 商品类型:
+                    <select name="type">
+                        <option value="">-请选择-</option>
+                        <option value="1" <if condition="$search['type'] eq 1">selected</if>>全赠</option>
+                        <option value="2" <if condition="$search['type'] eq 2">selected</if>>日赠</option>
+                    </select> -->
+
+                	商品名称：      
+                   	<input name="title" type="text" class="input-text" size="25" value="{$search.title}" />
+                    &nbsp;&nbsp;<div style="height:8px"></div>
+                    添加时间：
+                    <input type="text" name="stime" id="J_time_start" class="date J_date_picker" size="10" value="{$search.stime}">
+                    -
+                    <input type="text" name="etime" id="J_time_end" class="date J_date_picker" size="10" value="{$search.etime}">
+                    审核通过：<select name="status">
+						<option value="">-{:L('all')}-</option>
+						<option value="1" <if condition="$search.status eq '1'">selected="selected"</if>>通过</option>
+						<option value="0" <if condition="$search.status eq '0'">selected="selected"</if>>未通过</option>
+					</select>
+			 		是否促销：<select name="is_hots">
+						<option value="">-{:L('all')}-</option>
+						<option <if condition="$search.is_hots eq '1'">selected</if> value="1">是</option>
+						<option <if condition="$search.is_hots eq '2'">selected</if> value="2">否</option>
+					</select>
+                    &nbsp;&nbsp;是否新品：
+                    <select name="is_new">
+                        <option value="">-{:L('all')}-</option>
+                        <option <if condition="$search.is_new eq '1'">selected</if> value="1">是</option>
+                        <option <if condition="$search.is_new eq '2'">selected</if> value="2">否</option>
+                    </select>
+                    &nbsp;关键字 :
+                    <input name="keyword" type="text" class="input-text" size="15" value="{$search.keyword}" />
+                    <input type="submit" name="search" class="btn" value="搜索" />
+                </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+
+
+
+    <div class="J_tablelist table_list" data-acturi="{:U('item/ajax_edit')}">
+
+    <table width="100%" cellspacing="0">
+
+        <thead>
+            <tr>
+                <th width=25><input type="checkbox" id="checkall_t" class="J_checkall"></th>
+                <th width="20"><span data-tdtype="order_by" data-field="id">ID</span></th>
+                <th width="40">图片</th>
+                <th width="80" align="left"><span data-tdtype="order_by" data-field="cate_id">分类</span></th>
+                <th width="80" align="left">商家</th>
+                <th align="left"><span data-tdtype="order_by" data-field="title">商品名称</span></th>
+                <th width="40"><span data-tdtype="order_by" data-field="stock">库存</span></th>
+                <th width="80"><span data-tdtype="order_by" data-field="mprice">市场价(元)</span></th>
+                <th width="80"><span data-tdtype="order_by" data-field="price">销售价(元)</span></th>
+                 <th width="80"><span data-tdtype="order_by" data-field="cprice">成本价(元)</span></th>
+				<th width="40"><span data-tdtype="order_by" data-field="is_hots">促销</span></th>
+                <th width="40"><span data-tdtype="order_by" data-field="is_new">新品</span></th>
+                <th width="40"><span data-tdtype="order_by" data-field="ordid">排序</span></th> 
+				<th width="40"><span data-tdtype="order_by" data-field="status">状态</span></th>
+                <th width="120">{:L('operations_manage')}</th>
+            </tr>
+        </thead>
+    	<tbody>
+            <volist name="list" id="val" >
+            <tr>
+                <td align="center"><input type="checkbox" class="J_checkitem" value="{$val.id}"></td>
+                <td align="center">{$val.id}</td>
+                <td align="center">
+                    <if condition="$val['img']">
+                        <a class="img_border" href="{:U('mall/item/index',['id'=>$val['id']])}" target="_blank">
+							<img src="{:attach($val['img'], 'assets')}"  width="30" height="30" class="J_preview" data-bimg="{:attach($val['img'], 'assets')}">
+                        </a>
+                    </if>
+                </td>
+                <td>
+					{$cate_list[$val['cate_id']]}
+				</td>
+                <td>{$val.mname}</td>
+               	<td align="left">
+                    {$val.sn}<!-- &nbsp;&nbsp;[<a href="{$val.url}" target=_blank><font color=red>链</font></a>]--><br /> 
+                    <span data-tdtype="edit" data-field="title" data-id="{$val.id}" class="tdedit" style="color:">
+                        {$val.title}
+                    </span>
+                </td>
+                <td align="center">
+                    <span data-tdtype="edit" data-field="stock" data-id="{$val.id}" class="tdedit" style="color:">{$val['stock']}</span>
+                </td>
+                <td align="center">
+                    <span data-tdtype="edit" data-field="mprice" data-id="{$val.id}" class="tdedit" style="color:">{$val['mprice']}</span>
+                </td>
+                <td align="center">
+                    <span data-tdtype="edit" data-field="price" data-id="{$val.id}" class="tdedit" style="color:">{$val['price']}</span>
+                </td>
+                <td align="center">
+                    <span data-tdtype="edit" data-field="cprice" data-id="{$val.id}" class="tdedit" style="color:">{$val['cprice']}</span>
+                </td>
+				<td align="center"><img data-tdtype="toggle" data-id="{$val.id}" data-field="is_hots" data-value="{$val.is_hots}" src="__STATIC__/images/admin/toggle_<if condition="$val.is_hots eq 0">disabled<else/>enabled</if>.gif" /></td>
+                <td align="center"><img data-tdtype="toggle" data-id="{$val.id}" data-field="is_new" data-value="{$val.is_new}" src="__STATIC__/images/admin/toggle_<if condition="$val.is_new eq 0">disabled<else/>enabled</if>.gif" /></td>
+                <td align="center"><span data-tdtype="edit" data-field="ordid" data-id="{$val.id}" class="tdedit">{$val.ordid}</span></td>
+				<td align="center"><img data-tdtype="toggle" data-id="{$val.id}" data-field="status" data-value="{$val.status}" src="__STATIC__/images/admin/toggle_<if condition="$val.status eq 0">disabled<else/>enabled</if>.gif" /></td>
+
+               	<td align="center">
+					<if condition="C('ins_buy_limit') eq '1'">
+                    <a href="javascript:;" class="J_showdialog" data-uri="{:U('item/setting', array('id'=>$val['id']))}" data-title="参数设置" data-id="setting" data-width="380" data-height="50">参数设置</a> |
+					</if>
+                    <a href="{:U('item/edit', array('id'=>$val['id'], 'menuid'=>$menuid))}">编辑</a> |
+                    <a href="javascript:void(0);" class="J_confirmurl" data-uri="{:U('item/delete', array('id'=>$val['id']))}" data-acttype="ajax" data-msg="{:sprintf(L('confirm_delete_one'),$val['title'])}">{:L('delete')}</a>
+
+				</td>
+
+            </tr>
+
+            </volist>
+
+    	</tbody>
+
+    </table>
+
+    <div class="btn_wrap_fixed">
+
+        <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('item/delete',array('id'=>$r['id']))}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />
+
+		<a class="js-batch-topic btn" href="javascript:void(0);" data-uri="{:U('item/topic')}" data-title="专题" data-id="topic" data-width="400" data-height="50">
+            添加到专题
+        </a>
+		<a class="js-batch-topic btn" href="javascript:void(0);" data-uri="{:U('item/change_mid')}" data-title="移动到商家" data-id="change_mid" data-width="400" data-height="50">
+            移动到商家
+        </a>
+		<a class="js-batch-topic btn" href="javascript:void(0);" data-uri="{:U('item/change_cate')}" data-title="所属分类" data-id="change_cate" data-width="400" data-height="50">
+            所属分类
+        </a>
+
+        <div id="pages">{$page}</div>
+    </div>
+    </div>
+</div>
+
+<include file="public:footer" />
+
+<style>
+
+    .content{
+
+        position: relative;
+
+    }
+
+    .content .qrcontent img {width:30px;height:30px;}
+
+    .content .qrcontent2{
+
+        position: absolute;
+
+        top:-40px;
+
+        left: 40px;
+
+    }
+
+</style>
+
+<script src="__STATIC__/vendor/plugins/jquery.qrcode.js"></script>
+
+<script>
+
+$(function(){
+
+    $('.qrcontent').each(function(){
+
+        var text = $(this).data('url');
+
+        $(this).qrcode({
+
+            text: text,
+
+            width: 200,
+
+            height: 200
+
+        });
+
+    });
+
+    $('.qrcontent2').each(function(){
+
+        $(this).hide();
+
+        var text = $(this).data('url');
+
+        $(this).qrcode({
+
+            text: text,
+
+            width: 200,
+
+            height: 200
+
+        });
+
+    });
+
+    $('.qrcontent').hover(function(){
+
+        $('.qrcontent2').hide();
+
+        $(this).next('.qrcontent2').show();
+
+    }, function(){
+
+        $('.qrcontent2').hide();
+
+    });
+
+
+
+    $('.qrcontent').live('click', function(){
+
+        var text = $(this).data('url');
+
+        var url = "{:U('item/erweima')}"+'&text='+text;
+
+        window.open(url);
+
+    });
+
+
+
+	$('.J_cate_select').cate_select({field:'J_cate_id'});
+
+
+
+	//弹窗表单
+
+	$('.js-batch-topic').live('click', function(){
+
+
+
+		var ids = '';
+
+		for(var i = 0;i < $('.J_checkitem:checked').length;i++){
+
+			if(i == 0){
+
+				ids += $('.J_checkitem:checked').eq(i).val();
+
+			}else{
+
+				ids += ','+$('.J_checkitem:checked').eq(i).val();
+
+			}
+
+			
+
+		}
+
+		if(ids.length < 1){
+
+			return false;
+
+		}
+
+		var self = $(this),
+
+			dtitle = self.attr('data-title'),
+
+			did = self.attr('data-id'),
+
+			duri = self.attr('data-uri'),
+
+			dwidth = parseInt(self.attr('data-width')),
+
+			dheight = parseInt(self.attr('data-height')),
+
+			dpadding = (self.attr('data-padding') != undefined) ? self.attr('data-padding') : '',
+
+			dcallback = self.attr('data-callback');
+
+		$.dialog({id:did}).close();
+
+		$.dialog({
+
+			id:did,
+
+			title:dtitle,
+
+			width:dwidth ? dwidth : 'auto',
+
+			height:dheight ? dheight : 'auto',
+
+			padding:dpadding,
+
+			lock:true,
+
+			ok:function(){
+
+				var info_form = this.dom.content.find('#info_form');
+
+				if(info_form[0] != undefined){
+
+                    $(info_form).append('<input type="hidden" name="ajax" value="1"/>');
+
+					info_form.submit();
+
+					if(dcallback != undefined){
+
+						eval(dcallback+'()');
+
+					}
+
+					return false;
+
+				}
+
+				if(dcallback != undefined){
+
+					eval(dcallback+'()');
+
+				}
+
+			},
+
+			cancel:function(){}
+
+		});
+
+		$.getJSON(duri,{ids:ids}, function(result){
+
+			if(result.status == 1){
+
+				$.dialog.get(did).content(result.data);
+
+			}
+
+		});
+
+		return false;
+
+	});
+
+	$('.J_preview').preview(); //查看大图
+
+});
+</script>

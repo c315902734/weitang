@@ -1,0 +1,77 @@
+<include file="public:header"/>
+<style type="text/css">
+.global-list .col-xs-3 {
+    padding-left: 15px;
+}
+</style>
+<div class="container">
+	<div class="row global-top">
+        <div class="col-xs-2">
+            <a href="{:U(MODULE_NAME.'/index')}" class="return"></a>
+        </div>
+        <div class="col-xs-8">
+            <div class="text">实名认证</div>
+        </div>
+        <div class="col-xs-2">
+        </div>
+    </div>
+</div>
+<div class="container ">
+	<form action="{:U('user/certification')}" method="post">
+	<div class="row white-bg login-list mt50 user_profile_page">
+		<div class="global-list">
+			<div class="col-xs-3 name">银行名称</div>
+			<div class="col-xs-9 b-b"><input type="text" name="bankname" class="f_input" placeholder="银行名称" data-rule-required="true" value="{$info.bankname}" /></div>
+		</div>
+		<div class="global-list">
+			<div class="col-xs-3 name">银行帐号</div>
+			<div class="col-xs-9 b-b"><input type="text" name="bankid" class="f_input" placeholder="银行帐号" data-rule-required="true" value="{$info.bankid}" /></div>
+
+		</div>
+		<div class="global-list">
+			<div class="col-xs-3 name">真实姓名</div>
+			<div class="col-xs-9 b-b"><input type="text" name="realname" class="f_input" placeholder="银行帐号真实姓名" data-rule-required="true" value="{$info.realname}" /></div>
+		</div>
+		<div class="global-list">
+			<div class="col-xs-3 name">身份证号</div>
+			<div class="col-xs-9 b-b"><input type="text" name="cardid" class="f_input" placeholder="身份证号码" data-rule-required="true" value="{$info.cardid}" /></div>
+		</div>
+		<div class="global-list">
+			<div class="col-xs-3 name">性别</div>
+			<div class="col-xs-9 b-b"><input type="radio" name="sex" value="1" <if condition="$info.sex eq 1">checked</if>>男&nbsp;&nbsp;<input type="radio" name="sex" value="0" <if condition="$info.sex eq 0">checked</if>>女</div>
+		</div>
+		<!--<div class="global-list">-->
+			<!--<div class="col-xs-3 name">支付宝(可选)</div>-->
+			<!--<div class="col-xs-9 b-b"><input type="text" name="company" class="f_input" placeholder="所属机构/工作单位" data-rule-required="false" value="{$info.company}" /></div>-->
+		<!--</div>-->
+		<div class="global-list">
+            <div class="col-xs-3 name">微信收款码</div>
+            <div class="col-xs-9 b-b upload_erweima">
+				<img src="{:attach($info['receive_erweima'],'assets')}" class="erweima fl mt10 mb10" width="40" height="40">
+				<if condition="$info['is_auth'] neq 1"><div class="fl pr">
+					<a href="javascript:;" class="btn green mt10 mb10 ml10">上传</a>
+					<div class="upload_input">
+						<input type="file" name="receive_erweima" id="receive_erweima" style="display: none;">
+					</div>
+                </div>
+				<input type="hidden" name="receive_erweima" value="{$info.receive_erweima}" id="J_img_hidden"></if>
+            </div>
+        </div>
+		<if condition="$info['is_auth'] eq 9">
+		<div class="global-list">
+			<div class="col-xs-3 name">认证状态</div>
+			<div class="col-xs-9 b-b">等待认证</div>
+		</div>
+		</if>
+	</div>
+	<if condition="$info['is_auth'] neq 1">
+	<div class="row mt20">
+		<div class="global-submit-bot1">
+			<input type="submit" value="确定">
+			<input type="hidden" name="ret_url" value="{$ret_url}">
+		</div>
+	</div>
+	</if>
+	</form>
+</div>
+<include file="public:footer"/>

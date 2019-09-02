@@ -1,0 +1,69 @@
+<include file="public:header"/>
+<script type="text/javascript">
+_global.tgroup = {$tgroupid};
+</script>
+<style>
+label{float:left; padding:0 10px 0 10px}
+.mod_user .user-info input[type=radio]{width:20px}
+.mod_user .user-info input[type=text],.mod_user .user-info input[type=password]{width:200px;margin:0 10px 0 0;}
+</style>
+<div id="bd">
+    <div class="layout grid-s45m0 w1000 user-center">
+        <div class="col-main">
+            <div class="main-wrap">
+                <div class="box J_TBox">
+                    <div class="global-title">添加账户</div>
+                    <div class="user-info">
+                    <form class="J_form" action="{:U('user/add_user')}" method="post" enctype="multipart/form-data">
+                        <div class="list">
+                            <div class="name">团队级别 :</div>
+                            <div class="content select-sz">
+                                <select name="tgroup" id="tgroup">
+									<option value="">请选择级别</option>
+									<volist name="tgroup" id="g" key="$key">
+									<if condition="in_array($key,$level)">
+									<option value="{$key}">{$g}</option>
+									</if>
+									</volist>
+								</select>
+                            </div>
+                        </div>
+						<div class="list" id="higherUp" style="display:none;">
+                            <div class="name">关联上级 :</div>
+                            <div class="content"></div>
+                        </div>
+
+                        <div class="list">
+                            <div class="name">用户名 :</div>
+                            <input type="text" placeholder="用户名" name="username"/>
+                        </div>
+                        <div class="list">
+                            <div class="name">帐号手机 :</div>
+                            <input type="text" placeholder="帐号手机" name="tele"/>
+                        </div>
+						<div class="list">
+                            <div class="name">收益比例 :</div>
+                            <input type="text" placeholder="收益比例" name="pers" value="1" style="width:50px;"/> %
+                        </div>
+                        <div class="list">
+                            <div class="name">帐号密码 :</div>
+                            <input type="password" placeholder="帐号密码" name="password" />
+                        </div>
+						<div class="list">
+                            <div class="name">确认密码 :</div>
+                            <input type="password" placeholder="确认密码" name="rpassword" />
+                        </div>
+						
+                        <div class="list">
+                            <div class="name"></div>
+                            <input type="submit" class="submit" value="保存" />
+                        </div>
+                    </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <include file="left" />
+    </div>
+</div>
+<include file="public:footer"/>

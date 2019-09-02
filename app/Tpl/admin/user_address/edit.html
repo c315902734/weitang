@@ -1,0 +1,109 @@
+<include file="public:header" />
+<br>
+<form id="info_form" action="{:u('user_address/edit')}" method="post" enctype="multipart/form-data">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+			<li class="current">基本信息</li>
+		</ul>
+		<div class="J_panes">
+			<div class="content_list pad_10">
+				<table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+					<tr>
+						<th>会员帐号 :</th>
+						<td>
+							<input type="text" id="username" name="username" class="input-text fl mr10" size="30" /><div class="upload_btn"><span onclick="searchUserList();">搜索</span></div><select name="order_uid" id="uid" class="fl ml10" ><option value="">{$info.uname}</option></select>
+						</td>
+					</tr>
+					<tr>
+						<th>省份/城市/地区 :</th>
+						<td>
+                            <select class="J_cate_select mr10" data-pid="0" data-uri="{:U('city/ajax_getchilds', array('type'=>0))}" data-selected="{$selected_cids}"></select>
+                    		<input type="hidden" name="c_id" id="J_cate_id" value="{$ppd}"/>
+                            <!-- <select name="province" class="mr10" data-val="{$info.province}"></select>
+                            <select name="city" class="mr10" data-val="{$info.city}"></select>
+                            <select name="area" class="mr10" data-val="{$info.area}"></select> -->
+						</td>
+					</tr>
+					<tr>
+						<th>详细地址 :</th>
+						<td>
+							<textarea name="address" rows="5" cols="30">{$info.address}</textarea>
+						</td>
+					</tr>
+					<tr>
+						<th>邮编 :</th>
+						<td>
+							<input type="text" name="zipcode" id="zipcode" class="input-text fl mr10" value="{$info.zipcode}" size="30">
+						</td>
+					</tr>
+					<tr>
+						<th>联系电话 :</th>
+						<td>
+							<input type="text" name="tele" id="tele" class="input-text fl mr10" value="{$info.tele}" size="30">
+						</td>
+					</tr>
+					<tr>
+						<th>联系人 :</th>
+						<td>
+							<input type="text" name="name" id="name" class="input-text fl mr10" value="{$info.name}" size="30">
+						</td>
+					</tr>
+					<tr>
+						<th>添加时间 :</th>
+						<td>
+							<input type="text" name="add_time" id="add_time" class="J_date_picker date" value="{$info.add_time}" size="30">
+						</td>
+					</tr>
+					<tr>
+						<th>备注 :</th>
+						<td>
+							<textarea name="remark" rows="5" cols="30">{$info.remark}</textarea>
+						</td>
+					</tr>
+					<tr>
+						<th>是否默认 :</th>
+						<td>
+							<label><input type="radio" name="is_default" value="1" <if condition="$info.is_default eq 1">checked</if>> 是</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<label><input type="radio" name="is_default" value="0" <if condition="$info.is_default eq 0">checked</if>> 否</label>
+						</td>
+					</tr>
+					<tr>
+						<th>是否显示 :</th>
+						<td>
+							<label><input type="radio" name="status" value="1" <if condition="$info.status eq 1">checked</if>> 是</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<label><input type="radio" name="status" value="0" <if condition="$info.status eq 0">checked</if>> 否</label>
+						</td>
+					</tr>
+
+				</table>
+			</div>
+		</div>
+		<div class="mt10"><input type="submit" value="{:L('submit')}" class="btn btn_submit"></div>
+	</div>
+</div>
+<input type="hidden" name="menuid"  value="{$menuid}"/>
+<input type="hidden" name="id"  value="{$info.id}"/>
+</form>
+<include file="public:footer" />
+<script type="text/javascript">
+$(function(){
+    $('.J_cate_select').cate_select();
+});
+
+function searchUserList(){
+	var username = $('#username').val();
+	if(username == ''){
+		return false;
+	}
+	var url = '{:u("user_address/search_user")}';
+	$.ajax({
+		url: url,
+		type:'POST',
+		data: {username:username},
+		success: function(uhtml){
+			$('#uid').show().html(uhtml);
+		}
+	});
+}
+</script>

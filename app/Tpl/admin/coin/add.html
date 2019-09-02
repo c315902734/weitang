@@ -1,0 +1,80 @@
+<include file="public:header" />
+<form id="info_form" action="{:u('coin/add')}" method="post" enctype="multipart/form-data">
+<div class="pad_10">
+	<div class="col_tab">
+		<div class="content_list pad_10">
+			<table width="100%" cellspacing="0" class="table_form">
+	            <tr>
+					<th width="120">充值会员 :</th>
+					<td>
+						<input type="text" id="username" name="u_name" class="input-text fl mr10" size="30" /><div class="upload_btn"><span onclick="searchUserList();">搜索</span></div><select name="uid" id="uid" class="fl ml10" ><option value="{$info['uid']}">{$info.uname}</option></select>
+	                </td>
+				</tr>
+				<tr>
+					<th>充值金额 :</th>
+					<td><input type="text" name="money" class="input-text" value="{$info.money}" size="30"> 元</td>
+	 			</tr>
+	 			<tr>
+					<th>充值金币 :</th>
+					<td>
+						<input type="text" name="coin" class="input-text" value="{$info.coin}" size="30"> 个泡泡（可填写负数，即减少该用户泡泡数量）
+					</td>
+	 			</tr>
+	            <tr>
+					<th>支付方式 :</th>
+					<td>
+						<label><input type="radio" name="pays" class="radio_style" value="1" checked="checked"> 微信支付 </label>
+						<label><input type="radio" name="pays" class="radio_style" value="2"> 支付宝支付 </label>
+					</td>
+	 			</tr>
+	 			<tr>
+					<th>支付流水号 :</th>
+					<td><input type="text" name="pays_sn" class="input-text" value="{$info.pays_sn}" size="30"></td>
+	 			</tr>
+	 			<tr>
+					<th>支付金额 :</th>
+					<td><input type="text" name="pays_price" class="input-text" value="{$info.pays_price}" size="30"> 元</td>
+	 			</tr>
+	 			<tr>
+					<th>支付状态 :</th>
+					<td>
+						<label><input type="radio" name="pays_status" class="radio_style" value="0"> 未支付 </label>
+						<label><input type="radio" name="pays_status" class="radio_style" value="1" checked="checked"> 已支付 </label>
+						<label><input type="radio" name="pays_status" class="radio_style" value="2"> 无效 </label>
+					</td>
+	 			</tr>
+				<tr>
+					<th>有效状态 :</th>
+	 				<td>
+	                	<label><input type="radio" name="status" class="radio_style" value="1" checked="checked"> {:L('yes')} </label>&nbsp;&nbsp;
+						<label><input type="radio" name="status" class="radio_style" value="0"> {:L('no')}</label>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	</div>
+</div>
+<input type="hidden" name="menuid" value="{$menuid}" />
+<input type="hidden" name="id" value="{$info.id}" />
+</form>
+<include file="public:footer" />
+<script>
+function searchUserList(){
+	var username = $('#username').val();
+	if(username == ''){
+		return false;
+	}
+	var url = '{:u("item/search_user")}';
+	$.ajax({
+		url: url,
+		type:'POST',
+		data: {username:username},
+		success: function(uhtml){
+			$('#uid').show().html(uhtml);
+		}
+	});
+}
+</script>
+</body>
+</html>

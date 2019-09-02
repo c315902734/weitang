@@ -1,0 +1,51 @@
+<div class="dialog_content">
+
+    <form id="info_form" action="{:u(MODULE_NAME.'/'.ACTION_NAME)}" method="post">
+
+        <div class="common-form">
+
+            <table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+
+                <tr>
+
+                    <td align="center">您确定要确认订单？</td>
+
+                </tr>
+
+            </table>
+
+        </div>
+
+        <input type="hidden" name="id" value="{$Think.get.id}">
+
+    </form>
+
+</div>
+
+<script type="text/javascript">
+
+
+
+$(function(){
+
+    $('#info_form').ajaxForm({success:complate,dataType:'json'});
+
+    function complate(result){
+
+        if(result.status == 1){
+
+            $.pinphp.tip({content:result.msg});
+
+            window.location.reload();
+
+        } else {
+
+            $.pinphp.tip({content:result.msg, icon:'alert'});
+
+        }
+
+    }
+
+});
+
+</script>

@@ -1,0 +1,58 @@
+
+<!--添加会员-->
+<div class="dialog_content">
+	<form id="info_form" action="{:U('item_comment/edit')}" method="post">
+	<table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+		<tr>
+			<th>回复内容 :</th>
+			<td>
+				<textarea name="reply_info" id="reply_info" style="width:320px;height:80px;">{$info.reply_info}</textarea>
+			</td>
+		</tr>
+		<tr>
+			<th>回复时间 :</th>
+			<td>
+				<input type="text" name="reply_time" id="J_reply_time" class="date J_date_picker" size="20" value="{$info.reply_time}">
+			</td>
+		</tr>
+		<tr>
+			<th>会员 :</th>
+			<td>
+				<input type="text" id="username" name="username" class="input-text fl mr10" size="20" /><div class="upload_btn"><span onclick="searchUserList();">搜索</span></div><select name="reply_uid" id="uid" class="fl ml10" ><option value="">{$info.reply_name}</option></select>
+			</td>
+		</tr>
+        
+	</table>
+	<input type="hidden" name="menuid" value="{$menuid}" />
+	<input type="hidden" name="id" value="{$info.id}" />
+	</form>
+</div>
+<script type="text/javascript">
+$('#info_form').ajaxForm({success:complete, dataType:'json'});
+function complete(result){
+	if(result.status == 1){
+		$.pinphp.tip({content:result.msg});
+		window.location.reload();
+	} else {
+		$.pinphp.tip({content:result.msg, icon:'alert'});
+	}
+}
+
+
+function searchUserList(){
+	var username = $('#username').val();
+	if(username == ''){
+		return false;
+	}
+	var url = '{:U("item/search_user")}';
+	$.ajax({
+		url: url,
+		type:'POST',
+		data: {username:username},
+		success: function(uhtml){
+			$('#uid').show().html(uhtml);
+		}
+	});
+}
+
+</script>

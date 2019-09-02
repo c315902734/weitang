@@ -1,0 +1,104 @@
+<div class="dialog_content">
+    <form id="info_form" name="info_form" action="{:U('user_auth/edit_info')}" method="post">
+    <table width="100%" class="table_form">
+        <tr>
+        	<th>用户名称/id :</th>
+            <td>{$info.username}&nbsp;&nbsp;(ID:{$info.id})</td>
+        </tr>
+        <tr>
+          <th>真实姓名 :</th>
+          <td><input type="text" name="realname" value="{$info.realname}" class="input-text"></td>
+        </tr>
+		<tr>
+          <th>银行名称 :</th>
+          <td><input type="text" name="bankname" value="{$info.bankname}" class="input-text"></td>
+        </tr>
+		<tr>
+          <th>银行帐号 :</th>
+          <td><input type="text" name="bankid" value="{$info.bankid}" class="input-text"></td>
+        </tr>
+		<tr>
+          <th>用户手机 :</th>
+          <td><input type="text" name="tele" value="{$info.tele}" class="input-text"></td>
+        </tr>
+		<tr>
+          <th>性别 :</th>
+          <td>
+				<label><input type="radio" name="sex" class="radio_style" value="1" <if condition="$info.sex eq 1">checked="checked"</if>> 男&nbsp;&nbsp;</label>
+                <label><input type="radio" name="sex" class="radio_style" value="0" <if condition="$info.sex eq 0">checked="checked"</if>> 女&nbsp;&nbsp;</label>
+		  </td>
+        </tr>
+		<tr>
+          <th>所属机构 :</th>
+          <td><input type="text" name="company" value="{$info.company}" class="input-text"></td>
+        </tr>
+		<tr>
+			<th>收款码 :</th>
+			<td>
+				<input type="text" name="receive_erweima" id="J_img" class="input-text fl mr10" value="{$info.receive_erweima}" size="30">
+				<div id="J_upload_img" class="upload_btn"><span>{:L('upload')}</span></div>
+				<notempty name="info['receive_erweima']"><span class="attachment_icon J_attachment_icon" file-type="image" file-rel="{:attach($info['receive_erweima'], 'assets')}"><img src="{:attach($info['receive_erweima'], 'assets')}" width="30" /></span></notempty>
+			</td>
+		</tr>
+
+        <tr>
+            <th>审核 :</th>
+            <td>
+				<label><input type="radio" name="is_auth" class="radio_style" value="9" <if condition="$info.status eq 9">checked="checked"</if>> 未审核&nbsp;&nbsp;</label>
+                <label><input type="radio" name="is_auth" class="radio_style" value="1" <if condition="$info.status eq 1">checked="checked"</if>> 通过&nbsp;&nbsp;</label>
+                <label><input type="radio" name="is_auth" class="radio_style" value="0" <if condition="$info.status eq 0">checked="checked"</if>> 不通过&nbsp;&nbsp;</label>
+            </td>
+        </tr>
+    </table>
+	<input type="hidden" name="menuid" value="{$menuid}" />
+    <input name="id" type="hidden" value="{$info.id}">
+    </form>
+</div>
+<script src="__STATIC__/js/fileuploader.js"></script>
+<script>
+$(function(){
+    $.formValidator.initConfig({formid:"info_form",autotip:true});
+    $('#info_form').ajaxForm({success:complete,dataType:'json'});
+    function complete(result){
+        if(result.status == 1){
+            $.dialog.get(result.dialog).close();
+            $.pinphp.tip({content:result.msg});
+            window.location.reload();
+        } else {
+            $.pinphp.tip({content:result.msg, icon:'alert'});
+        }
+    }
+
+	//上传图片
+	var uploader = new qq.FileUploaderBasic({
+		allowedExtensions: ['jpg','gif','jpeg','png','bmp','pdg'],
+	    button: document.getElementById('J_upload_img'),
+	    multiple: false,
+	    action: "{:U('item/ajax_upload_img')}",
+	    inputName: 'img',
+	    forceMultipart: true, //用$_FILES
+	    messages: {
+	    	typeError: lang.upload_type_error,
+	    	sizeError: lang.upload_size_error,
+	    	minSizeError: lang.upload_minsize_error,
+	    	emptyError: lang.upload_empty_error,
+	    	noFilesError: lang.upload_nofile_error,
+	    	onLeave: lang.upload_onLeave
+	    },
+	    showMessage: function(message){
+	    	$.pinphp.tip({content:message, icon:'error'});
+	    },
+	    onSubmit: function(id, fileName){
+	    	$('#J_upload_img').addClass('btn_disabled').find('span').text(lang.uploading);
+	    },
+	    onComplete: function(id, fileName, result){
+	    	$('#J_upload_img').removeClass('btn_disabled').find('span').text(lang.upload);
+	        if(result.status){
+	    		$('#J_img').val(result.data);
+	    	} else {
+	    		$.pinphp.tip({content:result.msg, icon:'error'});
+	    	}
+	    }
+	});
+});
+</script>

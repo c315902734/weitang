@@ -1,0 +1,77 @@
+<include file="public:header"/>
+<style type="text/css">
+    .global-list .col-xs-3 {
+        padding-left: 25px;
+    }
+
+    .global-list .col-xs-9 {
+        line-height: 30px;
+    }
+</style>
+<div class='container-fluid mt40 form-list'>
+    <div class="row global-top">
+        <div class="col-xs-2">
+            <a href="javascript:history.back();" class="return"></a>
+        </div>
+        <div class="col-xs-8">
+            <div class="text">实名认证</div>
+        </div>
+        <div class="col-xs-2">
+        </div>
+    </div>
+    <form method="post">
+        <div class="row white-bg login-list">
+            <div class="global-list">
+                <div class="col-xs-3">真实姓名</div>
+                <div class="col-xs-9 b-b input-text">
+                    <input type="text"
+                           name="realname"
+                           placeholder="请输入真实姓名"
+                           data-rule-required="true"
+                           value="{$info.realname}"/>
+                </div>
+            </div>
+            <div class="global-list">
+                <div class="col-xs-3">身份证号</div>
+                <div class="col-xs-9 b-b input-text">
+                    <input type="text"
+                           name="cardid"
+                           id="cardid"
+                           placeholder="请输入身份证号"
+                           data-rule-required="true"
+                           value="{$info.cardid}"/>
+                </div>
+            </div>
+            <div class="global-list">
+                <div class="col-xs-3">微信</div>
+                <div class="col-xs-9 b-b input-text">
+                    <input type="text"
+                           name="weixin"
+                           placeholder="请输入微信"
+                           data-rule-required="true"
+                           value="{$info.weixin}"/>
+                </div>
+            </div>
+            <if condition="$status">
+                <div class="global-list">
+                    <div class="col-xs-3">认证状态</div>
+                    <div class="col-xs-9 b-b input-text"><font color=red>已认证</font></div>
+                </div>
+            </if>
+
+        </div>
+        <div class="row mt20">
+            <div class="global-submit-bot1">
+                <p class="fs-12 mb5">温馨提示：实名认证信息一经认证不可修改，如有疑问请联系客服：{:C('ins_site_tele')}</p>
+                <if condition="$status">
+
+                    <else/>
+                    <input type="submit" value="确定" class="submit-btn js-submit-btn"/>
+                    <input type="hidden" id="J_from" value="{$_GET['from']}">
+                </if>
+
+            </div>
+        </div>
+    </form>
+</div>
+<include file="public:footer"/>

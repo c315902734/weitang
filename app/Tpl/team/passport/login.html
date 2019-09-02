@@ -1,0 +1,32 @@
+<include file="public:header" />
+<div id="bd">
+	<div class="layout grid-s45m0 w1000 user-center">
+		<div class="passport border">
+			<div class="passport_title">
+				<span>团队中心</span>
+			</div>
+			<div class="passport_content">
+				<form action="{:U('passport/login')}" method="post" class="J_form">
+				<div class="login-box">
+					<div class="list">
+						<div class="name">登录账号：</div>
+						<input type="text" class="text" name="username" placeholder="请输入手机号" maxlength="11" minlength="11" data-rule-required="true" digits="true" data-msg-required="请输入手机号" />
+					</div>
+					<div class="list">
+						<div class="name">登录密码：</div>
+						<input type="password" class="text" name="password" placeholder="请输入密码" maxlength="25" minlength="6" data-rule-required="true" data-msg-required="请输入密码"
+						/>
+					</div>
+					<div class="list">
+						<div class="name"></div>
+						<input type="submit" class="submit" value="登录" /><!-- <a href="{:U('passport/forget_password')}" class="forget">忘记密码？</a> -->
+						<input type="hidden" name="ret_url" value="{:$_GET['ret_url']}">
+					</div>
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<include file="public:footer" />

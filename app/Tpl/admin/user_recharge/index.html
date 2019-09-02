@@ -1,0 +1,105 @@
+<include file="public:header" /><br>
+<!--会员列表-->
+<div class="pad_lr_10" >
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+            <tr>
+                <td>
+                <div class="explain_col">
+                    <input type="hidden" name="g" value="admin" />
+                    <input type="hidden" name="m" value="user_recharge" />
+                    <input type="hidden" name="a" value="index" />
+                    <input type="hidden" name="menuid" value="{$menuid}" />
+					<input type="hidden" name="type" value="{$search.type}" />
+					&nbsp;会员帐号 :
+                    <input name="keyword" type="text" class="input-text" size="15" value="{$search.keyword}" />
+                    &nbsp;手机号码 :
+                    <input name="tele" type="text" class="input-text" size="15" value="{$search.tele}" />
+                    <!-- &nbsp;真实名称 :
+                    <input name="realname" type="text" class="input-text" size="15" value="{$search.realname}" /> -->
+                    <!-- &nbsp;状态 :
+                    <select name="status">
+                        <option value="-1">全部</option>
+                        <option value="1" <if condition="$search['status'] eq 1">selected="selected"</if>>已提现</option>
+                        <option value="2" <if condition="$search['status'] eq 2">selected="selected"</if>>未通过</option>
+                        <option value="0" <if condition="$search['status'] eq 0">selected="selected"</if>>未处理</option>
+                    </select> -->
+                    <input type="submit" name="search" class="btn" value="搜索" />
+                </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+
+    <div class="J_tablelist table_list" data-acturi="{:U('user/ajax_edit')}">
+    <table width="100%" cellspacing="0">
+        <thead>
+			<if condition="$search['type'] eq 2">
+            <tr>
+                <!-- <th width=25><input type="checkbox" id="checkall_t" class="J_checkall"></th> -->
+                <th width=40>ID</th>
+                <th width="120" align="left">用户</th> 
+				<th width="100" align="left">手机号码</th>
+				<th width="50" >提现金额</th>
+                <th width="120">提现时间</th>
+				<th width="120">备注</th>
+				<th width="40">{:L('status')}</th>
+                <th width="80">{:L('operations_manage')}</th>
+            </tr>
+			<else />
+			<tr>
+                <th width=40>ID</th>
+                <th width="120" align="left">用户</th> 
+				<th width="100" align="left">手机号码</th>
+				<th width="50" >充值金额</th>
+                <th width="120">充值时间</th>
+				<th width="100">充值方式</th>
+				<th width="120">支付流水</th>
+				<th width="40">支付状态</th>
+				<th width="40">充值状态</th>
+            </tr>
+			</if>
+        </thead>
+    	<tbody>
+            <volist name="list" id="val" >
+            <tr>
+                <!-- <td align="center"><input type="checkbox" class="J_checkitem" value="{$val.id}"></td> -->
+                <td align="center">{$val.id}</td>
+				<td align="left">{$val.uname}(<font color="#ff0000">UID:{$val.uid}</font>)</td>
+				<td>{$val.user.tele}</td>
+                <td align="center">{$val.price}</td>
+                <td  align="center">{$val.add_time}</td>
+				<if condition="$search['type'] eq 2">
+				<td  align="center">{$val.remark}</td>
+                <td align="center"><if condition="$val.status eq 0">未处理<elseif condition="$val['status'] eq 1"/><font color="#33cc00">已提现</font><else/><font color="#ff0033">未通过</font></if></td>
+                <td align="center">
+					<if condition="$val['status'] eq 0"><a href="javascript:;" class="J_showdialog" data-uri="{:u('user_recharge/edit', array('id'=>$val['id']))}" data-title="编辑" data-id="edit" data-width="500" data-height="200">审核</a>  </if>
+					<!--
+                    <if condition="$val['status'] neq 0"><a href="javascript:void(0);" class="J_confirmurl" data-uri="{:u('user_recharge/delete', array('id'=>$val['id']))}" data-acttype="ajax" data-msg="确定删除此条信息?">{:L('delete')}</a></if>
+					-->
+                </td>
+				<else />
+				<td align="center">{$pays_name[$val[order][pays]]}</td>
+				<td align="center">{$val.order.pay_sn}</td>
+				<td align="center"><if condition="$val[order][status] eq 1"><font color="#33cc00">已支付</font><else/><font color="#ff0033">未支付</font></if></td>
+				<td align="center"><if condition="$val.status eq 1"><font color="#33cc00">已充值</font><elseif condition="$val['status'] eq 0"/>未处理<else/><font color="#ff0033">未通过</font></if></td>
+				</if>
+            </tr>
+            </volist>
+    	</tbody>
+    </table>
+    <div class="btn_wrap_fixed">
+        <!-- <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('user_recharge/delete')}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" /> -->
+        <div id="pages">{$page}</div>
+    </div>
+
+    </div>
+</div>
+<include file="public:footer" />
+</body>
+</html>
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script type="text/javascript" src="__STATIC__/js/calendar/calendar.js"></script>

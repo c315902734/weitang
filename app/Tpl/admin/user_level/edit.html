@@ -1,0 +1,38 @@
+<div class="dialog_content">
+	<form id="info_form" name="info_form" action="{:u('user_level/edit')}" method="post">
+    <table width="100%" class="table_form">
+    	<tr>
+          <th width="100">名称 :</th>
+          <td><input type="text" name="title" id="title" class="input-text" value="{$info.title}"></td>
+        </tr>
+        <!-- <tr>
+          <th>最大经验值 :</th>
+          <td><input type="text" name="min" id="min" class="input-text" value="{$info.min}"></td>
+        </tr>
+        <tr>
+          <th>最小经验值 :</th>
+          <td><input type="text" name="max" id="max" class="input-text" value="{$info.max}"></td>
+        </tr> -->
+    </table>
+	<input type="hidden" name="menuid" value="{$menuid}" />
+	<input name="id" type="hidden" value="{$info.id}">
+    </form>
+</div>
+<script src="__STATIC__/js/fileuploader.js"></script>
+<script type="text/javascript">
+
+
+$('#info_form').ajaxForm({success:complate, dataType:'json'});
+function complate(result){
+	if(result.status == 1){
+		$.dialog.get(result.dialog).close();
+		$.pinphp.tip({content:result.msg});
+		window.location.reload();
+	} else {
+		$.pinphp.tip({content:result.msg, icon:'alert'});
+	}
+}
+$(function (){
+  $('.J_cate_select').cate_select();
+});
+</script>

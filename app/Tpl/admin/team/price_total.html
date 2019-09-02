@@ -1,0 +1,70 @@
+<include file="public:header" />
+<link rel="stylesheet" href="__STATIC__/js/jquery/plugins/jOrgChart/jquery.jOrgChart.css"/>
+<style type="text/css">
+	table{border-collapse:separate;margin:auto;}
+	.orgChart{padding:20px;}
+	.jOrgChart .node{padding:5px;height:100px;border: 1px solid #d5dfe8;background:#eaf0f7;width:120px;}
+	.node img{margin-bottom:5px;}
+	.jOrgChart .right {border-left: 2px solid #3A6DA4;}
+	.jOrgChart .top { border-top: 3px solid #3A6DA4;}
+	.jOrgChart .left {border-right: 2px solid #3A6DA4;}
+	.jOrgChart .down {background-color: #3A6DA4;}
+	.jOrgChart .right {float: none;}
+	.jOrgChart .left {float: none;}
+</style>
+<ul id="org" style="display:none">
+	<li data-id="{$user.id}">
+		<img src="{:avatar($user['img'], 64)}" height="32"><br>
+		{$user.username}(ID:{$user.id})<br>充值总额：￥<font color="#ff0000">{$user.recharge_total}</font>元<br>提现总额：￥<font color="#ff0000">{$user.cash_total}</font>元<br><a href="{:u('price_log/index', array('uid'=>$user['id']))}">查看资金报表＞</a>
+	</li>
+</ul>          
+<div id="chart" class="orgChart"></div>
+<include file="public:footer" />
+<script src="__STATIC__/js/jquery/jquery.js"></script>
+<script src="__STATIC__/js/jquery/plugins/jOrgChart/jquery.jOrgChart.js"></script>
+<script>
+$(document).ready(function() {
+	getjOrgChartHtml({$user.id});
+	$("#org").jOrgChart({
+		chartElement : '#chart'
+	});
+});
+
+function getjOrgChartHtml(id){
+	var html = get_child_user(id);
+	$('[data-id="'+id+'"').append(html);
+	if($('.continue').length > 0){
+		$('.continue').each(function(){
+			$(this).removeClass('continue');
+			getjOrgChartHtml($(this).attr('data-id'));
+		});
+	}
+}
+
+function get_child_user(id){
+	var html;
+	$.ajax({
+		url:"{:U('team/get_price_child')}",
+		type:'POST',
+		data:{id:id},
+		async: false,
+		dataType:'JSON',
+		success:function(result){
+			if(result.status == 1 && result.data.length > 0){
+				var list = result.data;
+				html = '<ul>';
+				var is_continue = '';
+				for(var i=0;i<list.length;i++){
+					is_continue = list[i].nums > 0 ? 'continue' : '';
+					html += '<li data-id="'+list[i].id+'" class="'+is_continue+'"><img src="'+list[i].img+'" height="32"><br>'+list[i].username+'<br>充值总额：￥<font  color="#ff0000">'+list[i].recharge_total+'</font>元<br>提现总额：￥<font  color="#ff0000">'+list[i].cash_total+'</font>元<br><a href="/?g=admin&m=price_log&a=index&uid='+list[i].id+'">查看交易记录＞</a></li>';
+				}
+				html += '</ul>';
+			}
+		}
+	});
+	return html;
+}
+</script>
+
+</body>
+</html>

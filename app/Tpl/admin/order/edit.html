@@ -1,0 +1,334 @@
+<include file="public:header" />
+<style type="text/css">
+	.table_list.order_info td,.table_list.order_info th{border:none;padding:5px 0;}
+	.table_list.order_info .bob{border-bottom:1px solid #d5dfe8}
+</style>
+<br>
+<form id="info_form" action="{:u('order/index')}" method="post" enctype="multipart/form-data">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+			<li class="current">订单信息</li>
+			<li>物流信息</li>
+		</ul>
+		<div class="J_panes">
+			<div class="content_list pad_10">
+				<table width="100%" class="table_list order_info">
+					<tr>
+						<td width="100" class="bob" align="right">收货地址：</td>
+						<td colspan="5" class="bob">{$info.addr_province}&nbsp;{$info.addr_city}&nbsp;{$info.addr_area}&nbsp;{$info.addr_address}({$info.addr_zipcode})</td>
+					</tr>
+					<tr>
+						<td align="right" class="bob">收&nbsp;&nbsp;货&nbsp;人：</td>
+						<td colspan="5" class="bob">{$info.addr_name}&nbsp;{$addr_tele}</td>
+					</tr>
+					<tr>
+						<td align="right" class="bob">买家备注：</td>
+						<td colspan="5" class="bob">{$info.remark}</td>
+					</tr>
+					<tr>
+						<th colspan="6" style="background:#EAEEF4;text-align:left;padding:5px 10px;">订单信息 :</th>
+					</tr>
+					<tr>
+						<td width="100" class="bob" align="right">订单编号：</td>
+						<td class="bob" >{$order_info.orderid}</td>
+						<td width="100" class="bob" align="right">订单ID：</td>
+						<td class="bob" >{$order_info.id}</td>
+						<td width="100" class="bob" align="right">下单时间：</td>
+						<td class="bob" >{$order_info.add_time}</td>
+					</tr>
+					<tr>
+						<td width="100" class="bob" align="right">商品总价：</td>
+						<td class="bob">￥{$order_info.prices} 元</td>
+						<td width="100" class="bob" align="right">邮费：</td>
+						<td class="bob">￥{$order_info.express} 元</td>
+						<td width="100" class="bob" align="right"></td>
+						<td class="bob"></td>
+					</tr>
+					<tr>
+						<td width="100" class="bob" align="right">订单金额：</td>
+						<td class="bob">￥{$order_info.total} 元</td>
+						<td width="100" class="bob" align="right">支付金额：</td>
+						<td class="bob">￥{$order_info.pays_price} 元</td>
+						<td width="100" class="bob" align="right"></td>
+						<td class="bob"></td>
+					</tr>
+					<tr>
+						<td width="100" class="bob" align="right">支付方式：</td>
+						<td class="bob">
+							<if condition="$info['pays'] eq 1">货到付款</if>
+							<if condition="$info['pays'] eq 2">网银在线</if>
+							<if condition="$info['pays'] eq 3">支付宝</if>
+							<if condition="$info['pays'] eq 4">微信支付</if>
+							<if condition="$info['pays'] eq 5">信用卡支付</if>
+							<if condition="$info['pays'] eq 6">余额支付</if></td>
+
+						<td width="100" class="bob" align="right">支付状态：</td>
+						<td class="bob">
+							<if condition="$info['pays_status'] eq 0">未支付</if>
+							<if condition="$info['pays_status'] eq 1">支付成功</if>
+							<if condition="$info['pays_status'] eq 2">支付失败</if>
+						</td>
+						<td width="100" class="bob" align="right">支付时间：</td>
+						<td class="bob">{$info.pays_time}</td>
+					</tr>
+					<tr>
+						<td width="100" class="bob" align="right">订单状态：</td>
+						<td class="bob"><if condition="$info[status] eq 1 && $info['lottery'] eq 2"><elseif condition="$info[status] eq 1 && $info['lottery'] eq 9"/>升级失败<elseif condition="$info[status] eq 1 && $info['lottery'] eq 0"/>未升级<else/>{$status[$info['status']]}</if></td>
+						<td width="100" class="bob" align="right">配送方式：</td>
+						<td class="bob">{$express_type_name[$info['express_type']]}</td>
+						<td width="100" class="bob" align="right"></td>
+						<td class="bob"></td>
+					</tr>
+					<!-- <tr>
+						<th colspan="6" style="background:#EAEEF4;text-align:left;padding:5px 10px;">发票信息</th>
+					</tr>
+					<tr>
+						<td width="100" class="bob" align="right">发票类型：</td>
+						<td class="bob" colspan="5">
+							<if condition="$info['invoice_status'] eq 0">不需要
+							<elseif condition="$info['invoice_status'] eq 1" />
+								<if condition="$invoice['type'] eq 1">普通发票</if>
+								<if condition="$invoice['type'] eq 2">增值税发票</if>
+							</if>
+						</td>
+					</tr> -->
+					<if condition="$info['invoice_status'] eq 1">
+					<tr >
+						<td width="100" align="right" class="bob">抬头：</td>
+						<td class="bob">{$invoice['title']}</td>
+						<td width="100" align="right" class="bob">发票内容：</td>
+						<td class="bob">{$invoice['info']}</td>
+						<td width="100" align="right" class="bob"></td>
+						<td class="bob"></td>
+					</tr>
+					<if condition="$invoice['type'] eq 2">
+					<tr >
+						<td width="100" align="right" class="bob">税号：</td>
+						<td class="bob">{$invoice['tax']}</td>
+						<td width="100" align="right" class="bob">帐号：</td>
+						<td class="bob">{$invoice['account']}</td>
+						<td width="100" align="right" class="bob">开户行：</td>
+						<td class="bob">{$invoice['bank']}</td>
+					</tr>
+					<tr >
+						<td width="100" align="right" class="bob">地址：</td>
+						<td class="bob">{$invoice.address}</td>
+						<td width="100" align="right" class="bob">电话：</td>
+						<td class="bob">{$invoice.tele}</td>
+						<td width="100" align="right" class="bob"></td>
+						<td class="bob"></td>
+					</tr>
+					</if>
+					</if>
+					<tr>
+						<th colspan="6" style="background:#EAEEF4;text-align:left;padding:5px 10px;">买家信息</th>
+					</tr>
+					<tr>
+						<td width="100" class="bob" align="right">手机号码：</td>
+						<td class="bob">{$userinfo.tele}</td>
+						<td width="100" class="bob" align="right">会员帐号：</td>
+						<td class="bob">{$userinfo.username}</td>
+						<td width="100" class="bob" align="right">会员性别：</td>
+						<td class="bob"><if condition="$userinfo['sex'] eq 1">男<else />女</if></td>
+					</tr>
+					<tr >
+						<td width="100" align="right" class="bob">会员邮箱：</td>
+						<td class="bob">{$userinfo['email']}</td>
+						<td width="100" align="right" class="bob">出生年月：</td>
+						<td class="bob">{$userinfo['birthday']}</td>
+						<td width="100" align="right" class="bob">会员等级：</td>
+						<td class="bob">{$userinfo['level_name']}</td>
+					</tr>
+					<tr >
+						<td width="100" align="right" class="bob">联系地址：</td>
+						<td class="bob" colspan="5">{$userinfo.province}&nbsp;{$userinfo['city']}&nbsp;{$userinfo.['area']}&nbsp;{$userinfo['address']}</td>
+					</tr>
+				</table>
+				<table width="100%" class="table_list J_tablelist"  data-acturi="{:U('order_item/ajax_edit')}">
+					<tr>
+						<th colspan="7" style="background:#FFFFE1;text-align:left;padding:5px 10px;">升级前</th>
+					</tr>
+					<tr style="background:#EAEEF4;height:30px;">
+						<th></th>
+						<th style="background:#EAEEF4;text-align:left;padding:5px 4px;">商品编码</th>
+						<th style="background:#EAEEF4;text-align:left;padding:5px 4px;">规格</th>
+						<th style="background:#EAEEF4;text-align:left;padding:5px 4px;">单价</th>
+						<th style="background:#EAEEF4;text-align:left;padding:5px 4px;">数量</th>
+						<th style="background:#EAEEF4;text-align:left;padding:5px 4px;">总价</th>
+						<th style="background:#EAEEF4;text-align:left;padding:5px 4px;">状态</th>
+					</tr>
+					<volist name="goods_list" id="val" >
+					<tr>
+						<td>
+							<a href="{:attach($val['img'], 'assets')}" target="_blank"><img src="{:attach($val['img'], 'assets')}" height="30"></a>
+						</td>
+						<td>{$val.title}</td>
+						<td>({$val.skus})</td>
+						<td align="left">￥{$val.price} 元</td>
+						<td align="left">{$val.nums}</td>
+						<td align="left">￥{$val.subtotal} 元</td>
+						<td align="left"><if condition="$info[status] eq 1 && $info['lottery'] eq 2"><elseif condition="$info[status] eq 1 && $info['lottery'] eq 9"/>升级失败<elseif condition="$info[status] eq 1 && $info['lottery'] eq 0"/>未升级<else/>{$status[$info['status']]}</if><br>{$is_rate[$info[is_rate]]}</td>
+					</tr>
+					</volist>
+				</table>
+				<if condition="$info['lottery'] eq 2">
+				<table width="100%" class="table_list J_tablelist"  data-acturi="{:U('order_item/ajax_edit')}">
+					<tr>
+						<th colspan="7" style="background:#FFFFE1;text-align:left;padding:5px 10px;">升级后</th>
+					</tr>
+					<tr style="background:#EAEEF4;height:30px;">
+						<th></td>
+						<th style="background:#EAEEF4;text-align:left;padding:5px 4px;">商品编码</th>
+						<th style="background:#EAEEF4;text-align:left;padding:5px 4px;">规格</th>
+						<th style="background:#EAEEF4;text-align:left;padding:5px 4px;">单价</th>
+						<th style="background:#EAEEF4;text-align:left;padding:5px 4px;">数量</th>
+						<th style="background:#EAEEF4;text-align:left;padding:5px 4px;">总价</th>
+						<th style="background:#EAEEF4;text-align:left;padding:5px 4px;">状态</th>
+					</tr>
+					<volist name="goods_list" id="val" >
+					<tr>
+						<td>
+							<a href="{:attach($val['img_up'], 'assets')}" target="_blank"><img src="{:attach($val['img_up'], 'assets')}" height="30"></a>
+						</td>
+						<td>{$val.title_up}</td>
+						<td>({$val.skus})</td>
+						<td align="left">￥{$val.price_up} 元</td>
+						<td align="left">{$val.nums}</td>
+						<td align="left">￥{$val.subtotal} 元</td>
+						<td align="left"></td>
+					</tr>
+					</volist>
+				</table>
+				</if>
+			</div>
+			<div class="content_list pad_10">
+				<table width="100%" class="table_list order_info">
+					<tr>
+						<th width="200">收货地址：</th>
+						<td colspan="3">{$info.addr_name}&nbsp;{$info.addr_tele}&nbsp;{$info.addr_province}&nbsp;{$info.addr_city}&nbsp;{$info.addr_area}&nbsp;{$info.addr_address}&nbsp;{$info.addr_zipcode}</td>
+					</tr>
+					<if condition="$info['store_name']">
+					<tr>
+						<th width="200">门店名称：</th>
+						<td colspan="3">{$info.store_name}</td>
+					</tr>
+					</if>
+					<if condition="$info['store_time']">
+					<tr>
+						<th width="200">收货时间：</th>
+						<td colspan="3">{$info.store_time}</td>
+					</tr>
+					</if>
+					<if condition="$info['express'] gt 0">
+					<tr>
+						<th width="200">快递费：</th>
+						<td colspan="3">{$info.express}</td>
+					</tr>
+					</if>
+					<if condition="$info['express_name']">
+					<tr>
+						<th width="200">快递公司：</th>
+						<td colspan="3">{$express_name}</td>
+					</tr>
+					</if>
+					<if condition="$info['express_time']">
+					<tr>
+						<th width="200">发货时间：</th>
+						<td colspan="3">{$info.express_time}</td>
+					</tr>
+					</if>
+					<if condition="$info['express_sn']">
+					<tr>
+						<th width="200">快递单号：</th>
+						<td colspan="3">{$info.express_sn}</td>
+					</tr>
+					</if>
+					<if condition="$info['express_remark']">
+					<tr>
+						<th width="200">快递信息：</th>
+						<td colspan="3">{$info.express_remark}</td>
+					</tr>
+					</if>
+				</table>
+				<if condition="$info['express_code'] && $info['express_sn']">
+				<!-- <iframe width="100%" height="350" frameborder="0" scrolling="yes"
+                    marginheight="0" marginwidth="0"
+                    src="{:U('order/order_wuliu',array('id'=>$info['id']))}">
+            	</iframe> -->
+            	</if>
+			</div>
+		</div>
+		<div class="mt10">
+			<if condition="$type eq 'order'">
+			<a href="{:U('order/index')}" class="btn btn_submit noprint">返回</a>
+			<elseif condition="$type eq 'cash'" />
+			<a href="{:U('report/cash')}" class="btn btn_submit noprint">返回</a>
+			<elseif condition="$type eq 'search'" />
+			<a href="{:U('order/search_order')}" class="btn btn_submit noprint">返回</a>
+			<elseif condition="$type eq 'refund'" />
+			<a href="{:U('order_refund/index')}" class="btn btn_submit noprint">返回</a>
+			<elseif condition="$type eq 'report'" />
+			<a href="{:U('report/refund')}" class="btn btn_submit noprint">返回</a>
+			</if>
+			<input class="btn btn_submit noprint" type="button" onclick="window.print()" value="print" /> 
+		</div>
+	</div>
+</div>
+<style media="print">.noprint { DISPLAY: none }</style> 
+<input type="hidden" name="menuid"  value="{$menuid}"/>
+<input type="hidden" name="id"  value="{$info.id}"/>
+</form>
+<include file="public:footer" />
+<script src="__STATIC__/js/fileuploader.js"></script>
+<script>
+$('ul.J_tabs').tabs('div.J_panes > div');
+var check_name_url = "{:U('user/ajax_check_name')}";
+var check_tele_url = "{:U('user/ajax_check_tele')}";
+$(function(){
+	$("#username").formValidator({onshow:'请填写用户名',onfocus:'请填写用户名'}).inputValidator({min:1,onerror:'请填写用户名'}).ajaxValidator({
+	    type : "get",
+		url : check_name_url,
+		datatype : "json",
+		async:'false',
+		success : function(result){	
+            if(result.status == 0){
+                return false;
+			}else{
+                return true;
+			}
+		},
+		onerror : '用户昵称已经存在',
+		onwait : '正在检测'
+	}).defaultPassed();
+    $("#tele").formValidator({onshow:"请填写手机号码",onfocus:"请填写手机号码"})
+            .inputValidator({min:1,onerror:"请填写手机号码"})
+            .ajaxValidator({
+                type : "get",
+                url : check_tele_url,
+                datatype : "json",
+                async:'false',
+                success : function(result){
+                    if(result.status == 0){
+                        return false;
+                    }else{
+                        return true;
+                    }
+                },
+                onerror : '手机号码已经存在',
+                onwait : '正在检测'
+            }).defaultPassed();
+	
+	$('#info_form').ajaxForm({success:complate,dataType:'json'});
+	function complate(result){
+		if(result.status == 1){
+			$.dialog.get(result.dialog).close();
+            $.pinphp.tip({content:result.msg});
+            window.location.reload();
+		} else {
+			$.pinphp.tip({content:result.msg, icon:'alert'});
+		}
+	}
+	
+});
+</script>

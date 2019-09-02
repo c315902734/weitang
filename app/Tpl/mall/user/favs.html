@@ -1,0 +1,28 @@
+<include file="public:header"/>
+<style type="text/css">
+.user_favs_page {
+    background: #f3f3f3;
+}
+</style>
+<div class="container">
+	<div class="row global-top">
+        <div class="col-xs-2">
+            <a href="{:U('mall/user/index')}" class="return"></a>
+        </div>
+        <div class="col-xs-8">
+            <div class="text">我的收藏</div>
+        </div>
+        <div class="col-xs-2">
+        </div>
+    </div>
+    <div id="J_waterfall" class="row bgwhite mt50" data-uri="{:U(MODULE_NAME.'/'.ACTION_NAME)}">
+        <div class="col-xs-12">
+		 <include file="favs_waterfall"/>
+		</div>
+    </div>
+
+    <if condition="$show_loading">
+        <div id="J_wall_loading" class="wall_loading tc gray"></div>
+    </if>
+</div>
+<include file="public:footer"/>

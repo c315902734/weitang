@@ -1,0 +1,138 @@
+{//该文件由grunt debug生成，不要手动修改!!%>}
+<if condition="APP_DEBUG">
+    <script type="text/javascript" src="__STATIC__/vendor/require.js"></script>
+    <script type="text/javascript" src="__STATIC__/vendor/underscore.js"></script>
+    <script type="text/javascript" src="__STATIC__/vendor/underscore.mixin.js"></script>
+    <script type="text/javascript" src="__STATIC__/debug/mall/requireConfig.js"></script>
+    <script type="text/javascript">
+var app_entry=null;
+
+if(_.in_array(_global.m,["passport"])){
+    app_entry="debug/group_passport";
+}
+
+if(_.in_array(_global.m,["user"])){
+    app_entry="debug/group_user";
+}
+
+if(_.in_array(_global.m,["index"])){
+    app_entry="debug/group_index";
+}
+
+if(_.in_array(_global.m,["item_cate"])){
+    app_entry="debug/group_item_cate";
+}
+
+if(_.in_array(_global.m,["item"])){
+    app_entry="debug/group_item";
+}
+
+if(_.in_array(_global.m,["member"])){
+    app_entry="debug/group_member";
+}
+
+if(_.in_array(_global.m,["topic"])){
+    app_entry="debug/group_topic";
+}
+
+if(_.in_array(_global.m,["transaction"])){
+    app_entry="debug/group_transaction";
+}
+ if(_.in_array(_global.m,["promotion"])){
+    app_entry="debug/group_promotion";
+}
+
+if(_.in_array(_global.m,["ssc"])){
+    app_entry="debug/group_ssc";
+}
+  
+if(app_entry!=null){
+    req([app_entry], function (App) {
+        new App();
+    });
+}  
+    </script>
+<else/>
+
+<if condition="in_array(MODULE_NAME,array('passport'))">
+    <script type="text/javascript" src="__STATIC__/build/mall/group_passport.js?{:C('URL_SUFFIX_NAME')}={:C('URL_SUFFIX_VAL')}"></script>
+</if>
+
+<if condition="in_array(MODULE_NAME,array('user'))">
+    <script type="text/javascript" src="__STATIC__/build/mall/group_user.js?{:C('URL_SUFFIX_NAME')}={:C('URL_SUFFIX_VAL')}"></script>
+</if>
+
+<if condition="in_array(MODULE_NAME,array('index'))">
+    <script type="text/javascript" src="__STATIC__/build/mall/group_index.js?{:C('URL_SUFFIX_NAME')}={:C('URL_SUFFIX_VAL')}"></script>
+</if>
+
+<if condition="in_array(MODULE_NAME,array('item_cate'))">
+    <script type="text/javascript" src="__STATIC__/build/mall/group_item_cate.js?{:C('URL_SUFFIX_NAME')}={:C('URL_SUFFIX_VAL')}"></script>
+</if>
+
+<if condition="in_array(MODULE_NAME,array('item'))">
+    <script type="text/javascript" src="__STATIC__/build/mall/group_item.js?{:C('URL_SUFFIX_NAME')}={:C('URL_SUFFIX_VAL')}"></script>
+</if>
+
+<if condition="in_array(MODULE_NAME,array('member'))">
+    <script type="text/javascript" src="__STATIC__/build/mall/group_member.js?{:C('URL_SUFFIX_NAME')}={:C('URL_SUFFIX_VAL')}"></script>
+</if>
+
+<if condition="in_array(MODULE_NAME,array('topic'))">
+    <script type="text/javascript" src="__STATIC__/build/mall/group_topic.js?{:C('URL_SUFFIX_NAME')}={:C('URL_SUFFIX_VAL')}"></script>
+</if>
+
+<if condition="in_array(MODULE_NAME,array('transaction'))">
+    <script type="text/javascript" src="__STATIC__/build/mall/group_transaction.js?{:C('URL_SUFFIX_NAME')}={:C('URL_SUFFIX_VAL')}"></script>
+</if>
+    
+</if>
+
+<if condition="$visitor[id] gt 0">
+<script type="text/javascript">
+var weixin_link = '{:U("passport/binding_invite",array("invite_uid"=> $visitor[id]),true,false,true)}';
+</script>
+</if>
+<script type="text/javascript">
+if(typeof(weixin_title)=="undefined"){
+	var weixin_title = '升级商城';
+}
+
+if(typeof(weixin_link)=="undefined"){
+	var weixin_link = '{:U("index/index",'',true,false,true)}';
+}
+
+if(typeof(weixin_img)=="undefined"){
+	var weixin_img = 'http://lv.v-town.cc/app/Tpl/mall/public/images/logo.png';
+}
+
+if(typeof(weixin_desc)=="undefined"){
+	var weixin_desc = '升级商城欢迎您的加入!';
+}
+
+var WEIXIN_SHARE_OPT = {
+		title: weixin_title, // 分享标题
+		desc: weixin_desc, // 分享描述
+		link: weixin_link, // 分享链接
+		imgUrl: weixin_img, // 分享图标
+		type: 'link', // 分享类型,music、video或link，不填默认为link
+		success: function () { 
+			//alert('success');
+		},
+		cancel: function () { 
+			//alert('cancel');
+		}
+};
+wx.config({
+	debug: false,
+	appId: '{$jsaqi_config["appid"]}',
+	timestamp: '{$jsaqi_config["timestamp"]}',
+	nonceStr: '{$jsaqi_config["noncestr"]}',
+	signature: '{$jsaqi_config["signature"]}',
+	jsApiList: ['onMenuShareAppMessage','onMenuShareTimeline']
+});
+wx.ready(function(){
+	wx.onMenuShareAppMessage(WEIXIN_SHARE_OPT);
+	wx.onMenuShareTimeline(WEIXIN_SHARE_OPT);
+});
+</script>

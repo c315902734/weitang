@@ -1,0 +1,72 @@
+<include file="public:header" /><br>
+<!--会员列表-->
+<div class="pad_lr_10" >
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+			<tr>
+                <td>
+					<div style="margin-bottom:10px;">
+						<a href="{:U('team/order',array('id'=>$team[id]))}" class="btn">消费明细</a>
+						<a href="{:U('team/price',array('id'=>$team[id]))}" class="btn btn_submit">资金明细</a>
+						<a href="{:U('team/price_log',array('id'=>$team[id]))}" class="btn">收益明细</a>
+					</div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                <div class="explain_col">
+					团队名称：{$team.title}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+					充值总额：￥{$recharge.total}元&nbsp;
+					今日充值：￥{$recharge.days}元&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+					提现总额：￥{$cash.total}元&nbsp;
+					今日提现：￥{$cash.days}元
+                </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+
+    <div class="J_tablelist table_list" data-acturi="{:U('user/ajax_edit')}">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th width="120" align="left">用户</th>
+                <th width="100" align="left">手机号码</th>
+				<th width="50">金额</th>
+				<th width="50">类型</th>
+				<th width="120">时间</th>
+				<th width="40">状态</th>
+            </tr>
+        </thead>
+    	<tbody>
+            <volist name="list" id="val" >
+            <tr>
+                <td align="left">{$val.username}</td>
+                <td align="left">{$val.tele}</td>
+        		<td align="center">{$val.price}</td>
+                <td align="center"><if condition="$val[type] eq 1">充值<else/>提现</if></td>
+				<td align="center">{$val.add_time}</td>
+                <td align="center">
+					<if condition="$val.type eq 2">
+					<if condition="$val.status eq 0">未处理<elseif condition="$val['status'] eq 1"/><font color="#33cc00">已提现</font><else/><font color="#ff0033">未通过</font></if>
+					<else/>
+					<if condition="$val.status eq 1"><font color="#33cc00">已充值</font><elseif condition="$val['status'] eq 0"/>未处理<else/><font color="#ff0033">未通过</font></if>
+					</if>
+				</td>
+            </tr>
+            </volist>
+    	</tbody>
+    </table>
+    <div class="btn_wrap_fixed">
+        <div id="pages">{$page}</div>
+    </div>
+
+    </div>
+</div>
+<include file="public:footer" />
+</body>
+</html>
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script type="text/javascript" src="__STATIC__/js/calendar/calendar.js"></script>

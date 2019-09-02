@@ -1,0 +1,108 @@
+<include file="public:header"/>
+<div class="container-fluid oh">
+    <div class="row" style="margin-bottom:5px;">
+        <div class="col-xs-12 swiper-container" >
+            <ul class="swiper-wrapper" id="J_ad_list">
+                <volist name="ad_list" id="val">
+                    <li class="swiper-slide">
+                        <a href="{$val.url|default='javascript:;'}"
+                           class="cut-img">
+                            <img src="{:attach($val['img'])}" />
+                        </a>
+                    </li>
+                </volist>
+            </ul>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+    <if condition="$ad_list2">
+    <div class="row index-rec-cate bgwhite">
+        <volist name="ad_list2" id="val">
+        <if condition="$i neq 2">
+        <div class="col-xs-3 item">
+            <a href="{$val.url|default='javascript:;'}">
+                <span class="img"><img src="{:attach($val['img'])}" width="60" /></span>
+                <span class="txt">{$val.name}</span>
+            </a>
+        </div>
+        </if>
+        </volist>
+    </div>
+    </if>
+
+    <if condition="$ad_list3">
+    <div class="row mt5 mb5">
+        <volist name="ad_list3" id="val">
+            <if condition="!empty($val['url'])">
+                <a href="{$val.url}" class="col-xs-12 banner" style="margin-top: 3px;">
+                    <img src="{:attach($val['img'])}">
+                </a>
+                <else/>
+                <img src="{:attach($val['img'])}" class="col-xs-12 banner" style="margin-top: 3px;">
+            </if>
+        </volist>
+    </div>
+    </if>
+
+    <if condition="$ad_list4">
+    <div class="row ad_list4 mt5 mb5">
+        <volist name="ad_list4" id="val">
+            <if condition="$i eq 1">
+            <a href="{$val.url}" class="col-xs-6 banner" style="margin-top: 3px;padding-right:0;">
+                <img src="{:attach($val['img'])}">
+            </a>
+            <elseif condition="$i eq 2" />
+            <a href="{$val.url}" class="col-xs-6 banner" style="margin-top: 3px;padding-left:0;padding-right:0">
+                <img src="{:attach($val['img'])}">
+            </a>
+            <elseif condition="$i eq 3" />
+            <a href="{$val.url}" class="col-xs-3 banner" style="padding-left:0;padding-right:0;">
+                <img src="{:attach($val['img'])}">
+            </a>
+            <elseif condition="$i eq 4" />
+            <a href="{$val.url}" class="col-xs-3 banner" style="padding-left:0;padding-right:0;">
+                <img src="{:attach($val['img'])}">
+            </a>
+            </if>
+        </volist>
+    </div>
+    </if>
+
+    <if condition="$topic_list">
+        <div class="row index-rec-banner">
+            <volist name="topic_list" id="val">
+                <a href="{:U('topic/index',['id'=>$val['id']])}" class="col-xs-12 item mb5 bgwhite">
+                    <div class="banner">
+                        <img data-original="{:attach($val['img'])}">
+                    </div>
+                    <!-- <div class="brief">
+                        <i class="green">{$val.prices}</i>
+                        <span class="title">{$val.title}</span>
+                        <i class="green fr fs-12">{$val.adv}</i>
+                    </div> -->
+                </a>
+            </volist>
+        </div>
+    </if>
+</div>
+
+<div class="container">
+    <div id="J_waterfall" class="row white-bg"
+         data-uri="__ROOT__/?g={:GROUP_NAME}&m=index&a=ajax_wall&filter={$filter}">
+        <div class="col-xs-12 bgwhite">
+            <h2 class="tc fs-18 mb20 grey pr"><span
+                    class="bgwhite pr z1">&nbsp;&nbsp;&nbsp;特惠精品&nbsp;&nbsp;&nbsp;</span>
+                <div class="bg-f3 pa t10 pc-100" style="height:1px;"></div>
+            </h2>
+        </div>
+        <include file="public:waterfall"/>
+    </div>
+</div>
+
+<a href="{:U('user/explain')}" class="ssc-link">升级规则</a>
+
+<present name="show_load">
+    <div id="J_wall_loading" class="wall_loading tc gray"></div>
+</present>
+<a href="{:U('item/lists',['hide_search'=>1])}" class="green item_more">查看更多>></a>
+<include file="public:footer"/>

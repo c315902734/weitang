@@ -1,0 +1,77 @@
+<include file="public:header" />
+<div id="bd">
+    <div class="layout grid-s45m0 w1000 user-center">
+        <div class="col-main">
+            <div class="main-wrap">
+				<div class="box J_TBox">
+                    <div class="global-title">个人资料</div>
+                    <div class="user-info">
+                    <form class="J_form" action="{:U('user/profile')}" method="post" enctype="multipart/form-data">
+                        <div class="list">
+                            <div class="name">会员头像 :</div>
+                            <div class="content upload_avatar">
+								<img src="{:U('mall/assets/avatar',['id'=>$info['id']])}" alt="" class="avatar">
+								<div class="upload_input">
+									<input type="file" name="img" id="img" style="display: none;">
+								</div>
+								<input type="hidden" name="img" value="{$info.img}" id="J_img_hidden">
+                            </div>
+                        </div>
+
+                        <div class="list">
+                            <div class="name">手机号码 :</div>
+                            {$info.tele}
+                        </div>
+						 <div class="list">
+                            <div class="name">收益比例 :</div>
+                            {$info.pers} %
+                        </div>
+
+                        <div class="list">
+                            <div class="name">会员账号 :</div>
+                            <input type="text" placeholder="会员账号" name="username" value="{$info.username}"/>
+                        </div>
+						<div class="list">
+                            <div class="name">性别 :</div>
+                            <input name="sex" class="txt-radio" type="radio" value="1" <if condition="$info['sex'] eq 1">checked="checked"</if> />男 &nbsp;&nbsp;
+							<input name="sex" class="txt-radio" type="radio" value="0" <if condition="$info['sex'] eq 0">checked="checked"</if> />女
+                        </div>
+						<div class="list">
+                            <div class="name">邮箱 :</div>
+                            <input type="text" placeholder="请输入邮箱" name="email" value="{$info.email}"/>
+                        </div>
+						<div class="list">
+                            <div class="name">生日 :</div>
+                            <div class="content select-sz">
+                                <select name="year" class="h30">
+									<for start="1960" end="date('Y')">
+										<option value="{$i}" <if condition="$i eq $info['year']">selected="selected"</if>>{$i}年</option>
+									</for>
+								</select>
+								<select name="month" class="h30">
+									<for start="1" end="13">
+										<option <if condition="$i lt 10">value="0{$i}"<else />value="{$i}"</if> <if condition="$i eq $info['month']">selected="selected"</if>>{$i}月</option>
+									</for>
+								</select>
+								<select name="day" class="h30">
+									<for start="1" end="32">
+										<option <if condition="$i lt 10">value="0{$i}"<else />value="{$i}"</if> <if condition="$i eq $info['day']">selected="selected"</if>>{$i}日</option>
+									</for>
+								</select>
+                            </div>
+                        </div>
+                        <div class="list">
+                            <div class="name"></div>
+                            <input type="submit" class="submit" value="保存" />
+                        </div>
+                    </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <include file="left" />
+    </div>
+</div>
+<!--主部结束-->
+
+<include file="public:footer" />

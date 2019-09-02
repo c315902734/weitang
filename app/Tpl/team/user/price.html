@@ -1,0 +1,107 @@
+<include file="public:header" />
+<div id="bd">
+    <div class="layout grid-s45m0 w1000 user-center">
+        <div class="col-main">
+            <div class="main-wrap">
+				<div class="box J_TBox">
+					<div class="global-title">
+						资金明细
+						<div class="order_search_box">
+							<form method="get" action="">
+								<span class="standard_select fl"> 
+									<span class="select_shelter"> 
+									<select name="type" class="order_select fl" style="width:112px;">
+										<option value="">类型(全部)</option>
+										<option value="1" <if condition="$search[type] eq 1">selected</if>>充值</option>
+										<option value="2" <if condition="$search[type] eq 2">selected</if>>提现</option>
+									</select>
+									</span>
+								</span>
+								<input type="submit" class="order_sub" value="搜索"/>
+								<input type="submit" class="order_sub" value="导出" name="export" id="export-btn"/>
+								<if condition="!$_GET['profit']"><input type="button" value="返回上一页" onclick="javascrtpt:window.location.href='{:U('user/team')}'" class="order_sub"></if>
+
+								<input type="hidden" name="id" value="{$search.id}">
+								<input type="hidden" name="profit" value="{$_GET['profit']}">
+
+								<input type="hidden" name="m" value="user">
+								<input type="hidden" name="a" value="price">
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="box J_TBox">
+					<div class="global-title" style="border-bottom:none;padding:0;">
+						<div>
+							<div style="font-size:14px;float:left;">
+								充值总额：￥{$recharge.total}元&nbsp;&nbsp;&nbsp;&nbsp;
+								今日充值：￥{$recharge.days}元&nbsp;&nbsp;&nbsp;&nbsp;
+								提现总额：￥{$cash.total}元&nbsp;&nbsp;&nbsp;&nbsp;
+								今日提现：￥{$cash.days}元
+							</div>
+						</div>
+					</div>
+				</div>
+                <div class="box J_TBox">
+					<div class="diary-content">
+	                    <table class="table_list" width="100%" cellspacing="0" cellpadding="0">
+							<tr class="title">
+								<th width="120">用户</th>
+								<th width="120">手机</th>
+								<th width="80">所属联席董事</th>
+								<th width="80">所属官方合伙人</th>
+								<th width="80">所属总经销商</th>
+								<th width="60">金额</th>
+								<th width="60">类型</th>
+								<th width="150">时间</th>
+							</tr>
+							<if condition="$list">
+							<volist name="list" id="val">
+								<tr class="content_tr underline">
+									<td align="left">
+										{$val.uname}
+									</td>
+									<td align="center">
+										{$val.tele}
+									</td>
+									<td align="center">
+										<a href="{:U('user/price',array('tgroup_1'=>$val['tgroup_1'],'profit'=>$_GET['profit']))}">{$val.tgroup_1_name}</a>
+									</td>
+									<td align="center">
+										<a href="{:U('user/price',array('tgroup_2'=>$val['tgroup_2'],'profit'=>$_GET['profit']))}">{$val.tgroup_2_name}</a>
+									</td>
+									<td align="center">
+										<a href="{:U('user/price',array('tgroup_3'=>$val['tgroup_3'],'profit'=>$_GET['profit']))}">{$val.tgroup_3_name}</a>
+									</td>
+									<td align="left">
+										{$val.price}
+									</td>
+									<td align="center">
+										<if condition="$val[type] eq 1"><font color="#3300ff">充值</font><else/><font color="#ff9900">提现</font></if>
+									</td>
+									<td align="center">{$val.add_time}</td>
+								</tr>
+							</volist>
+							<else />
+							<tr class="content_tr underline">
+								<td colspan="8"><div class="weixiao">暂无内容 </div></td>
+							</tr>
+							</if>
+						</table>
+					</div>
+                </div>
+				<div class="box J_TBox">
+					<div class="global-pages">
+						<span class="num">
+							{$page}
+						</span>
+					</div>
+				</div>
+            </div>
+        </div>
+        <include file="user:left" />
+    </div>
+</div>
+<!--主部结束-->
+
+<include file="public:footer" />

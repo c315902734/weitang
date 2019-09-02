@@ -1,0 +1,122 @@
+<include file="public:header"/>
+<div class="container order-info">
+	<div class="row global-top">
+        <div class="col-xs-2">
+            <a class="return" href="{:U('user/order')}"></a>
+        </div>
+        <div class="col-xs-8">
+            <div class="text">我的订单</div>
+        </div>
+        <div class="col-xs-2">
+        </div>
+    </div>
+    <div class="row mb10 mt40">
+        <div class="col-xs-12 status-box">
+            <p class="fs-16">
+				<if condition="$info['lottery'] eq 2 && $info['status'] lt 2">升级成功<elseif condition="$info['lottery'] eq 9 && $info['status'] lt 2"/>升级失败<elseif condition="$info['lottery'] eq 1"/>升级中<else/>{:order_status_all($info['status'])}</if>
+			</p>
+            <p class="fs-12 mt3">订单金额（含邮费）：￥{$info.prices}</p>
+            <p class="fs-12 mt3">支付金额：￥{:floatval($info['pays_price'])}</p>
+            <p class="fs-12">邮费：￥{$info.express}</p>
+        </div>
+    </div>
+	<if condition="$info['addr_name']">
+    <div class="row address-box">
+        <div class="col-xs-12 receiver">
+            <span class="fl">{$info.addr_name}</span>
+            <span class="fr">{$info.addr_tele}</span>
+        </div>
+        <div class="col-xs-12 address">
+            <p>{$info.addr_province} {$info.addr_city} {$info.addr_area} {$info.addr_address} {$info.addr_zipcode}</p>
+        </div>
+    </div>
+	</if>
+    <div class="row order-item">
+        <volist name="item_list" id="val">
+            <a class="col-xs-12 item" href="{:U('item/index',['id'=>$val['item_id']])}">
+                <div class="layout sub60ex70">
+                    <div class="col-main">
+                        <div class="wrap">
+                            <p class="title">{$val.title}</p>
+                            <if condition="$val['skus']">
+                                <p class="fs-12 mb3 grey">规格：{$val.skus}</p>
+                            </if>
+                            <if condition="$val['remark']">
+                                <p class="fs-12 grey">留言：{$val.remark}</p>
+                            </if>
+                        </div>
+                    </div>
+                    <div class="col-sub">
+                        <div class="img">
+                            <img src="{:attach($val['img'], 'assets')}" width="100%"/>
+                        </div>
+                    </div>
+                    <div class="col-extra">
+                        <p class="tr orange title">￥{$val.price}</p>
+                        <p class="tr grey">X{$val.nums}</p>
+                    </div>
+                </div>
+            </a>
+        </volist>
+        <div class="col-xs-12 item-total">
+            <span class="fl">共{$info.nums}件商品</span>
+            <span class="fr">邮费：<font color="#000">￥{$info.express}</font>&nbsp;&nbsp;&nbsp;实付：<font color="#000">￥{$info.prices}</font></span>
+        </div>
+        <div class="col-xs-12 fs-12 pt20 pb20 grey">
+			<p>订单状态：{:order_status_all($info['status'])}</p>
+            <p class="mt5">订单编号：{$info.orderid}</p>
+			<p class="mt5">订单金额：{$info.total}</p>
+			<p class="mt5">下单时间：{$info.add_time}</p>
+            <if condition="$info['pays_time']"><p class="mt5">付款时间：{$info.pays_time}</p></if>
+			<if condition="$info['express_time']"><p class="mt5">发货时间：{$info.express_time}</p></if>
+			<if condition="$info['check_time']"><p class="mt5">收货时间：{$info.check_time}</p></if>
+			<if condition="$info['lottery'] gt 0"><p class="mt5 red">抽奖记录：<if condition="$info['lottery_no'] eq 1">奇数<else/>偶数</if></p></if>
+			<if condition="$info['lottery'] gt 0"><p class="mt5 red">升级期数：{:getExpect($info[lottery_date])}</p></if>
+            <if condition="$info['lottery'] gt 0"><p class="mt5 red">开奖结果：[重庆时时彩]提供</p></if>
+			<p class="mt5 red">升级状态：<if condition="$info['lottery'] eq 2">升级成功<elseif condition="$info['lottery'] eq 9"/>升级失败<elseif condition="$info['lottery'] eq 1"/>升级中<else/>待抽奖</if></p>
+			<!--
+            <if condition="$info['pays_sn']"><p class="mt5">支付交易号：{$info.pays_sn}</p></if>
+			-->
+        </div>
+    </div>
+	<div class="row mt20">
+		<if condition="$info['lottery'] eq 0 && $info['status'] eq 1">
+		<div class="col-xs-12">
+			<a href="{:U('user/lottery',array('oid'=>$info[id]))}" class="btn green radius-4 pc-100">去抽奖</a>
+		</div>
+		</if>
+		<if condition="$info['lottery'] gt 1 && $info['status'] eq 2">
+		<div class="col-xs-12">
+			<if condition="$info['is_express'] eq 1">
+				<a href="javascript:;" data-id="{$info.id}" class="J_take_delivery btn green radius-4 pc-100">设置收货地址/提货</a>
+			<else/>
+				<a href="{:U('user/order_address',array('id'=>$info[id]))}" class="btn green radius-4 pc-100">设置收货地址/提货</a>
+			</if>
+		</div>
+		</if>
+	</div>
+</div>
+<div class="container-fluid order-info oh pf b0 l0 r0 z1">
+    <div class="row order-btn">
+        <div class="col-xs-12 tr">
+            <if condition="$info['status']==1 && $info['lottery']==0">
+                <a href="javascript:;" class="default J_refund_order" data-id="{$info.id}">退款</a>
+            </if>
+			<if condition="$info['status']==2 && $info['lottery']==2">
+                <a href="javascript:;" class="default J_refund_order" data-id="{$info.id}">退款</a>
+            </if>
+            <if condition="$info['status']==4 && $can_order_receive">
+                <a href="javascript:;" class="colour" data-id="{$info.id}" id="J_confirm_receive">确认收货</a>
+            </if>
+            <if condition="$info['status'] gt 3 && $info['status'] lt 9">
+                <a href="javascript:;" class="colour J_express_info" data-id="{$info.id}">查看物流</a>
+            </if>
+			<!--
+            <if condition="$info['status']==5">
+                <a href="{:U(MODULE_NAME.'/order_comment',['order_id'=>$info['id']])}" class="colour">去评价</a>
+            </if>
+			-->
+        </div>
+    </div>
+</div>
+<include file="public:footer"/>

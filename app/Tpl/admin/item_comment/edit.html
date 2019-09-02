@@ -1,0 +1,120 @@
+<!--添加会员-->
+<div class="dialog_content">
+	<form id="info_form" action="{:U('item_comment/edit')}" method="post">
+	<table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+		<tr>
+			<th>所属商品 :</th>
+			<td>
+				<input type="text" id="goodsname" name="goodsname" class="input-text fl mr10" size="20" /><div class="upload_btn"><span onclick="searchGoodsList();">搜索</span></div><select name="item_id" id="item_id" class="fl ml10" style="width:100px;">
+					<option value="{$info.item_id}" selected="selected">{$item_name}</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th>所属会员 :</th>
+			<td>
+				<input type="text" id="username" name="username" class="input-text fl mr10" size="20" /><div class="upload_btn"><span onclick="searchUserList();">搜索</span></div><select name="order_uid" id="uid" class="fl ml10" style="width:100px;"><option value="">{$info.uname}</option></select>
+			</td>
+		</tr>
+		<tr>
+			<th>评论内容 :</th>
+			<td>
+				<textarea name="info" id="info" style="width:320px;height:80px;">{$info.info}</textarea>
+			</td>
+		</tr>
+		<tr>
+        	<th>评论时间 :</th>
+            <td>
+            	 <input type="text" name="add_time" id="add_time" class="date J_date_picker" value="{$info.add_time}"  size="20">
+            </td>
+        </tr>
+		<tr>
+        	<th>点赞数量 :</th>
+            <td>
+            	<input type="text" id="likes" name="likes" class="input-text" size="30" value="{$info.likes}"/>
+            </td>
+        </tr>
+      	<tr>
+        	<th>回复状态 :</th>
+            <td>
+            	<label><input type="radio" name="reply_status" value="1" <if condition="$info.reply_status eq 1">checked</if>> 有效</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<label><input type="radio" name="reply_status" value="0" <if condition="$info.reply_status eq 0">checked</if>> 无效</label>
+            </td>
+        </tr>
+		<tr>
+        	<th>有效状态 :</th>
+            <td>
+            	<label><input type="radio" name="status" value="1" <if condition="$info.status eq 1">checked</if>> 有效</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<label><input type="radio" name="status" value="0" <if condition="$info.status eq 0">checked</if>> 无效</label>
+            </td>
+        </tr>
+        
+	</table>
+	<input type="hidden" name="menuid" value="{$menuid}" />
+	<input type="hidden" name="id" value="{$info.id}" />
+	</form>
+</div>
+<script type="text/javascript">
+$('#info_form').ajaxForm({success:complete, dataType:'json'});
+function complete(result){
+	if(result.status == 1){
+		$.dialog.get(result.dialog).close();
+		$.pinphp.tip({content:result.msg});
+		window.location.reload();
+	} else {
+		$.pinphp.tip({content:result.msg, icon:'alert'});
+	}
+}
+function searchAutoUserList(){
+	var auto_username = $('#auto_username').val();
+	if(auto_username == ''){
+		return false;
+	}
+	var url = '{:U("item_comment/search_auto_user")}';
+	$.ajax({
+		url: url,
+		type:'POST',
+		data: {auto_username:auto_username},
+		success: function(uhtml){
+			$('#auto_username_s').show().html(uhtml);
+		}
+	});
+}
+function searchUserList(){
+	var username = $('#username').val();
+	if(username == ''){
+		return false;
+	}
+	var url = '{:U("item/search_user")}';
+	$.ajax({
+		url: url,
+		type:'POST',
+		data: {username:username},
+		success: function(uhtml){
+			$('#uid').show().html(uhtml);
+		}
+	});
+}
+function searchGoodsList(){
+	var goodsname = $('#goodsname').val();
+	if(goodsname == ''){
+		return false;
+	}
+	var url = '{:U("item/search_item")}';
+	$.ajax({
+		url: url,
+		type:'POST',
+		data: {goodsname:goodsname},
+		success: function(uhtml){
+			$('#item_id').show().html(uhtml);
+		}
+	});
+}
+$(function(){
+	if( typeof create_datepicker === 'function' ){
+		create_datepicker();
+	}else{
+		//不存在或不是function
+	}
+});
+</script>

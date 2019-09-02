@@ -1,0 +1,32 @@
+<include file="public:header"/>
+<div class="container">
+    <div class="row search">
+        <div class="col-xs-12 input-search">
+            <div class="layout ex40">
+                <form>
+                    <div class="col-main">
+                        <div class="wrap">
+							<span class="input">
+								<input type="text" name="keywords" placeholder="搜索宝贝">
+							</span>
+                        </div>
+                    </div>
+                    <div class="col-extra">
+                        <input type="hidden" name="m" value="item">
+                        <input type="hidden" name="a" value="lists">
+                        <span class="submit"><input type="submit" value="搜索"></span>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-xs-12 fs-12 grey">热门搜索</div>
+        <div class="col-xs-12 form">
+            <div class="made bm">
+                <volist name="keywords" id="val">
+                    <a href="{:U('item/lists',['keywords'=>$val])}"><span>{$val}</span></a>
+                </volist>
+            </div>
+        </div>
+    </div>
+</div>
+<include file="public:footer"/>

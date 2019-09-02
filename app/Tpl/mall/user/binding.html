@@ -1,0 +1,92 @@
+<include file="public:header"/>
+
+<div class='container-fluid <if condition="!$token">mt-44</if>'>
+    <if condition="!$token">
+        <div class="row global-top">
+
+            <div class="col-xs-2">
+
+                <!-- <a class="return" href="{:U('user/index')}"></a> -->
+
+            </div>
+
+            <div class="col-xs-8">
+
+                <div class="text">{:L('binding_title')}</div>
+
+            </div>
+
+            <div class="col-xs-2">
+
+            </div>
+
+        </div>
+    </if>
+    <form action="{:U('passport/register')}" method="post" id="bindForm">
+
+        <div class="row white-bg login-list">
+
+
+            <div class="global-list">
+
+                <div class="col-xs-3">{:L('username')}</div>
+
+                <div class="col-xs-9 b-b">
+
+                    <input type="text" name="username" class="f_input"
+                           value="{:urldecode($user_bind_info['pin_user_name'])}"/>
+
+                </div>
+
+            </div>
+
+            <!-- <div class="global-list">
+
+                <div class="col-xs-3">邮箱</div>
+
+                <div class="col-xs-9 b-b">
+
+                    <input type="text" name="email" class="f_input" />
+
+                </div>
+
+            </div> -->
+
+            <div class="global-list">
+
+                <div class="col-xs-3">{:L('password')}</div>
+
+                <div class="col-xs-9 b-b">
+
+                    <input type="password" name="password" class="f_input"/>
+
+                </div>
+
+            </div>
+
+            <div class="global-list">
+
+                <div class="col-xs-3">{:L('confirm_password')}</div>
+
+                <div class="col-xs-9 b-b">
+
+                    <input type="password" name="repassword" class="f_input"/>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="global-submit-bot1">
+                <button type="button" onclick="checkBindForm($('#bindForm'));" class="J_submit">确定</button>
+            </div>
+        </div>
+        <input type="hidden" name="step" value="3"/>
+    </form>
+</div>
+
+<script type="text/javascript" src="__ASSETS__/js/index.js"></script>
+<include file="public:footer"/>

@@ -1,0 +1,82 @@
+<include file="public:header" />
+<!--菜单列表-->
+<div class="pad_lr_10">
+<form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+            <tr>
+            <td>
+            <div class="explain_col">
+                <input type="hidden" name="g" value="admin" />
+                <input type="hidden" name="m" value="city" />
+                <input type="hidden" name="a" value="index" />
+                <input type="hidden" name="menuid" value="{$menuid}" />
+                <select class="J_cate_select mr10" data-pid="0" data-uri="{:U('city/ajax_getchilds')}" data-selected="{$spid}"></select>
+                <input type="hidden" name="pid" id="J_cate_id" />
+                <input type="submit" name="search" class="btn" value="搜索" />
+            </div>
+            </td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+    <div class="J_tablelist table_list" data-acturi="{:U('city/ajax_edit')}">
+        <table width="100%" cellspacing="0" id="J_cate_tree">
+            <thead>
+            <tr>
+                <th width="40"><input type="checkbox" name="checkall" class="J_checkall"></th>
+                <th width="40"><span data-tdtype="order_by" data-field="id">ID</span></th>
+      			<th align="left">上级</th>
+                <th align="left">城市</th>
+				<th align="left">地区码</th>
+				<th align="left">备注</th>
+				<th align="left" width="120">添加时间</th>
+				<th align="left" width="120">更新时间</th>
+                <th width="40"><span data-tdtype="order_by" data-field="ordid">{:L('sort_order')}</span></th>
+				<th width="40"><span data-tdtype="order_by" data-field="status">状态</span></th>
+                <th width="160">{:L('operations_manage')}</th>
+            </tr>
+            </thead>
+    	   <tbody>
+           <volist name="list" id="val">
+           <tr>
+               <td><input type='checkbox' value="{$val.id}" class='J_checkitem' /></td>
+               <td>{$val.id}</td>
+               <td>{$val.tname}</td>
+               <td>{$val.name}</td>
+               <td>{$val.code}</td>
+               <td>{$val.remark}</td>
+               <td>{$val.add_time}</td>
+               <td>{$val.update_time}</td>
+               <td align="center"><span data-tdtype='edit' data-field='ordid' data-id="{$val.id}" class='tdedit'>{$val.ordid}</span></td>
+               <td align="center"><img data-tdtype='toggle' data-id="{$val.id}" data-field='status' data-value="{$val.status}" src="__STATIC__/images/admin/toggle_<if condition="$val.status eq 0">disabled<else/>enabled</if>.gif" /></td>
+               <td align="center">
+                   <a href="javascript:;" class="J_showdialog" data-uri="{:U('city/add',array('pid'=>$val['id']))}" data-title="添加子菜单" data-id="add" data-width="500" data-height="200">添加子菜单</a> |
+                                <a href="javascript:;" class="J_showdialog" data-uri="{:U('city/edit',array('id'=>$val['id']))}" data-title="编辑 - {$val['name']}" data-id="edit" data-width="500" data-height="200">编辑</a> |
+                                <a href="javascript:;" class="J_confirmurl" data-acttype="ajax" data-uri="{:U('city/delete',array('id'=>$val['id']))}" data-msg="{:sprintf(L('confirm_delete_one'),$val['name'])}">删除</a>
+               </td>
+           </tr>
+           </volist>
+            <!-- [$menu_list} -->
+    	   </tbody>
+        </table>
+    </div>
+    <div class="btn_wrap_fixed">
+        <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('city/delete',array('id'=>$r['id'], 'menuid'=>$menuid))}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />
+        <div id="pages">{$page}</div>
+    </div>
+</div>
+
+<include file="public:footer" />
+<script src="__STATIC__/js/jquery/plugins/jquery.treetable.js"></script>
+<script>
+$(function(){
+    //initialState:'expanded'
+    $("#J_cate_tree").treeTable({indent:20,treeColumn:2});
+
+    $('.J_cate_select').cate_select();
+});        
+</script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+<volist name="log" id="val">
+<div class="col-xs-12 pt10 pb10 b-b bgwhite">
+	<p class="pc-100 fl"><if condition="$val.price gt 0"><span class="fr red">＋{$val.price}</span><else/><span class="fr green">{$val.price}</span></if><span class="fl grey fs-12">{$val['add_time']}</span></p>
+	<p class="pc-100 fl mt5"><span class="grey fs-12">{$val.remark}</span></p>
+</div>
+</volist>

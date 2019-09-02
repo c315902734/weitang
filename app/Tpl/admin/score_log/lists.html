@@ -1,0 +1,61 @@
+<include file="public:header" />
+<div class="pad_10" >
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+            <tr>
+                <td>
+                <div class="explain_col">
+                    <input type="hidden" name="g" value="admin" />
+                    <input type="hidden" name="m" value="score_log" />
+                    <input type="hidden" name="a" value="lists" />
+                    <input type="hidden" name="menuid" value="{$menuid}" />
+					&nbsp;会员ID :
+                    <input name="uid" type="text" class="input-text" size="25" value="{$search.uid}" />
+                    &nbsp;会员帐号 :
+                    <input name="keyword" type="text" class="input-text" size="25" value="{$search.keyword}" />
+                    
+                    <input type="submit" name="search" class="btn" value="搜索" />
+                </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+
+    <div class="J_tablelist table_list" data-acturi="{:U('score_log/ajax_edit')}">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th width="40"><span data-tdtype="order_by" data-field="id">ID</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="uid">会员帐号</span></th>
+				<th width="150">累计获取积分</th>
+                <th width="120">可用积分</th>
+                <th width="100">操作项</th>
+            </tr>
+        </thead>
+    	<tbody>
+            <volist name="user_list" id="val" >
+            <tr>
+                <td align="center">{$val.id}</td>
+                <td>{$val.username}</td>
+				<td align="center">
+                    {$val.total_score}
+				</td>
+                <td align="center">{$val.score}</td>
+				<td align="center">
+                    <a href="{:U('score_log/index', array('uid' => $val['id']))}">查看明细</a>            
+                </td>
+            </tr>
+            </volist>
+    	</tbody>
+    </table>
+    <div class="btn_wrap_fixed">
+        <div id="pages">{$page}</div>
+    </div>
+
+    </div>
+</div>
+<include file="public:footer" />
+</body>
+</html>

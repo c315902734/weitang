@@ -1,0 +1,40 @@
+<include file="public:header"/>
+<div class='container-fluid mb50 mt40 user_address_page'>
+    <div class="row global-top">
+        <div class="col-xs-2">
+			<a class="return" href="{:U('user/order_info',array('id'=>$_GET['id']))}"></a>
+        </div>
+        <div class="col-xs-8">
+            <div class="text">选择收货地址</div>
+        </div>
+        <div class="col-xs-2">
+        </div>
+    </div>
+    <div class="row">
+        <volist name="address_list" id="val">
+            <div class="col-xs-12 b-b J_item mt10 white-bg" data-id="{$val.id}" data-oid="{$_GET['id']}">
+                <div class="name">
+                    <span class="fl">收货人：{$val.name}</span>
+                    <span class="fr">{$val.tele}</span>
+                </div>
+                <div class="text gray">收货地址：{$val.province} {$val.city}{$val.area} {$val.address} {$val.zipcode}
+                </div>
+                <div class="row mt10 pt10 edit">
+                    <div class="col-xs-12">
+                        <div class="editbtn">
+                           <a class="J_select fr">选择</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </volist>
+    </div>
+    <if condition="count($address_list) lt 10">
+        <footer class="bottom-bot mt20">
+            <div class="global-submit-bot1">
+                <a class="global-submit-btn" href="{:U(MODULE_NAME.'/add_address',['ret_url'=>base64_encode(get_request_url())])}">添加新地址</a>
+            </div>
+        </footer>
+    </if>
+</div>
+<include file="public:footer"/>

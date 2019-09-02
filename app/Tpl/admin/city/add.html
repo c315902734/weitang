@@ -1,0 +1,49 @@
+﻿<div class="dialog_content">
+	<form id="info_form" name="info_form" action="{:U('city/add')}" method="post">
+    <table width="100%" class="table_form">
+    	<tr>
+          <th width="100">所属城市:</th>
+          <td>
+			<select class="J_cate_select2 mr10" data-pid="0" data-uri="{:U('city/ajax_getchilds')}" data-selected="{$spid}"></select>
+          	<input type="hidden" name="pid" id="J_cate_id2"  value="{$info.pid}"/>
+			</td>
+        </tr>
+        <tr>
+          <th>城市名称 :</th>
+          <td><input type="text" name="name" id="name" class="input-text"></td>
+        </tr>
+        <tr>
+        	<th>地区编码:</th>
+            <td><input type="text" name="code" id="code" class="input-text" value="{$info.code}"></td>
+        </tr>
+        <tr>
+            <th>备注说明 :</th>
+            <td><textarea name="remark" id="remark" cols="40" rows="3">{$info.remark}</textarea></td>
+        </tr>
+       <tr>
+          <th>有效状态 :</th>
+          <td>
+            <label><input type="radio" name="status" class="radio_style" value="1" checked="checked"> {:L('yes')}&nbsp;&nbsp;</label>
+            <label><input type="radio" name="status" class="radio_style" value="0"> {:L('no')}</label>
+          </td>
+        </tr>
+    </table>
+	<input type="hidden" name="menuid" value="{$menuid}" />
+    </form>
+</div>
+
+<script type="text/javascript">
+
+
+$('#info_form').ajaxForm({success:complete, dataType:'json'});
+function complete(result){
+	if(result.status == 1){
+		$.dialog.get(result.dialog).close();
+		$.pinphp.tip({content:result.msg});
+		window.location.reload();
+	} else {
+		$.pinphp.tip({content:result.msg, icon:'alert'});
+	}
+}
+$('.J_cate_select2').cate_select({field:'J_cate_id2'});
+</script>

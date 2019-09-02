@@ -1,0 +1,24 @@
+<include file="public:header"/>
+	<div class="container tc">
+		<div class="row">
+			<div class="col-xs-12 pt20">
+				<div class="tc">
+					<p class="mt10 fs-16">
+					<if condition="$status eq 1">
+					订单支付成功
+					<else/>
+					订单支付失败
+					</if>
+					</p>
+					<p class="mt10">订单：{$order.orderid}</p>
+					<p class="mt10">支付金额：￥{$order.prices}</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container tc">
+		<div class="col-xs-6 mb20 mt20"><a class="btn green" href="{:U('user/order_info',array('id'=>$order[id]))}">查看订单</a></div>
+		<div class="col-xs-6 mb20 mt20"><a class="btn green" href="{:U('user/index')}">用户中心</a></div>
+		<!-- <p class="p-t-10"><a href="__ROOT__/">回首页</a></p> -->
+	</div>
+<include file="public:footer"/>

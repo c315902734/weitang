@@ -1,0 +1,79 @@
+<include file="public:header" /><br>
+<!--会员列表-->
+<div class="pad_lr_10" >
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+            <tr>
+                <td>
+                <div class="explain_col">
+					
+                    <input type="hidden" name="g" value="admin" />
+                    <input type="hidden" name="m" value="team" />
+                    <input type="hidden" name="a" value="user" />
+                    <input type="hidden" name="id" value="{$_GET[id]}" />
+					团队名称：{$team.title}
+
+					&nbsp;手机号码 :
+                    <input name="tele" type="text" class="input-text" size="15" value="{$search.tele}" />
+					<input type="submit" name="search" class="btn" value="搜索" />
+
+                </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+
+    <div class="J_tablelist table_list" data-acturi="{:U('user/ajax_edit')}">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th width=25><input type="checkbox" id="checkall_t" class="J_checkall"></th>
+                <th width=40><span data-tdtype="order_by" data-field="id">ID</span></th>
+                <th width="40">头像</th>
+                <th width="80"><span data-tdtype="order_by" data-field="tgroup">团队级别</span></th>
+                <th width="80"><span data-tdtype="order_by" data-field="pers">收益明细</span></th>
+				<th align="left"><span data-tdtype="order_by" data-field="username">会员帐号</span></th>
+                <th width="100" align="left"><span data-tdtype="order_by" data-field="tele">手机号码</span></th>
+                <th width="100" align="center">邀请</th>
+                <th width="40"><span data-tdtype="order_by" data-field="status">{:L('status')}</span></th>
+                <th width="120">{:L('operations_manage')}</th>
+            </tr>
+        </thead>
+    	<tbody>
+            <volist name="list" id="val" >
+            <tr>
+                <td align="center"><input type="checkbox" class="J_checkitem" value="{$val.id}"></td>
+                <td align="center">{$val.id}</td>
+        		<td align="center"><img src="{:avatar($val['img'], 32)}" width="32" /></td>
+                <td align="center">{$tgroup[$val[tgroup]]}<br>[<a href="javascript:;" class="J_showdialog" data-uri="{:u('user/topclass', array('id'=>$val['id']))}" data-title="设置顶级" data-id="topclass" data-width="400" data-height="20">设置</a>]</td>
+				<td align="center">{$val.pers} %</td>
+				<td align="left">{$val.username}<if condition="$val.topclass eq 1"><font color="#ff0000">[管]</font></if></td>
+				<td align="left">{$val.tele}</td>
+                <td align="center"><if condition="$val['invite_uid'] gt 0">{$val.invite.username}&nbsp;&nbsp;<font color="#33cc00">(ID:{$val.invite_uid})</font><br></if>[<a href="{:U('user/lower',array('id'=>$val[id]))}">下级</a>]&nbsp;&nbsp;[<a href="javascript:;" class="J_showdialog" data-uri="{:u('user/relationship_edit', array('id'=>$val['id']))}" data-title="设置推荐人" data-id="edit" data-width="400" data-height="20">设置</a>]</td>
+                <td align="center"><if condition="$val.status eq 0">停用<else/>启用</if></td>
+                <td align="center">
+                    <a href="{:u('team/order_total', array('id'=>$val['id']))}">消费明细</a> | <a href="{:u('team/price_total', array('id'=>$val['id']))}">资金明细</a><br />
+					<a href="{:U('user_recharge/index',array('keyword'=>$val[username],'type'=>2))}">提现</a> |
+					<a href="{:U('user_recharge/index',array('keyword'=>$val[username],'type'=>1))}">充值</a><br>
+					
+
+                </td>
+            </tr>
+            </volist>
+    	</tbody>
+    </table>
+    <div class="btn_wrap_fixed">
+        <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('user/delete')}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />
+        <div id="pages">{$page}</div>
+    </div>
+
+    </div>
+</div>
+<include file="public:footer" />
+</body>
+</html>
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script type="text/javascript" src="__STATIC__/js/calendar/calendar.js"></script>

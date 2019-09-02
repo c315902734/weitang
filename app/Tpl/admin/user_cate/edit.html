@@ -1,0 +1,52 @@
+<div class="dialog_content">
+    <form id="info_form" name="info_form" action="{:U('user_cate/edit')}" method="post">
+    <table width="100%" class="table_form">
+        <tr>
+          <th width="100">上级分类 :</th>
+          	<td>
+				<select class="J_cate_select mr10" data-pid="0" data-uri="{:U('user_cate/ajax_getchilds')}" data-selected="{$info.pid}"></select>
+				<input type="hidden" name="pid" id="J_cate_id" />
+			</td>
+        </tr>
+        <tr>
+        	<th>分类名称 :</th>
+            <td><input type="text" name="name" id="name" class="input-text" value="{$info.name}"></td>
+        </tr>
+        <tr>
+            <th>备注说明 :</th>
+            <td><textarea name="remark" id="remark" cols="40" rows="3">{$info.remark}</textarea></td>
+        </tr>
+        <tr>
+            <th>有效状态 :</th>
+            <td>
+                <label><input type="radio" name="status" class="radio_style" value="1" <if condition="$info.status eq 1">checked="checked"</if>> {:L('yes')}&nbsp;&nbsp;</label>
+                <label><input type="radio" name="status" class="radio_style" value="0" <if condition="$info.status eq 0">checked="checked"</if>> {:L('no')}</label>
+            </td>
+        </tr>
+    </table>
+    <input name="id" type="hidden" value="{$info.id}">
+	<input type="hidden" name="menuid" value="{$menuid}" />
+    </form>
+</div>
+
+<script>
+$(function(){
+    $.formValidator.initConfig({formid:"info_form",autotip:true});
+
+    $("#name").formValidator({ onshow:lang.please_input+lang.menu_name, onfocus:lang.please_input+lang.menu_name, oncorrect:lang.input_right}).inputValidator({ min:1, onerror:lang.please_input+lang.menu_name}).defaultPassed();
+   
+
+    $('#info_form').ajaxForm({success:complate,dataType:'json'});
+    function complate(result){
+        if(result.status == 1){
+            $.dialog.get(result.dialog).close();
+            $.pinphp.tip({content:result.msg});
+            window.location.reload();
+        } else {
+            $.pinphp.tip({content:result.msg, icon:'alert'});
+        }
+    }
+    
+    $('.J_cate_select').cate_select();
+});
+</script>

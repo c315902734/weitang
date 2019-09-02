@@ -1,0 +1,48 @@
+<include file="public:header"/>
+<div class="container-fluid oh">
+    <div class="row cate-search pl0 pr0 pb0 bm mb10">
+        <form method="get" action="" <if condition="$_GET['hide_search'] == 1">style="display:none;"</if>>
+            <if condition="$_GET['item_type']">
+                <input type="hidden" name="item_type" value="{$_GET['item_type']}"/>
+            </if>
+            <div class="col-xs-2">
+                <a href="{:U('search/index')}" class="back"></a>
+            </div>
+            <div class="input-box col-xs-8">
+                <input type="hidden" name="m" value="item">
+                <input type="hidden" name="a" value="lists">
+                <input type="text" name="keywords" placeholder="关键词搜索" value="{$keywords}"/>
+            </div>
+            <div class="input-btn txt col-xs-2 tc">
+                <input type="button" value="筛选" onclick="window.location.href='{:U('item/screen',array('sprice'=>$_GET['sprice'],'eprice'=>$_GET['eprice']))}';">
+            </div>
+        </form>
+        <div class="col-xs-3 order-btn">
+            <a href="{:U(MODULE_NAME.'/'.ACTION_NAME,['keywords'=>$keywords,'item_type'=>$_GET['item_type']])}" <if condition="empty($_GET['sort'])">class="ac"</if>>综合</a>
+        </div>
+        <div class="col-xs-3 order-btn">
+            <a href="{:U(MODULE_NAME.'/'.ACTION_NAME,['keywords'=>$keywords,'sort'=>'sales','sort_order'=>$sales_sort_order,'item_type'=>$_GET['item_type']])}" <if condition="$_GET['sort'] eq 'sales'">class="ac"</if>>销量<i class="sort {$sales_sort_order}"></i>
+            </a>
+        </div>
+        <div class="col-xs-3 order-btn">
+            <a href="{:U(MODULE_NAME.'/'.ACTION_NAME,['keywords'=>$keywords,'sort'=>'price','sort_order'=>$price_sort_order,'item_type'=>$_GET['item_type']])}" <if condition="$_GET['sort'] eq 'price'">class="ac"</if>>价格
+                <i class="sort {$price_sort_order}"></i>
+            </a>
+        </div>
+        <div class="col-xs-3 order-btn">
+            <a href="{:U(MODULE_NAME.'/'.ACTION_NAME,['keywords'=>$keywords,'sort'=>'add_time','sort_order'=>$time_sort_order,'item_type'=>$_GET['item_type']])}" <if condition="$_GET['sort'] eq 'add_time'">class="ac"</if>>最新
+                <i class="sort {$time_sort_order}"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div id="J_waterfall" class="container row"
+     data-uri="__ROOT__/?g={:GROUP_NAME}&m={:MODULE_NAME}&a={:ACTION_NAME}&keywords={$keywords}&sort={$_GET['sort']}&sort_order={$_GET['sort_order']}&item_type={$_GET['item_type']}">
+    <include file="public:waterfall"/>
+</div>
+
+<present name="show_load">
+    <div id="J_wall_loading" class="wall_loading tc gray"></div>
+</present>
+<include file="public:footer"/>

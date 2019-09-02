@@ -1,0 +1,15 @@
+<volist name="left_menu" id="val" >
+<h3 class="f14"><span class="J_switchs cu on" title="{:L('expand_or_contract')}"></span>{$val.name}</h3>
+<ul>
+    <!--遍历顶级菜单下的三级菜单-->
+	<volist name="val['sub']" id="sval" >
+    	<li class="sub_menu">
+            <!-- #menuid=834&topid=755&status=2 -->
+            <a href="#menuid={$sval.id}&topid={$topid}{$sval.data}"
+               data-id="{$sval.id}" hidefocus="true">
+                {$sval.name}
+            </a>
+        </li>
+	</volist>
+</ul>
+</volist>

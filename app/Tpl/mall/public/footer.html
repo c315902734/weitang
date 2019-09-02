@@ -1,0 +1,47 @@
+<if condition="$is_show_footer">
+    <div class="container-fluid oh footer pf b0 l0 r0" style="z-index: 10;">
+        <div class="row">
+            <div class="col-xs-3">
+                <a href="__ROOT__/" <if condition="MODULE_NAME=='index'"> class="ac"</if>>
+                <i class="home"></i>
+                <span>首页</span>
+                </a>
+            </div>
+            
+			<div class="col-xs-3">
+                <a href="{:U('promotion/index')}" <if condition="MODULE_NAME=='promotion'"> class="ac"</if>>
+                <i class="promotion"></i>
+                <span>促销</span>
+                </a>
+            </div>
+			<div class="col-xs-3">
+                <a href="{:U('ssc/index')}" <if condition="MODULE_NAME=='ssc'"> class="ac"</if>>
+                <i class="category"></i>
+                <span>开奖记录</span>
+                </a>
+            </div>
+			<!-- 
+			<div class="col-xs-3">
+                <a href="{:U('item_cate/index')}" <if condition="MODULE_NAME=='item_cate'"> class="ac"</if>>
+                <i class="category"></i>
+                <span>分类</span>
+                </a>
+            </div>
+            <div class="col-xs-3">
+                <a href="{:U('search/index')}" <if condition="MODULE_NAME=='search'"> class="ac"</if>>
+                <i class="search-link"></i>
+                <span>搜索</span>
+                </a>
+            </div> -->
+            <div class="col-xs-3">
+                <a href="{:U('user/index')}" <if condition="MODULE_NAME=='user'"> class="ac"</if>>
+                <i class="user"></i>
+                <span>我的</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</if>
+<include file="public:js"/>
+</body>
+</html>

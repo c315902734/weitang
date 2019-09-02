@@ -1,0 +1,44 @@
+<include file="public:header"/>
+<style type="text/css">
+.user_favs_page {
+    background: #f3f3f3;
+}
+</style>
+<div class="container">
+	<div class="row global-top">
+        <div class="col-xs-3">
+            <a href="{:U('mall/user/index')}" class="return"></a>
+        </div>
+        <div class="col-xs-6">
+            <div class="text">我的团队</div>
+        </div>
+        <div class="col-xs-3"><a href="{:U('user/lower_commission')}" style="display:block;line-height:44px;text-align:center;color:#fff;">订单明细</a></div>
+    </div>
+	<div class="row mt50 fs-13 bgwhite pt10 pb10 b-b">
+		<div class="col-xs-12">
+			团队人数：{$count}人
+		</div>
+		<div class="col-xs-6 mt10">
+			充值总额：￥{$recharge.total}元
+		</div>
+		<div class="col-xs-6 mt10">
+			今日充值：￥{$recharge.days}元
+		</div>
+		<div class="col-xs-6 mt10">
+			提现总额：￥{$cash.total}元
+		</div>
+		<div class="col-xs-6 mt10">
+			今日提现：￥{$cash.days}元
+		</div>
+	</div>
+    <div id="J_waterfall" class="row bgwhite" data-uri="{:U(MODULE_NAME.'/'.ACTION_NAME)}">
+        <div class="col-xs-12">
+		 <include file="lower_waterfall"/>
+		</div>
+    </div>
+
+    <if condition="$show_loading">
+        <div id="J_wall_loading" class="wall_loading tc gray"></div>
+    </if>
+</div>
+<include file="public:footer"/>

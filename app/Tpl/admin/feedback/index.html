@@ -1,0 +1,87 @@
+<include file="public:header" />
+<!--文章列表-->
+<div class="pad_10" >
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+        <tr>
+            <td>
+            <div class="explain_col">
+                <input type="hidden" name="g" value="admin" />
+                <input type="hidden" name="m" value="feedback" />
+                <input type="hidden" name="a" value="index" />
+                <input type="hidden" name="menuid" value="{$menuid}" />
+                投诉日期 ：
+                <input name="stime" type="text" class="J_date_picker date" size="15" value="{$search.stime}" /> ~ 
+                <input name="etime" type="text" class="J_date_picker date" size="15" value="{$search.etime}" />
+                &nbsp;&nbsp;回复情况 :
+                <select name="reply_status">
+                    <option value="-1">全部</option>
+                    <option value="0" <if condition="$search['reply_status'] eq 0">selected="selected"</if>>未回复</option>
+                    <option value="1" <if condition="$search['reply_status'] eq 1">selected="selected"</if>>已回复</option>
+                </select>
+                &nbsp;&nbsp;投诉类型 : 
+                <select name="type">
+                    <option value="">全部</option>
+                    <option value="用药咨询" <if condition="$search['type'] eq '用药咨询'">selected="selected"</if>>用药咨询</option>
+                    <option value="不良反应" <if condition="$search['type'] eq '不良反应'">selected="selected"</if>>不良反应</option>
+                    <option value="服务投诉" <if condition="$search['type'] eq '服务投诉'">selected="selected"</if>>服务投诉</option>
+                    <option value="意见建议" <if condition="$search['type'] eq '意见建议'">selected="selected"</if>>意见建议</option>
+                    <option value="购买咨询" <if condition="$search['type'] eq '购买咨询'">selected="selected"</if>>购买咨询</option>
+                    <option value="产品评论" <if condition="$search['type'] eq '产品评论'">selected="selected"</if>>产品评论</option>
+                    <option value="其它" <if condition="$search['type'] eq '其它'">selected="selected"</if>>其它</option>
+                </select>
+                &nbsp;&nbsp;{:L('keyword')} :
+                <input name="keyword" type="text" class="input-text" size="25" value="{$search.keyword}" />
+                <input type="submit" name="search" class="btn" value="{:L('search')}" />
+            </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </form>
+
+    <div class="J_tablelist table_list" data-acturi="{:U('feedback/ajax_edit')}">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th width=25><input type="checkbox" id="checkall_t" class="J_checkall"></th>
+                <th width="120" align="left">标题</th>
+                <th align="left">内容</th>
+                <th width="80">投诉人</th>
+                <th width="100">投诉类型</th>
+                <th width="80">回复情况</th>
+                <th width="120">投诉时间</th>
+                <th width="80">{:L('operations_manage')}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="list" id="val" >
+            <tr>
+                <td align="center"><input type="checkbox" class="J_checkitem" value="{$val.id}"></td>
+                <td>{$val.title}</td>
+                <td>{$val.info}</td>
+				<td align="center">{$val.uname}</td>
+                <td align="center">{$val.type}</td>
+                <td align="center"><if condition="$val['reply_status'] eq 1">已回复<else />未回复</if></td>
+                <td>{$val.add_time}</td>
+                <td align="center">
+                    <a href="{:u('feedback/edit', array('id'=>$val['id']))}">回复</a> |
+                    <a href="javascript:void(0);" class="J_confirmurl" data-acttype="ajax" data-uri="{:u('feedback/delete', array('id'=>$val['id']))}" data-msg="{:sprintf(L('confirm_delete_one'),$val['title'])}">{:L('delete')}</a>
+                </td>
+            </tr>
+            </volist>
+        </tbody>
+    </table>
+
+    <div class="btn_wrap_fixed">
+        <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('feedback/delete')}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />
+        <div id="pages">{$page}</div>
+    </div>
+
+    </div>
+</div>
+<include file="public:footer" />
+</body>
+</html>

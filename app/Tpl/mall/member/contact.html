@@ -1,0 +1,104 @@
+<include file="public:header"/>
+<div class="container service-text">
+    <if condition="$_GET['iframe']!=1">
+	<div class="row global-top">
+        <div class="col-xs-2">
+            <a class="return" href="Javascript:history.go(-1)"></a>
+        </div>
+        <div class="col-xs-8">
+            <div class="text">在线客服</div>
+        </div>
+        <div class="col-xs-2"></div>
+    </div>
+    </if>
+    <div class="row <if condition="$_GET['iframe']!=1">mt50</if>" style="font-size: 16px;">
+        <div class="col-xs-12 tc fs-18 mb10 pt30">{$member.title}客服</div>
+        <div class="col-xs-12 mb60">
+            <div class="item">
+                <if condition="$pre_sale_qq_list">
+                    <div class="row">
+                        <div class="col-xs-4 tr">售前QQ:</div>
+                        <div class="col-xs-8">
+                            <volist name="pre_sale_qq_list" id="val">
+                                <if condition="$val != '' and $val!='无'">
+                                    <a target="_blank" href="<if condition='is_mobile_browser() and !is_weixin_browser()'>mqqwpa://im/chat?chat_type=wpa&uin={$val}&version=1&src_type=web&web_src=oicqzone.com<else/>http://wpa.qq.com/msgrd?v=3&uin={$val}&site=qq&menu=yes</if>">
+                                        <img border="0" src="http://wpa.qq.com/pa?p=2:{$val}:51" alt="点击这里给我发消息" title="点击这里给我发消息"/>
+                                    </a>
+                                </if>
+                            </volist>
+                        </div>
+                    </div>
+                </if>
+                <if condition="$after_sale_qq_list">
+                    <div class="row">
+                        <div class="col-xs-4 tr mt10">售后QQ:</div>
+                        <div class="col-xs-8 mt10">
+                            <volist name="after_sale_qq_list" id="val">
+                                <if condition="$val != '' and $val!='无'">
+                                    <a target="_blank" href="<if condition='is_mobile_browser() and !is_weixin_browser()'>mqqwpa://im/chat?chat_type=wpa&uin={$val}&version=1&src_type=web&web_src=oicqzone.com<else/>http://wpa.qq.com/msgrd?v=3&uin={$val}&site=qq&menu=yes</if>">
+                                        <img border="0" src="http://wpa.qq.com/pa?p=2:{$val}:51" alt="点击这里给我发消息" title="点击这里给我发消息"/>
+                                    </a>
+                                </if>
+                            </volist>
+                        </div>
+                    </div>
+                </if>
+                <if condition="$tele_list">
+                    <div class="row">
+                        <div class="col-xs-4 tr mt10">电话:</div>
+                        <div class="col-xs-8 mt10">
+                            <volist name="tele_list" id="val">
+                                <a href="tel://{$val}">{$val}</a>
+                            </volist>
+                        </div>
+                    </div>
+                </if>
+            </div>
+        </div>
+        <div class="col-xs-12 tc fs-18 mb10">一起绘客服</div>
+        <div class="col-xs-12 tc fs-13 mb10">（处理账户、积分、商家投诉问题）</div>
+        <div class="col-xs-12">
+            <div class="item">
+                <if condition="$service_qq_list">
+                    <div class="row">
+                        <div class="col-xs-4 tr mt10">QQ:</div>
+                        <div class="col-xs-8 mt10">
+                            <volist name="service_qq_list" id="val">
+                                <if condition="$val != '' and $val!='无'">
+                                    <a target="_blank" href="<if condition='is_mobile_browser() and !is_weixin_browser()'>mqqwpa://im/chat?chat_type=wpa&uin={$val}&version=1&src_type=web&web_src=oicqzone.com<else/>http://wpa.qq.com/msgrd?v=3&uin={$val}&site=qq&menu=yes</if>">
+                                        <img border="0" src="http://wpa.qq.com/pa?p=2:{$val}:51" alt="点击这里给我发消息" title="点击这里给我发消息"/>
+                                    </a>
+                                </if>
+                            </volist>
+                        </div>
+                    </div>
+                </if>
+                <if condition="$service_weixin_list">
+                    <div class="row">
+                        <div class="col-xs-4 tr mt10">微信:</div>
+                        <div class="col-xs-8 mt10">
+                            <volist name="service_weixin_list" id="val">
+                                <if condition="$val != ''">
+                                    {$val}&nbsp;&nbsp;&nbsp;&nbsp;
+                                </if>
+                            </volist>
+                        </div>
+                    </div>
+                </if>
+                <if condition="$service_tele_list">
+                    <div class="row">
+                        <div class="col-xs-4 tr mt10">电话:</div>
+                        <div class="col-xs-8 mt10">
+                            <volist name="service_tele_list" id="val">
+                                <if condition="$val != ''">
+                                    <a href="tel://{$val}">{$val}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                </if>
+                            </volist>
+                        </div>
+                    </div>
+                </if>
+            </div>
+        </div>
+    </div>
+</div>
+<include file="public:footer"/>

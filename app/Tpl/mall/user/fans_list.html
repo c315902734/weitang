@@ -1,0 +1,32 @@
+<include file="public:header"/>
+<div class="container point-order">
+	<div class="row global-top">
+        <div class="col-xs-2">
+            <a href="/mall/user/index.html" class="return"></a>
+        </div>
+        <div class="col-xs-8">
+            <div class="text">我的粉丝</div>
+        </div>
+        <div class="col-xs-2">
+        </div>
+    </div>
+    <div class="row mb10 mt50 bgwhite nav">
+        <a class="col-xs-4 item pink tc" data-level="1">
+            <p>朋友</p>
+            <p>{$info.total_level_1}</p>
+        </a>
+        <a class="col-xs-4 item tc" data-level="2">
+            <p>圈子</p>
+            <p>{$info.total_level_2}</p>
+        </a>
+        <a class="col-xs-4 item tc" data-level="3">
+            <p>人脉</p>
+            <p>{$info.total_level_3}</p>
+        </a>
+    </div>
+</div>
+<div class="container">
+    <div class="row fans-list bgwhite" id="J_waterfall"></div>
+    <div id="J_wall_loading" class="wall_loading"></div>
+</div>
+<include file="public:footer"/>

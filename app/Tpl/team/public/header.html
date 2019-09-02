@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>{$page_seo.title}</title>
+		<meta name="keywords" content="{$page_seo.keywords}" />
+		<meta name="description" content="{$page_seo.description}" />
+        <script type="text/javascript" src="{:U(MODULE_NAME.'/'.ACTION_NAME,array('act'=>'loadjs'))}"></script>
+		<include file="__ASSETS__/js"/>
+        <link rel="stylesheet" href="__ASSETS__/css/{:MODULE_NAME}.css"/>
+		<load href="__STATIC__/vendor/plugins/layer/skin/layer.css"/>
+	</head>
+<body class="mod_{:MODULE_NAME} act_{:ACTION_NAME}">
+<!--头部开始-->
+<div id="hd">
+    <div class="layout grid-m" style="margin-bottom:20px;">
+        <div class="main-wrap">
+            <div class="box J_TBox">
+                <div class="global-top">
+                    <div class="w1000">
+                     	<div class="left" style="margin-top:5px;">联系电话：010-5940-4973</div>
+                        <div class="right">
+                        <notempty name="visitor">
+							级别：{$tgroup[$visitor[tgroup]]}&nbsp;&nbsp;&nbsp;
+                            <a href="{:U('user/index')}" class="login">{$visitor.tele}</a>
+                            <a href="{:U('passport/logout')}" class="login">安全退出</a>
+                        <else />
+                            <!-- <a href="{:U('passport/login')}" class="login">登录</a>
+                            <a href="{:U('passport/register')}" class="login">注册</a> -->
+                        </notempty>
+                         <!--    <span>|</span>
+                            <a href="{:U('help/contact')}" class="center">联系我们</a> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="box J_TBox">
+                <div class="global-logo w1000">
+                    <div class="logo"><a href="{:U('index/index')}"><img src="__ASSETS__/images/logo.png" height="80"/></a></div>
+                    <div class="right">
+                        <a href="{:U('index/index')}" <if condition="MODULE_NAME eq 'index' && ACTION_NAME eq 'index'"> class="curr"</if> >首页</a>
+                        <a href="{:U('user/index')}"<if condition="MODULE_NAME eq 'user' && ACTION_NAME eq 'index'"> class="curr"</if>>我的主页</a>
+                    </div>
+                </div>
+            </div> -->
+            <if condition="GROUP_NAME eq 'seller' && MODULE_NAME eq 'user'">
+            <div class="box J_TBox">
+                <div class="global-user">
+                    <div class="w1000 clearfix">
+                        <div class="user">
+                            <a href="{:U('user/profile')}">
+                                <img src="{:attach($member_info['img'])}" class="user-avatar fl" alt="">
+                            </a>
+                            <div class="text">
+                                {$str}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </if>
+        </div>
+    </div>
+</div>

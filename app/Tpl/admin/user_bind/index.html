@@ -1,0 +1,74 @@
+<include file="public:header" />
+<!--会员列表-->
+<div class="pad_10">
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+            <tr>
+                <td>
+                <div class="explain_col">
+                    <input type="hidden" name="g" value="admin" />
+                    <input type="hidden" name="m" value="user_bind" />
+                    <input type="hidden" name="a" value="index" />
+                    <input type="hidden" name="menuid" value="{$menuid}" />
+                    &nbsp;&nbsp;会员帐号 :
+                    <input name="uname" type="text" class="input-text" size="25" value="{$search.uname}" />
+                    &nbsp;&nbsp;类型：
+					<select name="type">
+						<option value="">--全部--</option>
+						<option value="qq" <if condition="$search.type eq 'qq'">selected</if>>QQ</option>
+                        <option value="weixin" <if condition="$search.type eq 'weixin'">selected</if>>微信</option>
+						<option value="weibo" <if condition="$search.type eq 'weibo'">selected</if>>微博</option>
+						<option value="taobao" <if condition="$search.type eq 'taobao'">selected</if>>淘宝</option>
+					</select>
+                    <input type="submit" name="search" class="btn" value="搜索" />
+                </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+
+    <div class="J_tablelist table_list" data-acturi="{:U('user_address/ajax_edit')}">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th width=25><input type="checkbox" id="checkall_t" class="J_checkall"></th>
+                <th width="100"><span data-tdtype="order_by" data-field="id">ID</span></th>
+                <th width="100"><span data-tdtype="order_by" data-field="uid">会员帐号</span></th>
+                <th width="100">类型</th>
+                <th>KEYID</th>
+                <th width="120">绑定时间</th>
+                <th width="60"><span data-tdtype="order_by" data-field="status">有效状态</span></th>
+                <th width="100">{:L('operations_manage')}</th>
+            </tr>
+        </thead>
+    	<tbody>
+            <volist name="list" id="val" >
+            <tr>
+                <td align="center"><input type="checkbox" class="J_checkitem" value="{$val.id}"></td>
+                <td align="center">{$val.id}</td>
+                <td align="center">{$val[user][username]}</td>
+                <td align="center">{$type[$val[type]]}</td>
+                <td align="center">{$val.keyid}</td>
+                <td align="center">{$val.add_time}</td>
+                <td align="center"><img data-tdtype="toggle" data-id="{$val.id}" data-field="status" data-value="{$val.status}" src="__STATIC__/images/admin/toggle_<if condition="$val.status eq 0">disabled<else/>enabled</if>.gif" /></td>
+                <td align="center">
+                <a href="{:u('user_bind/edit', array('id'=>$val['id'], 'menuid'=>$menuid))}">编辑</a> | <a href="javascript:void(0);" class="J_confirmurl" data-uri="{:u('user_bind/delete', array('id'=>$val['id']))}" data-acttype="ajax" data-msg="{:sprintf(L('confirm_delete_one'),$val['name'])}">{:L('delete')}</a></td>
+            </tr>
+            </volist>
+    	</tbody>
+    </table>
+    <div class="btn_wrap_fixed">
+        <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('user_bind/delete',array('id'=>$r['id']))}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />
+        <div id="pages">{$page}</div>
+    </div>
+
+    </div>
+</div>
+<include file="public:footer" />
+</body>
+</html>
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+

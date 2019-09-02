@@ -1,0 +1,22 @@
+<include file="public:header"/>
+<div class="container service-text">
+    <div class="row mt50">
+        <div class="col-xs-12 tc fs-18 mb10 pt30">商家客服</div>
+        <div class="col-xs-12 mb60">
+            <div class="item">
+                <p class="mb5">Q Q : {$member.qq}</p>
+                <p class="mb5">微信：{$member.weixin}</p>
+                <p class="mb5">电话：{$member.tele}</p>
+            </div>
+        </div>
+        <div class="col-xs-12 tc fs-18 mb10">一起绘客服</div>
+        <div class="col-xs-12">
+            <div class="item">
+                <p class="mb5">Q Q : {:C("ins_service_qq")}</p>
+                <p class="mb5">微信：{:C("ins_service_weixin")}</p>
+                <p>电话：{:C("ins_service_tele")}</p>
+            </div>
+        </div>
+    </div>
+</div>
+<include file="public:footer"/>

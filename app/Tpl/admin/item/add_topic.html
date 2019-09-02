@@ -1,0 +1,47 @@
+<div class="dialog_content">
+	<form id="info_form" name="info_form" action="{:u('item/add_topic')}" method="post">
+    <table width="100%" class="table_form">
+    	<tr>
+          <th width="100">专题分类 :</th>
+          <td>
+			<select class="J_cate_select mr10" data-pid="0" data-uri="{:U('topic_cate/ajax_getchild')}" data-selected="{$spid}"></select>
+          	<input type="hidden" name="cate_id" id="J_cate_id"  value="{$info.cate_id}"/>
+			</td>
+        </tr>
+        <tr>
+          <th>专题名称 :</th>
+          <td>
+          	<select name="topic_id" id="topic_id"></select>
+          </td>
+        </tr>
+    </table>
+	<input type="hidden" name="menuid" value="{$menuid}" />
+	<input type="hidden" name="item_id" value="{$item_id}" />
+    </form>
+</div>
+<script type="text/javascript">
+$('.J_cate_select').cate_select({field:'J_cate_id'});
+$('#info_form').ajaxForm({success:complate, dataType:'json'});
+$(function(){
+	$('.J_cate_select').live('change', function(){
+		var cate_id = $('#J_cate_id').val();
+		$.getJSON('{:U("item/ajax_gets")}', {cate_id:cate_id}, function(result){
+			if(result.status == 1){
+				$('#topic_id').html(result.data);
+			}else{
+				$('#topic_id').html('');
+				//$.pinphp.tip({content:result.msg});
+			}
+		});
+	});
+});
+function complate(result){
+	if(result.status == 1){
+		$.dialog.get(result.dialog).close();
+		$.pinphp.tip({content:result.msg});
+		window.location.reload();
+	} else {
+		$.pinphp.tip({content:result.msg, icon:'alert'});
+	}
+}
+</script>

@@ -1,0 +1,84 @@
+<include file="public:header" /><br>
+<!--会员列表-->
+<div class="pad_lr_10" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+			<tr>
+                <td>
+					<div style="margin-bottom:10px;">
+						<a href="{:U('team/order',array('id'=>$team[id]))}" class="btn">消费明细</a>
+						<a href="{:U('team/price',array('id'=>$team[id]))}" class="btn">资金明细</a>
+						<a href="{:U('team/price_log',array('id'=>$team[id]))}" class="btn btn_submit">收益明细</a>
+					</div>
+                </td>
+            </tr>
+			<tr>
+                <td>
+				<div class="explain_col">
+					<form name="searchform" method="get" >
+                    <input type="hidden" name="g" value="admin" />
+                    <input type="hidden" name="m" value="team" />
+                    <input type="hidden" name="a" value="price_log" />
+                    <input type="hidden" name="menuid" value="{$menuid}" />
+                    &nbsp;&nbsp;月份：      
+					<select name="month">
+						<option value="">月份(全部)</option>
+						<volist name="month" id="val">
+						<option value="{$val.date}" <if condition="$search[month] eq $val['date']">selected</if>>{$val.name}</option>
+						</volist>
+					</select>
+					<input type="hidden" name="id" value="{$_GET[id]}">
+                    <input type="submit" name="search" class="btn mr10" value="搜索" />
+					联席董事总收益：￥{$total_tgroup_1}元&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;官方合伙人总收益：￥{$total_tgroup_2}元&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;总经销商总收益：￥{$total_tgroup_3}元
+					</form>
+                </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    
+
+    <div class="J_tablelist table_list" data-acturi="{:U('user/ajax_edit')}">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+				<th width="80">订单用户</th>
+				<th width="80">订单联席董事</th>
+				<th width="80">订单官方合伙人</th>
+				<th width="80">订单总经销商</th>
+				<th width="60">收益时间</th>
+				<th width="80">详情</th>
+            </tr>
+        </thead>
+    	<tbody>
+            <volist name="list" id="val">
+				<tr>
+					<td align="center">
+						{$val.username}
+					</td>
+					<td align="center">
+						<if condition="$val.tgroup_1_name neq ''">{$val.tgroup_1_name}，收益：￥{$val.tgroup_1_pers_price}元</if>
+					</td>
+					<td align="center">
+						<if condition="$val.tgroup_2_name neq ''">{$val.tgroup_2_name}，收益：￥{$val.tgroup_2_pers_price}元</if>
+					</td>
+					<td align="center">
+						<if condition="$val.tgroup_3_name neq ''">{$val.tgroup_3_name}，收益：￥{$val.tgroup_3_pers_price}元</if>
+					</td>
+					<td align="center">{$val.add_time}</td>
+					<td align="center"><a href="{:U('order/index',array('orderid'=>$val[orderid]))}">查看订单详情</a></td>
+				</tr>
+			</volist>
+    	</tbody>
+    </table>
+    <div class="btn_wrap_fixed">
+        <div id="pages">{$page}</div>
+    </div>
+
+    </div>
+</div>
+<include file="public:footer" />
+</body>
+</html>
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script type="text/javascript" src="__STATIC__/js/calendar/calendar.js"></script>

@@ -1,0 +1,63 @@
+<include file="public:header" />
+<div class="pad_10">
+    <div class="col_tab">
+      <form id="info_form" name="info_form" action="{:u('feedback/edit')}" method="post">
+            <div class="content_list">
+                <table width="100%" class="table_form">
+                    <tr>
+                      <th width="100">标题 :</th>
+                      <td>{$info.title}</td>
+                    </tr>
+                    <tr>
+                      <th>内容 :</th>
+                      <td>{$info.info}</td>
+                    </tr>
+                    <tr>
+                      <th>投诉人 :</th>
+                      <td>{$info.uname}</td>
+                    </tr>
+                    <tr>
+                      <th>投诉类型 :</th>
+                      <td>{$info.type}</td>
+                    </tr>
+                    <if condition="$type eq 'index'">
+                    <tr>
+                      <th>回复 :</th>
+                      <td><textarea name="reply_info" id="reply_info" style="width:680px;height:300px;">{$info.reply_info}</textarea></td>
+                    </tr>
+                    <else />
+                    <tr>
+                      <th>回复人 :</th>
+                      <td>{$info.reply_name}</td>
+                    </tr>
+                    <tr>
+                      <th>回复时间 :</th>
+                      <td>{$info.reply_time}</td>
+                    </tr>
+                    <tr>
+                      <th>回复内容 :</th>
+                      <td>{$info.reply_info}</td>
+                    </tr>
+                    </if>
+                </table>
+            </div>
+            <input type="hidden" value="{$info.id}" name="id" />
+            <if condition="$type eq 'index'">
+            <div class="mt10"><input type="submit" value="{:L('submit')}" class="btn btn_submit"></div>
+            <else />
+            <div class="mt10"><a href="{:U('feedback/query')}" class="btn btn_submit">返回</a></div>
+            </if>
+        </form>
+    </div>
+</div>
+<include file="public:footer" />
+<script src="__STATIC__/js/kindeditor/kindeditor.js"></script>
+<script>
+$(function(){
+    KindEditor.create('#reply_info', {
+        uploadJson : '{:U("attachment/editer_upload")}',
+        fileManagerJson : '{:U("attachment/editer_manager")}',
+        allowFileManager : true
+    });
+});
+</script>

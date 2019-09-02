@@ -1,0 +1,80 @@
+<div class="dialog_content">
+    <form id="info_form" name="info_form" action="{:U('team/add_user')}" method="post">
+    <table width="100%" class="table_form">
+		<tr>
+          <th width="60">团队名称 :</th>
+          <td>
+              {$team.title}
+          </td>
+        </tr>
+		<tr>
+			<th width="100">团队级别 :</th>
+			<td>
+				<select name="tgroup">
+					<option value="">请选择级别</option>
+					<volist name="tgroup" id="g" key="$key">
+					<option value="{$key}">{$g}</option>
+					</volist>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th width="100">关联上级 :</th>
+			<td>
+				<select name="tgroup_1" class="J_user_select" data-pid="0" data-selected="{:implode('|',$data)}" data-uri="{:U('team/tgroup_child',array('topkey'=>$team['title']))}" data-name="tgroup_" data-nums="{$select_nums}"></select>
+			</td>
+		</tr>
+        <tr>
+          <th width="60">用户名 :</th>
+          <td>
+              <input type="text" name="username" class="input-text" size="30">
+          </td>
+        </tr>
+		<tr>
+          <th width="60">帐号手机 :</th>
+          <td>
+              <input type="text" name="tele" class="input-text" size="30">
+          </td>
+        </tr>
+		<tr>
+          <th width="60">收益比例 :</th>
+          <td>
+              <input type="text" name="pers" class="input-text" size="5" value="1"> %
+          </td>
+        </tr>
+		<tr>
+          <th width="60">帐号密码 :</th>
+          <td>
+              <input type="password" name="password" class="input-text" size="30">
+          </td>
+        </tr>
+		<tr>
+          <th width="60">确认密码 :</th>
+          <td>
+              <input type="password" name="rpassword" class="input-text" size="30">
+          </td>
+        </tr>
+		
+    </table>
+	<input type="hidden" name="menuid" value="{$menuid}" />
+    <input name="id" type="hidden" value="{$team.id}">
+    </form>
+</div>
+<script>
+$(function(){
+    $.formValidator.initConfig({formid:"info_form",autotip:true});   
+
+    $('#info_form').ajaxForm({success:complate,dataType:'json'});
+    function complate(result){
+        if(result.status == 1){
+            $.dialog.get(result.dialog).close();
+            $.pinphp.tip({content:result.msg});
+            window.location.reload();
+        } else {
+            $.pinphp.tip({content:result.msg, icon:'alert'});
+        }
+    }
+
+  $('.J_user_select').cate_select();
+});
+</script>

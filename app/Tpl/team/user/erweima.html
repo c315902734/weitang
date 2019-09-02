@@ -1,0 +1,19 @@
+<include file="public:header" />
+<div id="bd">
+    <div class="layout grid-s45m0 w1000 user-center">
+        <div class="col-main">
+            <div class="main-wrap">
+				<div class="box J_TBox">
+					<div class="global-title">我的二维码</div>
+				</div>
+                <div class="box J_TBox">
+					<img src="{:U('user/erweima_img',array('code'=>$code_url))}" width="400px">
+                </div>
+            </div>
+        </div>
+        <include file="user:left" />
+    </div>
+</div>
+<!--主部结束-->
+
+<include file="public:footer" />

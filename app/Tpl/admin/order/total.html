@@ -1,0 +1,71 @@
+<include file="public:header" />
+
+<!--会员列表-->
+<div class="pad_10" >
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+            <tr>
+                <td>
+                <div class="explain_col">
+                    <input type="hidden" name="g" value="admin" />
+                    <input type="hidden" name="m" value="order" />
+                    <input type="hidden" name="a" value="total" />
+                    <input type="hidden" name="menuid" value="{$menuid}" />
+					销售地区 ：
+					<select class="J_cate_select mr10" data-pid="0" data-uri="{:U('city/ajax_getchilds')}" data-selected="{$search.spid}"></select>
+          			<input type="hidden" name="city_id" id="J_cate_id"  value="{$search.city_id}"/>
+                    <input type="submit" name="search" class="btn mr10" value="搜索" />
+                    <a href="{:U('order/total_down',array('city_id'=>$search['city_id']))}" class="btn" style="display:inline;">导出</a>
+                </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+
+    <div class="J_tablelist table_list" data-acturi="{:U('order/ajax_edit')}">
+    <table width="100%" cellspacing="0">
+    	<thead>
+    	<tr>
+            <th align="left" width="150">订单编号</th>
+			<th align="left" width="80">销售地区</th>
+			<th align="left" width="120">交易时间</th>
+			<th align="left">商品名称</th>
+			<th align="left" width="150">生产企业</th>
+			<th align="center" width="100">交易总数量</th>
+			<th align="center" width="80">单价</th>
+			<th align="center" width="80">交易总金额</th>
+			<th align="left" width="60">检验情况</th>
+			<th align="center" width="80">操作</th>
+		</tr>
+		</thead>
+		<volist name="order_item" id="vo">
+			<tr>
+				<td>{$vo.orderid}</td>
+                <td>{$vo.addr_province}{$vo.addr_city}</td>
+				<td>{$vo.add_time}</td>
+				<td>{$vo.name} <br /><b>{$vo.spec}({$vo.attr})</b></td>
+				<td>{$vo.company}</td>
+				<td align="center">{$vo.nums}</td>
+				<td align="center">￥{$vo.price}</td>
+				<td align="center">￥{$vo.subtotal}</td>
+				<td>{$vo.qual}</td>
+				<td align="center"><a href="{:U('order/detail', array('orderid'=>$vo['orderid'],'item_id'=>$vo['item_id']))}">查看明细</a></td>
+			</tr>
+		</volist>
+    </table>
+    <div class="btn_wrap_fixed">
+        <div id="pages">{$page}</div>
+    </div>
+
+    </div>
+</div>
+<include file="public:footer" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script type="text/javascript" src="__STATIC__/js/calendar/calendar.js"></script>
+<script type="text/javascript">
+$('.J_cate_select').cate_select();
+</script>
+</body>
+</html>

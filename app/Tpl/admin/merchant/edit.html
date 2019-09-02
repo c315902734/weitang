@@ -1,0 +1,191 @@
+<include file="public:header" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css"/>
+<script type="text/javascript" src="__STATIC__/js/calendar/calendar.js"></script>
+<!--添加商品-->
+<form id="info_form" action="{:U('merchant/edit')}" method="post" enctype="multipart/form-data">
+<div class="pad_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+			<li class="current">基本信息</li>
+		</ul>
+		<div class="J_panes">
+			<div class="content_list pad_10">
+				<table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+					<tr>
+						<th width="120">砍价名称 :</th>
+						<td>
+							<input type="text" id="J_title" name="title" class="input-text" size="40" value="{$info.title}"/>
+						</td>
+					</tr>
+					<tr>
+						<th>砍价图片 :</th>
+						<td>
+							<input type="text" name="img" id="J_img" class="input-text fl mr10" value="{$info.img}" size="30">
+							<div id="J_upload_img" class="upload_btn"><span>{:L('upload')}</span></div>
+							<notempty name="info['img']"><span class="attachment_icon J_attachment_icon" file-type="image" file-rel="{:attach($info['img'], 'assets')}"><img src="{:attach($info['img'], 'assets')}" width="30" /></span></notempty>
+						</td>
+					</tr>
+					<tr>
+						<th>开始时间 :</th>
+						<td>
+							<input type="text" name="stime" class="J_date_picker date" size="27" value="{$info.stime}"/>
+						</td>
+					</tr>
+					<tr>
+						<th>结束时间 :</th>
+						<td>
+							<input class="J_date_picker date" type="text" value="{$info.etime}" size="27" name="etime">
+						</td>
+					</tr>
+					<tr>
+						<th width="120">市场价格 :</th>
+						<td>
+							<input class="input-text" type="text" value="{$info.mprice}" size="15" name="mprice"> 元
+						</td>
+					</tr>
+					<tr>
+						<th width="120">销售价格 :</th>
+						<td>
+							<input class="input-text" type="text" value="{$info.price}" size="15" name="price"> 元
+						</td>
+					</tr>
+					<tr>
+						<th width="120">砍价最低 :</th>
+						<td>
+							<input class="input-text" type="text" value="{$info.price_min}" size="15" name="price_min"> 元
+						</td>
+					</tr>
+					<tr>
+						<th width="120">砍价最高 :</th>
+						<td>
+							<input class="input-text" type="text" value="{$info.price_max}" size="15" name="price_max"> 元
+						</td>
+					</tr>
+					<tr>
+						<th> 最小数量 / 最大数量 :</th>
+						<td>
+							<input type="text" name="mins" class="input-text" size="5" value="{$info.mins}"/> / <input type="text" name="maxs" class="input-text" size="5" value="{$info.maxs}"/>
+						</td>
+					</tr>
+					<tr>
+						<th width="120">积分总数 :</th>
+						<td>
+							<input class="input-text" type="text" value="{$info.score_total}" size="15" name="score_total">
+						</td>
+					</tr>
+					<tr>
+						<th width="120">积分最小值 :</th>
+						<td>
+							<input class="input-text" type="text" value="{$info.score_mins}" size="15" name="score_mins">
+						</td>
+					</tr>
+					<tr>
+						<th width="120">积分最大值 :</th>
+						<td>
+							<input class="input-text" type="text" value="{$info.score_maxs}" size="15" name="score_maxs">
+						</td>
+					</tr>
+					<tr>
+						<th width="120">红包：总金额 :</th>
+						<td>
+							<input class="input-text" type="text" value="{$info.redpack_total}" size="15" name="redpack_total">
+						</td>
+					</tr>
+					<tr>
+						<th width="120">红包：最小红包 :</th>
+						<td>
+							<input class="input-text" type="text" value="{$info.redpack_mins}" size="15" name="redpack_mins">
+						</td>
+					</tr>
+					<tr>
+						<th width="120">红包：最大红包 :</th>
+						<td>
+							<input class="input-text" type="text" value="{$info.redpack_maxs}" size="15" name="redpack_maxs">
+						</td>
+					</tr>
+					<tr>
+						<th width="120">活动规则 :</th>
+						<td>
+							<textarea name="rules" style="width:670px; height: 75px;">{$info.rules}</textarea>
+						</td>
+					</tr>
+					<tr>
+						<th width="120">活动详情 :</th>
+						<td>
+							<textarea name="info" id="info" style="width:680px; height: 300px;">{$info.info}</textarea>
+						</td>
+					</tr>
+					<tr>
+						<th>排序值 :</th>
+						<td>
+							<input type="text" name="ordid" class="input-text" size="10" value="{$info.ordid}"/>
+						</td>
+					</tr>
+					<tr>
+						<th>添加时间 :</th>
+						<td>
+							{:date('Y-m-d H:i:s', $info['add_time'])}
+						</td>
+					</tr>
+					<tr>
+						<th>审核状态 :</th>
+						<td>
+							<label><input type="radio" name="status" value="1" <if condition="$info.status eq 1">checked</if> > 通过</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<label><input type="radio" name="status" value="0" <if condition="$info.status eq 0">checked</if>> 未通过</label>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		
+		<div class="mt10"><input type="submit" value="{:L('submit')}" class="btn btn_submit"></div>
+	</div>
+</div>
+<input type="hidden" name="menuid"  value="{$menuid}"/>
+<input type="hidden" name="id"  value="{$info.id}"/>
+</form>
+<include file="public:footer" />
+<script src="__STATIC__/js/kindeditor/kindeditor.js"></script>
+<script src="__STATIC__/js/fileuploader.js"></script>
+<script type="text/javascript">
+
+$(function (){
+	KindEditor.create('#info', {
+		uploadJson : '{:U("attachment/editer_upload")}',
+		fileManagerJson : '{:U("attachment/editer_manager")}',
+		allowFileManager : true
+	});
+	//上传图片
+	var uploader = new qq.FileUploaderBasic({
+		allowedExtensions: ['jpg','gif','jpeg','png','bmp','pdg'],
+	    button: document.getElementById('J_upload_img'),
+	    multiple: false,
+	    action: "{:U('item/ajax_upload_img')}",
+	    inputName: 'img',
+	    forceMultipart: true, //用$_FILES
+	    messages: {
+	    	typeError: lang.upload_type_error,
+	    	sizeError: lang.upload_size_error,
+	    	minSizeError: lang.upload_minsize_error,
+	    	emptyError: lang.upload_empty_error,
+	    	noFilesError: lang.upload_nofile_error,
+	    	onLeave: lang.upload_onLeave
+	    },
+	    showMessage: function(message){
+	    	$.pinphp.tip({content:message, icon:'error'});
+	    },
+	    onSubmit: function(id, fileName){
+	    	$('#J_upload_img').addClass('btn_disabled').find('span').text(lang.uploading);
+	    },
+	    onComplete: function(id, fileName, result){
+	    	$('#J_upload_img').removeClass('btn_disabled').find('span').text(lang.upload);
+	        if(result.status){
+	    		$('#J_img').val(result.data);
+	    	} else {
+	    		$.pinphp.tip({content:result.msg, icon:'error'});
+	    	}
+	    }
+	});
+
+});
+</script>

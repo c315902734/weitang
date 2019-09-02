@@ -1,0 +1,47 @@
+<include file="public:header"/>
+<style type="text/css">
+.score-input{width:80px;margin:0 5px;text-align:center;border:1px solid #e7e7e7;border-radius:4px;line-height:18px;padding:5px 0;}
+</style>
+<div class="container">
+	<div class="row global-top">
+        <div class="col-xs-2">
+            <a href="{:U(MODULE_NAME.'/index')}" class="return"></a>
+        </div>
+        <div class="col-xs-8">
+            <div class="text">我的钱包</div>
+        </div>
+        <div class="col-xs-2">
+        </div>
+    </div>
+</div>
+<div class="container">
+	<div class="row mt50 bgwhite">
+		<div class="col-xs-12 pt10 pb10 b-b">
+			当前余额&nbsp;&nbsp;&nbsp;<span class="f-red">¥{$price}</span>
+		</div>
+	</div>
+	<div class="row mt20">
+		<div class="col-xs-6">
+			<a href="{:U('user/recharge')}" class="btn pc-100 green radius-4 fs-16">充值</a>
+		</div>
+		<div class="col-xs-6">
+			<a href="{:U('user/cash')}" class="btn pc-100 green radius-4 fs-16">提现</a>
+		</div>
+	</div>
+</div>
+<if condition="$log">
+<div class="container">
+	<div class="row mt10">
+		<div class="col-xs-12 pt10 grey">
+			资金明细
+		</div>
+	</div>
+	<div id="J_waterfall" class="row pt10 pb10"" data-uri="{:U(MODULE_NAME.'/'.ACTION_NAME)}">
+		<include file="user_price_waterfall"/>
+	</div>
+	<present name="show_load">
+		<div id="J_wall_loading" class="wall_loading tc gray"></div>
+	</present>
+</div>
+</if>
+<include file="public:footer"/>

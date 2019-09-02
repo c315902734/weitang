@@ -1,0 +1,249 @@
+<include file="public:header" />
+<!--添加商品-->
+<br>
+<form id="info_form" action="{:U('user/edit')}" method="post" enctype="multipart/form-data">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<div style="height:27px">
+		<ul class="J_tabs tab_but cu_li" style=" float: left;">
+			<li class="current">基本信息</li>
+		</ul>
+		</div>
+		<div class="J_panes">
+			<div class="content_list pad_10">
+				<table width="100%" class="table_form">  
+					<tr>
+						<th>微信帐号 :</th>
+						<td>{$info.weixin}({$info.openid})</td>
+					</tr> 
+					<!-- <tr>
+						<th>微博帐号 :</th>
+						<td>{$info.weibo}</td>
+					</tr>  -->
+					<tr>
+						<th>会员手机：</th>
+						<td><input type="text" name="tele" id="tele" class="input-text" value="{$info.tele}" size="30"></td>
+					</tr>
+					<tr>
+						<th>会员头像 :</th>
+						<td>
+							<input type="text" name="img" id="J_img" class="input-text fl mr10" size="30" value="">
+							<div id="J_upload_img" class="upload_btn"><span>{:L('upload')}</span></div>
+							<span class="attachment_icon J_attachment_icon" file-type="image" file-rel="{:avatar($info['img'], 100)}"><img src="{:avatar($info['img'], 32)}" width="32" /></span>
+						</td>
+					</tr>
+					<tr>
+						<th width="100">会员帐号 :</th>
+						<td>{$info.username}</td>
+					</tr>
+					<tr>
+						<th width="100">真实姓名 :</th>
+						<td><input type="text" name="realname" id="realname" class="input-text" value="{$info.realname}" size="30"></td>
+					</tr>
+					<tr>
+						<th>电子邮箱 :</th>
+						<td><input type="text" name="email" id="email" class="input-text" value="{$info.email}" size="30"></td>
+					</tr>
+					<tr>
+						<th>出生日期 :</th>
+						<td><input type="text" name="birthday" id="birthday" class="date J_date_picker" value="{$info.birthday}" size="27"></td>
+					</tr>
+					<!-- <tr>
+						<th>会员年龄 :</th>
+						<td>{$info.age}岁</td>
+					</tr> -->
+					<tr>
+						<th>会员性别 :</th>
+						<td><label><input type="radio" value="1" name="sex" <if condition="$info[sex] eq 1">checked</if>/>男</label><label><input type="radio" value="0" name="sex" <if condition="$info[sex] eq 0">checked</if>/>女</label></td>
+					</tr>
+					<tr>
+						<th>会员职业 :</th>
+						<td><input type="text" name="jobs" class="input-text" value="{$info.jobs}" size="30"></td>
+					</tr> 
+					<tr>
+						<th>身份证号 :</th>
+						<td><input type="text" name="cardid" class="input-text" value="{$info.cardid}" size="30"></td>
+					</tr> 
+					<tr>
+						<th>所有城市 :</th>
+						<td>
+							<select class="J_city_select mr10" data-pid="0" data-uri="{:U('city/ajax_getchilds', array('type'=>0))}" data-selected="{$selected_cids}"></select>
+                    		<input type="hidden" name="c_id" id="J_cate_id" value="{$ppd}"/>
+						</td>
+					</tr> 
+					<tr>
+						<th>联系地址 :</th>
+						<td>
+							<input type="text" name="address" class="input-text" value="{$info.address}" size="30">
+						</td>
+					</tr> 
+					<tr>
+						<th>备注说明 :</th>
+						<td>
+							<textarea name="info" rows="3" cols="30">{$info.info}</textarea>
+						</td>
+					</tr> 
+					<tr>
+						<th>购买金额 :</th>
+						<td>
+							<input type="text" name="total_month" class="input-text" value="{$info.total_month}" size="5">元/月&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<input type="text" name="total_season" class="input-text" value="{$info.total_season}" size="5">元/季&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<input type="text" name="total_year" class="input-text" value="{$info.total_year}" size="5">元/年&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						</td>
+					</tr> 
+					<tr>
+						<th>积分数量 :</th>
+						<td><input type="text" name="score" class="input-text" value="{$info.score}" size="30"></td>
+					</tr> 
+					<tr>
+						<th>收藏数量 :</th>
+						<td><input type="text" name="favs" class="input-text" value="{$info.favs}" size="30"></td>
+					</tr> 
+					<tr>
+						<th>订单数量 :</th>
+						<td><input type="text" name="orders" class="input-text" value="{$info.orders}" size="30"></td>
+					</tr> 
+					<tr>
+						<th>注册时间 :</th>
+						<td>{$info.reg_time}</td>
+					</tr> 
+					<tr>
+						<th>最后登录 :</th>
+						<td>{$info.last_time}</td>
+					</tr>
+					<tr>
+						<th width="100">团队级别 :</th>
+						<td>
+							<select name="tgroup">
+								<option value="">请选择级别</option>
+								<volist name="tgroup" id="g" key="$key">
+								<option value="{$key}" <if condition="$info[tgroup] eq $key">selected</if>>{$g}</option>
+								</volist>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th width="100">所属团队 :</th>
+						<td>
+							<select name="topkey">
+							<option value="">请选择团队</option>
+							<volist name="team" id="val">
+							<option value="{$val.title}" <if condition="$val['title'] eq $info['topkey']">selected</if>>{$val.title}</option>
+							</volist>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th>团队管理员 :</th>
+						<td>
+							<label><input type="radio" name="topclass" value="1" <if condition="$info.topclass eq 1">checked</if>> {:L('yes')}</label>&nbsp;&nbsp;
+							<label><input type="radio" name="topclass" value="0" <if condition="$info.topclass eq 0">checked</if>> {:L('no')}</label>
+						</td>
+					</tr>
+					<tr>
+						<th>{:L('enabled')} :</th>
+						<td>
+							<label><input type="radio" name="status" value="1" <if condition="$info.status eq 1">checked</if>> {:L('yes')}</label>&nbsp;&nbsp;
+							<label><input type="radio" name="status" value="0" <if condition="$info.status eq 0">checked</if>> {:L('no')}</label>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div class="mt10"><input type="submit" value="{:L('submit')}" class="btn btn_submit"></div>
+	</div>
+</div>
+<input type="hidden" name="menuid"  value="{$menuid}"/>
+<input type="hidden" name="id"  value="{$info.id}"/>
+</form>
+<include file="public:footer" />
+<script src="__STATIC__/js/fileuploader.js"></script>
+<script>
+$('.J_city_select').cate_select({field:'J_city_id'});
+$('.J_cate_select').cate_select({field:'J_cate_id'});
+
+var check_name_url = "{:U('user/ajax_check_name')}";
+var check_tele_url = "{:U('user/ajax_check_tele')}";
+$(function(){
+	
+	//上传图片
+    var uploader = new qq.FileUploaderBasic({
+    	allowedExtensions: ['jpg','gif','jpeg','png','bmp','pdg'],
+        button: document.getElementById('J_upload_img'),
+        multiple: false,
+        action: "{:U('user/ajax_upload_img')}",
+        inputName: 'img',
+        forceMultipart: true, //用$_FILES
+        messages: {
+        	typeError: lang.upload_type_error,
+        	sizeError: lang.upload_size_error,
+        	minSizeError: lang.upload_minsize_error,
+        	emptyError: lang.upload_empty_error,
+        	noFilesError: lang.upload_nofile_error,
+        	onLeave: lang.upload_onLeave
+        },
+        showMessage: function(message){
+        	$.pinphp.tip({content:message, icon:'error'});
+        },
+        onSubmit: function(id, fileName){
+        	$('#J_upload_img').addClass('btn_disabled').find('span').text(lang.uploading);
+        },
+        onComplete: function(id, fileName, result){
+        	$('#J_upload_img').removeClass('btn_disabled').find('span').text(lang.upload);
+            if(result.status == '1'){
+        		$('#J_img').val(result.data);
+        	} else {
+        		$.pinphp.tip({content:result.msg, icon:'error'});
+        	}
+        }
+    });
+
+	//上传图片
+    var uploader_cover = new qq.FileUploaderBasic({
+    	allowedExtensions: ['jpg','gif','jpeg','png','bmp','pdg'],
+        button: document.getElementById('J_upload_cover'),
+        multiple: false,
+        action: "{:U('user/ajax_upload_imgs_cover')}",
+        inputName: 'cover',
+        forceMultipart: true, //用$_FILES
+        messages: {
+        	typeError: lang.upload_type_error,
+        	sizeError: lang.upload_size_error,
+        	minSizeError: lang.upload_minsize_error,
+        	emptyError: lang.upload_empty_error,
+        	noFilesError: lang.upload_nofile_error,
+        	onLeave: lang.upload_onLeave
+        },
+        showMessage: function(message){
+        	$.pinphp.tip({content:message, icon:'error'});
+        },
+        onSubmit: function(id, fileName){
+        	$('#J_upload_cover').addClass('btn_disabled').find('span').text(lang.uploading);
+        },
+        onComplete: function(id, fileName, result){
+        	$('#J_upload_cover').removeClass('btn_disabled').find('span').text(lang.upload);
+            if(result.status == '1'){
+        		$('#J_cover').val(result.data);
+        	} else {
+        		$.pinphp.tip({content:result.msg, icon:'error'});
+        	}
+        }
+    });
+});
+
+function searchShopList(){
+	var shopname = $('#shopname').val();
+	if(shopname == ''){
+		return false;
+	}
+	var url = '{:u("shop_rate/search_shop")}';
+	$.ajax({
+		url: url,
+		type:'POST',
+		data: {shopname:shopname},
+		success: function(uhtml){
+			$('#shop_id').show().html(uhtml);
+		}
+	});
+}
+</script>

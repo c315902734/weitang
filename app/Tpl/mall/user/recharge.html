@@ -1,0 +1,61 @@
+<include file="public:header"/>
+<style type="text/css">
+.score-label span,.score-label label{width:30%;display:inline-block;}
+.score-input{width:100%;margin:0 5px;text-align:center;border-left:none;border-right:none;border-top:none;border-bottom:1px solid #e7e7e7;line-height:18px;padding:5px 0;}
+</style>
+<div class="container">
+	<div class="row global-top">
+        <div class="col-xs-2">
+            <a href="{:U(MODULE_NAME.'/index')}" class="return"></a>
+        </div>
+        <div class="col-xs-8">
+            <div class="text">充值</div>
+        </div>
+        <div class="col-xs-2">
+        </div>
+    </div>
+</div>
+<div class="container">
+	<form id="J_recharge_form" action="{:U('user/recharge')}" method="post">
+	<div class="row mt50 bgwhite">
+		<div class="col-xs-12 pt10 pb10 b-b">
+			当前余额&nbsp;&nbsp;&nbsp;<span class="f-red">¥{$price}</span>
+		</div>
+		<div class="col-xs-12 pt10 pb10 score-label">
+				<span>充值金额</span>
+				<label><input type="radio" name="pricetype" value="10">10元</label>
+				<label><input type="radio" name="pricetype" value="50">50元</label>
+				<label><input type="radio" name="pricetype" value="100">100元</label>
+				<label><input type="radio" name="pricetype" value="200">200元</label>
+				<label><input type="radio" name="pricetype" value="500" checked>500元</label>
+				<label><input type="radio" name="pricetype" value="1000">1000元</label>
+				<label><input type="radio" name="pricetype" value="3000">3000元</label>
+				<label><input type="radio" name="pricetype" value="0">其它金额</label>
+				<br>
+				<input type="text" class="score-input" name="price" placeholder="其它任意金额" style="display:none">
+		</div>
+	</div>
+	<div class="row mt20">
+		<div class="col-xs-12">
+			<input type="submit" value="确 认" class="btn pc-100 green radius-4 fs-16">
+		</div>
+	</div>
+	</form>
+</div>
+<if condition="$log">
+<div class="container">
+	<div class="row mt10">
+		<div class="col-xs-12 pt10 grey">
+			充值记录
+		</div>
+	</div>
+	<div class="row pt10 pb10">
+		<volist name="log" id="val">
+		<div class="col-xs-12 mb10">
+			<span class="fl red">＋{$val.price}</span><span class="fr grey fs-12">{$val['add_time']}</span>
+		</div>
+		</volist>
+	</div>
+</div>
+</if>
+<include file="public:footer"/>

@@ -1,0 +1,148 @@
+<include file="public:header" />
+<!--会员列表-->
+<div class="pad_10">
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+            <tr>
+                <td>
+                <div class="explain_col">
+                    <input type="hidden" name="g" value="admin" />
+                    <input type="hidden" name="m" value="item_brand" />
+                    <input type="hidden" name="a" value="index" />
+                    <input type="hidden" name="menuid" value="{$menuid}" />
+            		电话 :
+                    <input name="tele" type="text" class="input-text" size="10" value="{$search.tele}" />
+                   	&nbsp;&nbsp;简介 :
+                    <input name="abst" type="text" class="input-text" size="10" value="{$search.abst}" />               
+                    &nbsp;&nbsp;添加时间 :
+                    <input type="text" name="stime" id="J_time_start" class="date J_date_picker" size="20" value="{$search.stime}">
+                    -<input type="text" name="etime" id="J_time_end" class="date J_date_picker" size="20" value="{$search.etime}">
+           			&nbsp;&nbsp;审核通过 ：
+                    <select name="status">
+                        <option value="">-所有-</option>
+                        <option value="1" <if condition="$search.status eq 1">selected</if>>通过</option>
+                        <option value="0" <if condition="$search.status eq 0">selected</if>>未通过</option>
+                    </select>
+					&nbsp;&nbsp;关键字 :
+                    <input name="keyword" type="text" class="input-text" size="10" value="{$search.keyword}" />
+                    <input type="submit" name="search" class="btn" value="搜索" />
+                </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+
+    <div class="J_tablelist table_list" data-acturi="{:U('item_brand/ajax_edit')}">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th width=25><input type="checkbox" id="checkall_t" class="J_checkall"></th>
+                <th width="20"><span data-tdtype="order_by" data-field="id">ID</span></th>
+                <th width="40" align="left">图片</th>
+                <th width="200" align="left">品牌名称</th>
+                <th width="80" align="left">商家</th>
+                <th width="100" align="left">联系电话</th>
+                <th align="left">简介</th>
+               	<th width="120"><span  data-tdtype="order_by" data-field="add_time">添加时间</span></th>
+                <th width="40"><span data-tdtype="order_by" data-field="status">状态</span></th>
+                <th width="120">{:L('operations_manage')}</th>
+            </tr>
+        </thead>
+    	<tbody>
+            <volist name="list" id="val" >
+            <tr>
+                <td align="center"><input type="checkbox" class="J_checkitem" value="{$val.id}"></td>
+                <td align="center">{$val.id}</td>
+                <td align="left">
+					<if condition="$val['img']">
+                        <div class="img_border">
+							<img src="{:attach($val['img'], 'assets')}"  width="30" height="30" class="J_preview" data-bimg="{:attach($val['img'], 'assets')}">
+                        </div>
+                    </if>
+				</td>
+                <td align="left">{$val.title}</td>
+                <td align="left">{$val.mname}</td>
+                <td align="left">{$val.tele}</td>
+                <td align="left">{:msubstr($val['abst'], 30)}</td>
+  				<td align="center">{$val.add_time}</td>
+                <td align="center">
+                 <img data-tdtype="toggle" data-id="{$val.id}" data-field="status" data-value="{$val.status}" src="__STATIC__/images/admin/toggle_<if condition="$val.status eq 0">disabled<else/>enabled</if>.gif" />
+                </td>
+
+                <td align="center">
+                <a href="{:U('item_brand/edit', array('id'=>$val['id'], 'menuid'=>$menuid))}">编辑</a> | <a href="javascript:void(0);" class="J_confirmurl" data-uri="{:U('item_brand/delete', array('id'=>$val['id']))}" data-acttype="ajax" data-msg="{:sprintf(L('confirm_delete_one'),$val['name'])}">{:L('delete')}</a></td>
+            </tr>
+            </volist>
+    	</tbody>
+    </table>
+    <div class="btn_wrap_fixed">
+        <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('item_brand/delete',array('id'=>$r['id']))}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />
+        <a class="js-batch-topic btn " href="javascript:void(0);" data-uri="{:U('item_brand/change_mid')}" data-title="移动到商家" data-id="change_mid" data-width="400" data-height="50">
+            移动到商家
+        </a>
+        <div id="pages">{$page}</div>
+    </div>
+
+    </div>
+</div>
+<include file="public:footer" />
+<script type="text/javascript">
+$('.J_preview').preview(); //查看大图
+$(function(){
+    //弹窗表单
+    $('.js-batch-topic').live('click', function(){
+        var ids = '';
+        for(var i = 0;i < $('.J_checkitem:checked').length;i++){
+            if(i == 0){
+                ids += $('.J_checkitem:checked').eq(i).val();
+            }else{
+                ids += ','+$('.J_checkitem:checked').eq(i).val();
+            }
+        }
+        if(ids.length < 1){
+            return false;
+        }
+        var self = $(this),
+            dtitle = self.attr('data-title'),
+            did = self.attr('data-id'),
+            duri = self.attr('data-uri'),
+            dwidth = parseInt(self.attr('data-width')),
+            dheight = parseInt(self.attr('data-height')),
+            dpadding = (self.attr('data-padding') != undefined) ? self.attr('data-padding') : '',
+            dcallback = self.attr('data-callback');
+        $.dialog({id:did}).close();
+        $.dialog({
+            id:did,
+            title:dtitle,
+            width:dwidth ? dwidth : 'auto',
+            height:dheight ? dheight : 'auto',
+            paddng:dpadding,
+            lock:true,
+            ok:function(){
+                var info_form = this.dom.content.find('#info_form');
+                if(info_form[0] != undefined){
+                    $(info_form).append('<input type="hidden" name="ajax" value="1"/>');
+                    info_form.submit();
+                    if(dcallback != undefined){
+                        eval(dcallback+'()');
+                    }
+                    return false;
+                }
+                if(dcallback != undefined){
+                    eval(dcallback+'()');
+                }
+            },
+            cancel:function(){}
+        });
+        $.getJSON(duri,{ids:ids}, function(result){
+            if(result.status == 1){
+                $.dialog.get(did).content(result.data);
+            }
+        });
+        return false;
+    });
+});
+</script>

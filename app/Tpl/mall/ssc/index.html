@@ -1,0 +1,41 @@
+<include file="public:header"/>
+<div class="container">
+    <div class="row tc ssc_title">
+        <div class="col-xs-3">
+            开奖时间
+        </div>
+		<div class="col-xs-4">
+            开奖期号
+        </div>
+		<div class="col-xs-3">
+            开奖号码
+        </div>
+		<div class="col-xs-2">
+            奇/偶
+        </div>
+    </div>
+	<volist name="wait" id="val">
+	<div class="row ssc_item">
+        <div class="col-xs-3 time">
+            <span class="fs-13">{:date('Y-m-d',$val[expecttime])}</span><br><span class="fs-12">{:date('H:i',$val[expecttime])}</span>
+        </div>
+		<div class="col-xs-4 txt">
+            {$val.expect}
+        </div>
+		<div class="col-xs-3 txt">
+            等待开奖
+        </div>
+		<div class="col-xs-2 txt">
+            <span class="wait">待</span>
+        </div>
+    </div>
+	</volist>
+</div>
+<div id="J_waterfall" class="container" data-uri="__ROOT__/?g={:GROUP_NAME}&m=ssc&a=index">
+	<include file="waterfall"/>
+</div>
+<present name="show_load">
+    <div id="J_wall_loading" class="wall_loading tc gray"></div>
+</present>
+
+<include file="public:footer"/>
