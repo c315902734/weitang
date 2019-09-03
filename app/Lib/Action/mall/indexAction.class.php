@@ -139,7 +139,7 @@ class indexAction extends mbaseAction
                 'html'   => $resp
             );*/
 
-            echo json_encode($list);die;
+            //echo json_encode($list);die;
             $this->ajaxResult($list);
         
        
