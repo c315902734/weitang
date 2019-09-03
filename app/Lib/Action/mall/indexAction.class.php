@@ -128,16 +128,14 @@ class indexAction extends mbaseAction
             $this->assign('show_load', 1);
             $this->assign('show_page', 1);
         }
-        if (IS_AJAX) {
+        
             $resp = $this->fetch('public:waterfall');
             $data = array(
                 'isfull' => $this->_get('p') < $pager->totalPages,
                 'html'   => $resp
             );
             $this->ajaxResult($data);
-        }
-        else {
-            $this->display();
-        }
+        
+       
     }
 }
