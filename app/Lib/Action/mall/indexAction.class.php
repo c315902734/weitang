@@ -108,4 +108,36 @@ class indexAction extends mbaseAction
             $this->display();
         }
     }
+
+
+     public function ajax_index()
+    {
+        $mod        = D('item_search');
+        $where_init = ['is_hots' => '1', 'status' => '1'];
+        $where      = $where ? array_merge($where_init, $where) : $where_init;
+        $count      = $mod->where($where)->count('id');
+        if (C('ins_index_hot_item_num')) {
+            $count = $count > C('ins_index_hot_item_num') ? C('ins_index_hot_item_num') : $count;
+        }
+        $pager = $this->_pager($count);
+
+        $list = $mod->where($where)->field(C('item_list_fields'))->limit($pager->firstRow, $pager->listRows)->select();
+        $this->assign('list', $list);
+        
+        if (count($list) == $pager->listRows) {
+            $this->assign('show_load', 1);
+            $this->assign('show_page', 1);
+        }
+        if (IS_AJAX) {
+            $resp = $this->fetch('public:waterfall');
+            $data = array(
+                'isfull' => $this->_get('p') < $pager->totalPages,
+                'html'   => $resp
+            );
+            $this->ajaxResult($data);
+        }
+        else {
+            $this->display();
+        }
+    }
 }
