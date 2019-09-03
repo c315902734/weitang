@@ -123,8 +123,9 @@ class indexAction extends mbaseAction
             $count = $count > C('ins_index_hot_item_num') ? C('ins_index_hot_item_num') : $count;
         }
        $pager = $this->_pager($count);
-        echo "string";die;
+        
         $list = $mod->where($where)->field(C('item_list_fields'))->limit($pager->firstRow, $pager->listRows)->select();
+        echo "string";die;
 /*        $this->assign('list', $list);
         
         if (count($list) == $pager->listRows) {
