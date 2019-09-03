@@ -113,6 +113,7 @@ class indexAction extends mbaseAction
      public function ajax_index()
     {
 
+        $where=[];
         // echo "string";die;
         $mod        = D('item_search');
         $where_init = ['is_hots' => '1', 'status' => '1'];
