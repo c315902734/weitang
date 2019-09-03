@@ -125,6 +125,7 @@ class indexAction extends mbaseAction
        $pager = $this->_pager($count);
         
         $list = $mod->where($where)->field(C('item_list_fields'))->limit($pager->firstRow, $pager->listRows)->select();
+         $this->ajaxResult($list);
       //  echo "string";die;
 /*        $this->assign('list', $list);
         
@@ -140,7 +141,7 @@ class indexAction extends mbaseAction
             );*/
 
             //echo json_encode($list);die;
-            $this->ajaxResult($list);
+           
         
        
     }
