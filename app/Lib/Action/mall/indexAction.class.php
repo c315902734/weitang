@@ -125,7 +125,7 @@ class indexAction extends mbaseAction
        $pager = $this->_pager($count);
         
         $list = $mod->where($where)->field(C('item_list_fields'))->limit($pager->firstRow, $pager->listRows)->select();
-        echo "string";die;
+      //  echo "string";die;
 /*        $this->assign('list', $list);
         
         if (count($list) == $pager->listRows) {
@@ -138,6 +138,8 @@ class indexAction extends mbaseAction
                 'isfull' => $this->_get('p') < $pager->totalPages,
                 'html'   => $resp
             );*/
+
+            echo json_encode($list);die;
             $this->ajaxResult($list);
         
        
