@@ -112,6 +112,8 @@ class indexAction extends mbaseAction
 
      public function ajax_index()
     {
+
+        echo "string";die;
         $mod        = D('item_search');
         $where_init = ['is_hots' => '1', 'status' => '1'];
         $where      = $where ? array_merge($where_init, $where) : $where_init;
@@ -122,7 +124,7 @@ class indexAction extends mbaseAction
         $pager = $this->_pager($count);
 
         $list = $mod->where($where)->field(C('item_list_fields'))->limit($pager->firstRow, $pager->listRows)->select();
-        $this->assign('list', $list);
+/*        $this->assign('list', $list);
         
         if (count($list) == $pager->listRows) {
             $this->assign('show_load', 1);
@@ -133,8 +135,8 @@ class indexAction extends mbaseAction
             $data = array(
                 'isfull' => $this->_get('p') < $pager->totalPages,
                 'html'   => $resp
-            );
-            $this->ajaxResult($data);
+            );*/
+            $this->ajaxResult($list);
         
        
     }
