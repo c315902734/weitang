@@ -133,7 +133,7 @@ class indexAction extends mbaseAction
         $arr['products']=$list;
        /* print_r($arr);
         die;*/
-         echo json_encode($arr);
+         echo json_encode($list);
 
          //$this->ajaxReturn($data);
       //  echo "string";die;
